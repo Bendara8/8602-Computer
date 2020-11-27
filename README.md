@@ -60,14 +60,14 @@ The 8602 is a minimalistic computer that is composed entirely of simple discreet
 ### Control Outputs
 | Bits    | Description                                                               |
 | :--:    | -----------                                                               |
-| 0 - 2   | Register out to Data Bus <br> \
-__AO__ Accumulator out <br> \
-__FO__ Flags out <br> \
-__KO__ Bank out <br> \
-__MO__ Memory out <br> \
-__PL/PH__ Pointer low/high byte out <br> \
-__BL/BH__ Base pointer low/high byte out <br> \
-__IL/IH__ Instruction Pointer low/high byte out <br> \
+| 0 - 2   | Register out to Data Bus <br>
+__AO__ Accumulator out <br>
+__FO__ Flags out <br>
+__KO__ Bank out <br>
+__MO__ Memory out <br>
+__PL/PH__ Pointer low/high byte out <br>
+__BL/BH__ Base pointer low/high byte out <br>
+__IL/IH__ Instruction Pointer low/high byte out <br>
 __HO__ High ($FF) out                                                                 |
 | 3       | Select between low and high bytes for __PL/PH__, __BL/BH__, and __IL/IH__ |
 | 4 - 6   | Register in from Data Bus <br> __AI__ Accumulator in <br> __XI__ Index in <br> __KI__ Bank in <br> __MI__ Memory in <br> __CI__ Instruction code in (indictes end of instruction) <br> __TL__ Transfer low byte in <br> __TH__ Transfer high byte in <br> None in form Data Bus |

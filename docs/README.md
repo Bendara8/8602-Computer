@@ -24,8 +24,8 @@
 
 <a name="docs"></a>
 ## Documentation
-- [Architecture](./architecture.md)
-	- [Registers](./architecture.md#regs)
+- [Architecture](./arch.md)
+	- [Registers](./arch.md#regs)
 	- Flags
 	- Memory Map
 - Control Signals

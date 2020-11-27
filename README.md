@@ -19,7 +19,7 @@ The 8602 is a minimalistic computer that is composed entirely of simple discreet
 ## Documentation
 ### Registers
 | Register            | Mnenomic | Description                          |
-| --------            | -------- | -----------                          |
+| :------:            | :------: | -----------                          |
 | Accumlator          | A        | General purpse data and ALU result   |
 | Index               | X        | Address offset                       |
 | Flags               | F        | Status flags for conditional jumping |
@@ -31,7 +31,7 @@ The 8602 is a minimalistic computer that is composed entirely of simple discreet
 
 ### Flags
 | Flag      | Mnenomic | Description
-| ----      | -------- | -----------                                                            |
+| :--:      | :------: | -----------                                                            |
 | Zero      | Z        | Set when the result of an ALU operation is zero                        |
 | Negative  | N        | Set when the result of an ALU operation is negative (two's complement) |
 | Carry     | C        | Carry out from a sum operation or shift out from a shift operation     |
@@ -39,7 +39,7 @@ The 8602 is a minimalistic computer that is composed entirely of simple discreet
 
 ### Memory Map
 | Address Range | Description                  |
-| ------------- | -----------                  |
+| :-----------: | -----------                  |
 | $0000-$3FFF   | Current VRAM buffer          |
 | $4000-$7EFF   | General purpose SRAM         |
 | $7F00-$7FFF   | I/O Page                     |

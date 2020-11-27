@@ -40,9 +40,21 @@ The 8602 is a minimalistic computer that is composed entirely of simple discreet
 ### Memory Map
 | Address Range | Description                  |
 | :-----------: | -----------                  |
-| $0000-$3FFF   | Current VRAM buffer          |
-| $4000-$7EFF   | General purpose SRAM         |
-| $7F00-$7FFF   | I/O Page                     |
-| $8000-$FFFF   | Current bank of flash memory |
+| $0000 - $3FFF | Current VRAM buffer          |
+| $4000 - $7EFF | General purpose SRAM         |
+| $7F00 - $7FFF | I/O Page                     |
+| $8000 - $FFFF | Current bank of flash memory |
 
 ### Control Inputs
+| Bits   | Description      |
+| :--:   | -----------      |
+| 0 - 3  | Step counter     |
+| 4      | Zero flag        |
+| 5      | Negative flag    |
+| 6      | Carry flag       |
+| 7      | Interrupt flag   |
+| 8 - 15 | Instruction code |
+| 16     | Interrupt signal |
+| 17     | Reset signal     |
+
+### Control Ouputs

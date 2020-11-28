@@ -1,5 +1,6 @@
 # 8602 Assembly Language
 - [Architecture](./arch.md)
+	- [Diagram](./arch.md#diagram)
 	- [Registers](./arch.md#regs)
 	- [Flags](./arch.md#flags)
 - [System](./system.md)

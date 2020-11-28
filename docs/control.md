@@ -1,5 +1,6 @@
 # 8602 Control
 - [Architecture](./arch.md)
+	- [Diagram](./arch.md#diagram)
 	- [Registers](./arch.md#regs)
 	- [Flags](./arch.md#flags)
 - [System](./system.md)

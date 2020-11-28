@@ -35,4 +35,4 @@
 | 19      | __EZ__ ALU accumulator input is zero                    |
 | 20      | __EN__ ALU data bus input is negated (one's complement) |
 | 21      | __EC__ ALU carry in                                     |
-| 22      | ALU Operation <br> __ES__ Sum inputs <br> __ER__ Right shift data bus input <br> __EA__ Logical AND inputs <br> __EO__ Logical OR inputs |
+| 22 - 23 | ALU Operation <br> __ES__ Sum inputs <br> __ER__ Right shift data bus input <br> __EA__ Logical AND inputs <br> __EO__ Logical OR inputs |

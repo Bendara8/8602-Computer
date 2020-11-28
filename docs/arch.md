@@ -4,7 +4,7 @@
 
 <a name="regs"></a>
 ## Registers
-| Register            | Mnenomic | Description                            |
+| Register            | Mnemonic | Description                            |
 | :------:            | :------: | -----------                            |
 | Accumlator          | A        | General purpose data and ALU result    |
 | Index               | X        | Address offset                         |
@@ -17,7 +17,7 @@
 
 <a name="flags"></a>
 ## Flags
-| Flag      | Mnenomic | Description
+| Flag      | Mnemonic | Description
 | :--:      | :------: | -----------                                                            |
 | Zero      | Z        | Set when the result of an ALU operation is zero                        |
 | Negative  | N        | Set when the result of an ALU operation is negative (two's complement) |

@@ -1,5 +1,6 @@
 RST:
-	
+	TO -- XZ -- -- -- HO -- -- -- EO TL -- --
+
 INT:
 
 $00: lod A #imm

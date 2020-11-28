@@ -1,7 +1,7 @@
 # 8602 Assembly Language
 - [Addressing Modes](./assembly.md#modes)
-- [Instruction Set](./assembly.md#set)
 - [Directives](./assembly#dir)
+- [Instruction Set](./assembly.md#set)
 
 <a name="modes"></a>
 ## Addressing Modes
@@ -15,6 +15,15 @@
 | Immediate Index    | `P+#(index)`                         | At the pointer with an immediate index 
 | Absolute Index     | `P+(address)`                        | At the pointer with an index at the address 
 | Offset Index       | `P+B+#(offset)` <br> `P+B-#(offset)` | At the pointer with an index at an offset to the base pointer 
+
+<a name="dir"></a>
+## Directives
+| Directive             | Description
+| :-------:             | -----------
+| [`include`](#include) | Include another assembly file
+| [`origin`](#origin)   | Set origin of following code
+| [`symbol`](#symbol)   | Define a symbol
+| [`data`](#data)       | Insert raw data
 
 <a name="set"></a>
 ## Instruction Set
@@ -79,160 +88,164 @@
 | [`rti`](#rti) | Return from interrupt
 | [`brk`](#brk) | Break execution
 
-<a name="dir"></a>
 ## Directives
-| Directive | Description
-| :-------: | -----------
-| `include` | Include another assembly file
-| `origin`  | Set origin of following code
-| `symbol`  | Define a symbol
-| `data`    | Insert raw data
+<a name="include"></a>
+### `include`
+
+<a name="origin"></a>
+### `origin`
+
+<a name="symbol"></a>
+### `symbol`
+
+<a name="data"></a>
+### `data`
 
 ## Instructions
 <a name="lod"></a>
-### lod
+### `lod`
 
 <a name="lea"></a>
-### lea
+### `lea`
 
 <a name="sto"></a>
-### sto
+### `sto`
 
 <a name="mov"></a>
-### mov
+### `mov`
 
 <a name="psh"></a>
-### psh
+### `psh`
 
 <a name="phw"></a>
-### phw
+### `phw`
 
 <a name="pul"></a>
-### pul
+### `pul`
 
 <a name="plw"></a>
-### plw
+### `plw`
 
 <a name="pop"></a>
-### pop
+### `pop`
 
 <a name="ent"></a>
-### ent
+### `ent`
 
 <a name="ext"></a>
-### ext
+### `ext`
 
 <a name="nop"></a>
-### nop
+### `nop`
 
 <a name="add"></a>
-### add
+### `add`
 
 <a name="adc"></a>
-### adc
+### `adc`
 
 <a name="sub"></a>
-### sub
+### `sub`
 
 <a name="sbc"></a>
-### sbc
+### `sbc`
 
 <a name="cmp"></a>
-### cmp
+### `cmp`
 
 <a name="inc"></a>
-### inc
+### `inc`
 
 <a name="ict"></a>
-### ict
+### `ict`
 
 <a name="dec"></a>
-### dec
+### `dec`
 
 <a name="dct"></a>
-### dct
+### `dct`
 
 <a name="neg"></a>
-### neg
+### `neg`
 
 <a name="and"></a>
-### and
+### `and`
 
 <a name="ora"></a>
-### ora
+### `ora`
 
 <a name="not"></a>
-### not
+### `not`
 
 <a name="asr"></a>
-### asr
+### `asr`
 
 <a name="lsl"></a>
-### lsl
+### `lsl`
 
 <a name="lsr"></a>
-### lsr
+### `lsr`
 
 <a name="rol"></a>
-### rol
+### `rol`
 
 <a name="ror"></a>
-### ror
+### `ror`
 
 <a name="set"></a>
-### set
+### `set`
 
 <a name="clr"></a>
-### clr
+### `clr`
 
 <a name="bra"></a>
-### bra
+### `bra`
 
 <a name="brz"></a>
-### brz
+### `brz`
 
 <a name="bnz"></a>
-### bnz
+### `bnz`
 
 <a name="brn"></a>
-### brn
+### `brn`
 
 <a name="bnn"></a>
-### bnn
+### `bnn`
 
 <a name="brp"></a>
-### brp
+### `brp`
 
 <a name="bnp"></a>
-### bnp
+### `bnp`
 
 <a name="brc"></a>
-### brc
+### `brc`
 
 <a name="bnc"></a>
-### bnc
+### `bnc`
 
 <a name="jmp"></a>
-### jmp
+### `jmp`
 
 <a name="jpl"></a>
-### jpl
+### `jpl`
 
 <a name="jsr"></a>
-### jsr
+### `jsr`
 
 <a name="jsl"></a>
-### jsl
+### `jsl`
 
 <a name="rts"></a>
-### rts
+### `rts`
 
 <a name="rtl"></a>
-### rtl
+### `rtl`
 
 <a name="rti"></a>
-### rti
+### `rti`
 
 <a name="brk"></a>
-### brk
+### `brk`
 

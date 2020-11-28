@@ -11,19 +11,20 @@
 - [Control](./control.md)
 	- [Control Inputs](./control.md#inputs)
 	- [Control Outputs](./control.md#outputs)
+	- [Microcode](./control.md#micro)
 
 <a name="modes"></a>
 ## Addressing Modes
-| Mode               | Syntax                               | Description
-| :--:               | :----:                               | -----------
-| Register           | `(reg)`                              | Inside register
-| Immediate          | `#(value)`                           | Immediately after instruction
-| Absolute           | `(address)`                          | At an address
-| Instruction Offset | `I+#(offset)` <br> `I-#(offset)`     | At an offset to the instruction pointer
-| Base Offset        | `B+#(offset)` <br> `B-#(offset)`     | At an offset to the base pointer
-| Immediate Index    | `P+#(index)`                         | At the pointer with an immediate index 
-| Absolute Index     | `P+(address)`                        | At the pointer with an index at the address 
-| Offset Index       | `P+B+#(offset)` <br> `P+B-#(offset)` | At the pointer with an index at an offset to the base pointer 
+| Mode               | Syntax                     | Description
+| :--:               | :----:                     | -----------
+| Register           | `reg`                      | Inside register
+| Immediate          | `#imm`                     | Immediately after instruction
+| Absolute           | `adr`                      | At an address
+| Instruction Offset | `I+#off` <br> `I-#off`     | At an offset to the instruction pointer
+| Base Offset        | `B+#off` <br> `B-#off`     | At an offset to the base pointer
+| Immediate Index    | `P+#idx`                   | At the pointer with an immediate index 
+| Absolute Index     | `P+adr`                    | At the pointer with an index at the address 
+| Offset Index       | `P+B+#off` <br> `P+B-#off` | At the pointer with an index at an offset to the base pointer 
 
 <a name="dir"></a>
 ## Directives
@@ -79,13 +80,13 @@
 ### Control Flow
 | Mnemonic      | Description
 | :------:      | -----------
-| [`bra`](#bra) | Branch to relative address
+| [`bra`](#bra) | Branch to instruction pointer offset
 | [`brz`](#brz) | Branch if the zero flag is set
 | [`bnz`](#bnz) | Branch if the zero flag is clear
 | [`brn`](#brn) | Branch if the negative flag is set
 | [`bnn`](#bnn) | Branch if the negative flag is clear
 | [`brp`](#brp) | Branch if both the zero flag and the negative flag are clear
-| [`bnp`](#bnp) | Branch if either the zero flag or the negative flag is set
+| [`bnp`](#bnp) | Branch if either the zero flag or the negative flag are set
 | [`brc`](#brc) | Branch if the carry flag is set
 | [`bnc`](#bnc) | Branch if the carry flag is clear
 | [`jmp`](#jmp) | Jump to address

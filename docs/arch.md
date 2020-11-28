@@ -11,6 +11,7 @@
 - [Control](./control.md)
 	- [Control Inputs](./control.md#inputs)
 	- [Control Outputs](./control.md#outputs)
+	- [Microcode](./control.md#micro)
 
 <a name="regs"></a>
 ## Registers
@@ -20,6 +21,7 @@
 | Index               | X        | Address offset                         |
 | Flags               | F        | Status flags for conditional branching |
 | Bank                | K        | Current flash memory bank              |
+| Opcode              | C        | Currently executing opcode             |
 | Pointer             | P        | General purpose address pointer        |
 | Base Pointer        | B        | Pointer to base of stack frame         |
 | Stack Pointer       | S        | Pointer to top of stack                |

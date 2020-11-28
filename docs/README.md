@@ -1,13 +1,21 @@
 # 8602 Documentation
-- [About](#about)
-- [Specifications](#specs)
-- [Documentation](#docs)
-
-<a name="about"></a>
+- [Architecture](./arch.md)
+	- [Registers](./arch.md#regs)
+	- [Flags](./arch.md#flags)
+- [System](./system.md)
+	- [Memory Map](./system.md#map)
+	- [I/O Registers](./system.md#io)
+- [Assembly Language](./assembly.md)
+	- [Addressing Modes](./assembly.md#modes)
+	- [Instruction Set](./assembly.md#set)
+- [Control](./control.md)
+	- [Control Inputs](./control.md#inputs)
+	- [Control Outputs](./control.md#outputs)
+	- [Microcode](./control.md#micro)
+	
 ## About
 The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer built almost entirely of simple discreet logic chips from the 74HC logic family. Despite its simplicity, it features a VGA output and a PS/2 keyboard input, and can be easily expanded with additional I/O. The name 8602 is representative of its two primary inspirations: the Intel 8086 and the MOS 6502. The 8602 aims to be similar in capability and feature set to the 8086, while retaining the simplicity and overall feel of the 6502.
 
-<a name="specs"></a>
 ## Specifications
 - 2.5 MHz clock rate
 - Two display modes through an 800x600 SVGA signal
@@ -29,18 +37,3 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 - Full interrupt support, with ability to distinguish between interrupt sources
 	- Clock interrupt occurs at regular intervals for timing purposes
 	- Keyboard is interrupt driven
-
-<a name="docs"></a>
-## Documentation
-- [Architecture](./arch.md)
-	- [Registers](./arch.md#regs)
-	- [Flags](./arch.md#flags)
-- [System](./system.md)
-	- [Memory Map](./system.md#map)
-	- [I/O Registers](./system.md#io)
-- [Assembly Language](./assembly.md)
-	- [Addressing Modes](./assembly.md#modes)
-	- [Instruction Set](./assembly.md#set)
-- [Control](./control.md)
-	- [Control Inputs](./control.md#inputs)
-	- [Control Outputs](./control.md#outputs)

@@ -11,6 +11,7 @@
 - [Control](./control.md)
 	- [Control Inputs](./control.md#inputs)
 	- [Control Outputs](./control.md#outputs)
+	- [Microcode](./control.md#micro)
 
 <a name="map"></a>
 ## Memory Map

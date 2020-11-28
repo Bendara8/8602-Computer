@@ -33,6 +33,6 @@
 
 <a name="matrix"></a>
 ## Instruction Matrix
-|       | 0 <br> 1         | __2__ | __3__ | __4__ | __1__ | __1__ | __1__ | __1__ | __1__ | __1__ | __1__ | __1__ | __1__ | __1__ | __1__ |
-| :---: | :------:         | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| __0__ | `lod` <br> `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` | `lod` |
+| Hex   | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ |
+| :---: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
+| __0__ | `lod A #(value)`<br>`sto P (address)` | `lod A (address)`<br>`lod P (address)` | `lod A B+#(offset)`<br>`lod P B+#(offset)` | `lod A B-#(offset)`<br>`lod P B-#(offset)` | `lod A P+#(index)`<br>`lod P P+#(index)` |  `lod A P+(address)`<br>`lod P P+(address)` |  `lod A P+B+#(offset)`<br>`lod P P+B+#(offset)` | `lod A P+B-#(offset)`<br>`lod P P+B-#(offset)` |

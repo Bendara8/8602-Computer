@@ -30,7 +30,7 @@
 ## Control Outputs
 | Bits    | Description |
 | :--:    | ----------- |
-| 0 - 2   | Register out to data bus <br> `AO` Accumulator out <br> `FO` Flags out <br> `KO` Bank out <br> `MO` Memory out <br> `PL`/`PH` Pointer low/high byte out <br> `BL`/`BH` Base pointer low/high byte out <br> `IL`/`IH` Instruction Pointer low/high byte out <br> `HO` High ($FF) out |
+| 0 - 2   | Register out to data bus <br> `AO` Accumulator out <br> `FO` Flags out <br> `KO` Bank out <br> `MO` Memory out <br> `PL`/`PH` Pointer low/high byte out <br> `BL`/`BH` Base pointer low/high byte out <br> `IL`/`IH` Instruction Pointer low/high byte out <br> `HO` High (`$FF`) out |
 | 3       | Select between low and high bytes <br> (used for `PL`/`PH`, `BL`/`BH`, and `IL`/`IH`) |
 | 4 - 6   | Register in from data bus or ALU result bus <br> `AI` Accumulator in from ALU result bus <br> `XI` Index in from data bus <br> `KI` Bank in from data bus <br> `MI` Memory in from data bus <br> `CI` Opcode in from data bus (indicates end of instruction) <br> `TL` Transfer low byte in from data bus <br> `TH` Transfer high byte in from data bus <br> None in from data bus or ALU result bus |
 | 7       | `FI` Flags register in from source selected by `FB` |
@@ -46,7 +46,7 @@
 | 19      | `EZ` ALU accumulator input is zero                    |
 | 20      | `EN` ALU data bus input is negated (one's complement) |
 | 21      | `EC` ALU carry in or shift in                         |
-| 22 - 23 | ALU Operation <br> `ES` Sum inputs (updates zero, negative, and carry flags) <br> `ER` Right shift data bus input <br> `EA` Logical AND inputs <br> `EO` Logical OR inputs |
+| 22 - 23 | ALU Operation <br> `ES` Sum inputs (updates zero, negative, and carry flags) <br> `ER` Right shift data bus input <br> `EA` Bitwise AND inputs <br> `EO` Bitwise OR inputs |
 
 <a name="micro"></a>
 ## Microcode
@@ -66,12 +66,12 @@ The microcode begins with the opcode for the `lod A #imm`, which is `$00`. Then 
 	- `XC` The index offset carry input is set
 	- `II` Load the instruction pointer from the indexed address bus
 	- `MO` Output the memory contents of the indexed address to the data bus
-	- `AI` Load accumulator from ALU result bus
 	- `EZ` Zero accumulator input to ALU
 	- `EO` Select bitwise OR operation for ALU
+	- `AI` Load accumulator from ALU result bus
 	- `FI` Load negative and zero flags from ALU
 
-In short, this microcode word will increment the instruction pointer and load the accumulator with the contents of the incremented instruction pointer while also updating the negative and zero flags appropriately. The next microcode word is very similar, differing only in which register loads from memory. In this case, the opcode register is loaded instead of the accumulator. Notice that even though the ALU is not being used in this time step, an operation still must be selected. The OR operation is chosen by convention in this situation. This microcode word is the standard fetch cycle which is present at the end of most 8602 instructions.
+In short, this microcode word will increment the instruction pointer and load the accumulator with the contents of the incremented instruction pointer while also updating the negative and zero flags appropriately. The next microcode word is very similar, differing only in which register loads from memory. In this case, the opcode register is loaded instead of the accumulator. Notice that even though the ALU is not being used in this time step, an operation still must be selected. The bitwise OR operation `EO` is chosen by convention in this situation. This microcode word is the standard fetch cycle which is present at the end of most 8602 instructions.
 
 The dashes `--` are used to indicate control outputs which are not active for that microcode word. In the above example they represent the `KZ` and `XN` control outputs, which are not active during the time steps that they are present in. The structure of a microcode word is standardized and each part of the word can be filled with certain control outputs, or in some cases (such as `KZ` and `XN`) left blank using dashes. The structure of a microcode word is defined as follows.
 
@@ -94,7 +94,7 @@ The dashes `--` are used to indicate control outputs which are not active for th
 
 Some instructions require different mircrocode words depending on the state of the flags register. A simple branching syntax is used in these situations. Here is an example of the branching syntax in the `brz I+#off` instruction.
 ```
-E0: brz I+#off
+$E0: brz I+#off
 	(Z) {
 	IA -- XZ -- XC II MO -- -- -- EO XI -- --
 	IA -- -- -- XC II MO -- -- -- EO CI -- --

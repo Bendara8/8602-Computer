@@ -1,4 +1,4 @@
-# Architecture Documentation
+# 8602 Architecture
 - [Registers](#regs)
 - [Flags](#flags)
 
@@ -23,3 +23,4 @@
 | Negative  | N        | Set when the result of an ALU operation is negative (two's complement) |
 | Carry     | C        | Carry out from a sum operation or shift out from a shift operation     |
 | Interrupt | I        | Interrupt enable                                                       |
+

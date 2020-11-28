@@ -1,4 +1,6 @@
-# Control Documentation
+# 8602 Control
+- [Control Inputs](#inputs)
+- [Control Outputs](#outputs)
 
 <a name="inputs"></a>
 ## Control Inputs

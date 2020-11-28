@@ -1,6 +1,16 @@
 # 8602 Architecture
-- [Registers](#regs)
-- [Flags](#flags)
+- [Architecture](./arch.md)
+	- [Registers](./arch.md#regs)
+	- [Flags](./arch.md#flags)
+- [System](./system.md)
+	- [Memory Map](./system.md#map)
+	- [I/O Registers](./system.md#io)
+- [Assembly Language](./assembly.md)
+	- [Addressing Modes](./assembly.md#modes)
+	- [Instruction Set](./assembly.md#set)
+- [Control](./control.md)
+	- [Control Inputs](./control.md#inputs)
+	- [Control Outputs](./control.md#outputs)
 
 <a name="regs"></a>
 ## Registers

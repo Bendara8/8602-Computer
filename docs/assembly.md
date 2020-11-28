@@ -118,7 +118,7 @@
 Loads the left operand with the right operand. When the left operand is the accumulator, the zero flag and the negative flag are set depending on the value loaded. When the left operand is the pointer register, only the zero flag is set correctly while negative flag is set arbitrarily.
 
 | Opcode | Syntax           | Flags Affected |
-| :----: | :----:           | -------------- |
+| :----: | :-----           | -------------- |
 | `$00`  | `lod A #imm`     | `Z` `N`        |
 | `$01`  | `lod A adr`      | `Z` `N`        |
 | `$02`  | `lod A B+#imm`   | `Z` `N`        |
@@ -140,7 +140,7 @@ Loads the left operand with the right operand. When the left operand is the accu
 Loads the left operand with the effective address of the right operand.
 
 | Opcode | Syntax           | Flags Affected |
-| :----: | :----:           | -------------- |
+| :----: | :-----           | -------------- |
 | `$11`  | `lea P adr`      |                |
 | `$12`  | `lea P B+#imm`   |                |
 | `$13`  | `lea P B-#imm`   |                |
@@ -154,7 +154,7 @@ Loads the left operand with the effective address of the right operand.
 Stores the left operand into the right operand.
 
 | Opcode | Syntax           | Flags Affected |
-| :----: | :----:           | -------------- |
+| :----: | :-----           | -------------- |
 | `$19`  | `sto A adr`      |                |
 | `$1A`  | `sto A B+#imm`   |                |
 | `$1B`  | `sto A B-#imm`   |                |

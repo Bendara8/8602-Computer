@@ -1,5 +1,6 @@
 # 8602 Architecture
 - [Architecture](./arch.md)
+	- [Diagram](./arch.md#diagram)
 	- [Registers](./arch.md#regs)
 	- [Flags](./arch.md#flags)
 - [System](./system.md)
@@ -12,6 +13,11 @@
 	- [Control Inputs](./control.md#inputs)
 	- [Control Outputs](./control.md#outputs)
 	- [Microcode](./control.md#micro)
+
+<a name="diagram"></a>
+## Diagram
+Here is the 8602 architecture block diagram. Arrows pointing into blocks indicate that data can be latched into the block from that bus. Arrows pointing into a bus from a block indicate that data can be output from the block onto that bus.
+![8602 Architecture Block Diagram](./res/arch-diagram.svg)
 
 <a name="regs"></a>
 ## Registers

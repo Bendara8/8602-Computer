@@ -33,7 +33,7 @@
 | 0 - 2   | Register out to data bus <br> `AO` Accumulator out <br> `FO` Flags out <br> `KO` Bank out <br> `MO` Memory out <br> `PL`/`PH` Pointer low/high byte out <br> `BL`/`BH` Base pointer low/high byte out <br> `IL`/`IH` Instruction Pointer low/high byte out <br> `HO` High (`$FF`) out |
 | 3       | Select between low and high bytes <br> (used for `PL`/`PH`, `BL`/`BH`, and `IL`/`IH`) |
 | 4 - 6   | Register in from data bus or ALU result bus <br> `AI` Accumulator in from ALU result bus <br> `XI` Index in from data bus <br> `KI` Bank in from data bus <br> `MI` Memory in from data bus <br> `CI` Opcode in from data bus (indicates end of instruction) <br> `TL` Transfer low byte in from data bus <br> `TH` Transfer high byte in from data bus <br> None in from data bus or ALU result bus |
-| 7       | `FI` Flags register in from source selected by `FB` |
+| 7       | `FI` Flags register in from source selected by `FD` |
 | 8 - 9   | Register out to address bus <br> `PO` Pointer out <br> `BO` Base pointer out <br> `SO` Stack pointer out <br> `IO` Instruction pointer out |
 | 10      | `TO` Transfer pointer out to address bus <br> (overrides choice of `PO`, `BO`, `SO`, or `IO`) |
 | 11 - 12 | Register in from indexed address bus <br> `PI` Pointer in <br> `BI` Base pointer in <br> `SI` Stack pointer in <br> `II` Instruction pointer in |

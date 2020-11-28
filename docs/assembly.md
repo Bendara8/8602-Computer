@@ -1,16 +1,15 @@
 # 8602 Assembly Language
 - [Addressing Modes](./assembly.md#modes)
 - [Instruction Set](./assembly.md#set)
-- [Instruction Matrix](./assembly.md#matrix)
+- [Directives](./assembly#dir)
 
 <a name="modes"></a>
 ## Addressing Modes
 | Mode               | Syntax                               | Description
-| :--:               | ------                               | -----------
+| :--:               | :----:                               | -----------
 | Register           | `(reg)`                              | Inside register
 | Immediate          | `#(value)`                           | Immediately after instruction
 | Absolute           | `(address)`                          | At an address
-| Indirect           | `@(address)`                         | At a pointer at an address
 | Instruction Offset | `I+#(offset)` <br> `I-#(offset)`     | At an offset to the instruction pointer
 | Base Offset        | `B+#(offset)` <br> `B-#(offset)`     | At an offset to the base pointer
 | Immediate Index    | `P+#(index)`                         | At the pointer with an immediate index 
@@ -20,22 +19,220 @@
 <a name="set"></a>
 ## Instruction Set
 ### Data Movement
-| Mnemonic | Description
-| :------: | -----------
+| Mnemonic      | Description
+| :------:      | -----------
+| [`lod`](#lod) | Load a register with a value
+| [`lea`](#lea) | Load a register with the effective address of a value
+| [`sto`](#sto) | Store a register to a memory address
+| [`mov`](#mov) | Move one register into another
+| [`psh`](#psh) | Pushe a register or value onto the stack
+| [`phw`](#phw) | Pushe a wide (16-bit) register or value onto the stack
+| [`pul`](#pul) | Pull a value from the stack into a register or a memory address
+| [`plw`](#plw) | Pull a wide (16-bit) value from the stack into a register or memory address
+| [`pop`](#pop) | Pop a given number of items off of the stack
+| [`ent`](#ent) | Enter a stack frame of a given size
+| [`ext`](#ext) | Exit a stack frame of a given size
 
 ### Arithmetic and Logic
-| Mnemonic | Description
-| :------: | -----------
+| Mnemonic      | Description
+| :------:      | -----------
+| [`nop`](#nop) | No operation
+| [`add`](#add) | Add a value to the accumulator
+| [`adc`](#adc) | Add a value to the accumulator with carry
+| [`sub`](#sub) | Subtract a value from the accumulator
+| [`sbc`](#sbc) | Subtract a value from the accumulator with carry
+| [`cmp`](#cmp) | Compare a value to the accumulator
+| [`inc`](#inc) | Increment a register or a memory address
+| [`ict`](#ict) | Increment a register or a memory address twice
+| [`dec`](#dec) | Decrement a register or a memory address
+| [`dct`](#dct) | Decrement a register or a memory address twice
+| [`neg`](#neg) | Negate a register or a memory address
+| [`and`](#and) | Bitwise AND a value with the accumulator
+| [`ora`](#ior) | Bitwise OR a value with the accumulator
+| [`not`](#not) | Bitwise NOT a register or a memory address
+| [`asr`](#asr) | Arithmetically shift a register or memory address to the right
+| [`lsl`](#lsl) | Logically shift a register or memory address to the left
+| [`lsr`](#lsr) | Logically shift a register or memory address to the right
+| [`rol`](#rol) | Rotate a register or memory address to the left
+| [`ror`](#ror) | Rotate a register or memory address to the right
+| [`set`](#set) | Set flags
+| [`clr`](#clr) | Clear flags
 
 ### Control Flow
-| Mnemonic | Description
-| :------: | -----------
+| Mnemonic      | Description
+| :------:      | -----------
+| [`bra`](#bra) | Branch to relative address
+| [`brz`](#brz) | Branch if the zero flag is set
+| [`bnz`](#bnz) | Branch if the zero flag is clear
+| [`brn`](#brn) | Branch if the negative flag is set
+| [`bnn`](#bnn) | Branch if the negative flag is clear
+| [`brp`](#brp) | Branch if both the zero flag and the negative flag are clear
+| [`bnp`](#bnp) | Branch if either the zero flag or the negative flag is set
+| [`brc`](#brc) | Branch if the carry flag is set
+| [`bnc`](#bnc) | Branch if the carry flag is clear
+| [`jmp`](#jmp) | Jump to address
+| [`jpl`](#jpl) | Jump to long address
+| [`jsr`](#jsr) | Jump to subroutine at address
+| [`jsl`](#jsl) | Jump to subroutine at long address
+| [`rts`](#rts) | Return from subroutine
+| [`rtl`](#rtl) | Return from subroutine using long address
+| [`rti`](#rti) | Return from interrupt
+| [`brk`](#brk) | Break execution
 
-<a name="matrix"></a>
-## Instruction Matrix
-Abbreviated forms of each addressing mode are used here. An underscore represents an address, value, offset, or index.
+<a name="dir"></a>
+## Directives
+| Directive | Description
+| :-------: | -----------
+| `include` | Include another assembly file
+| `origin`  | Set origin of following code
+| `symbol`  | Define a symbol
+| `data`    | Insert raw data
 
-| Hex   | __0 <br> 1__ | __0 <br> 1__ | __0 <br> 1__ | __0 <br> 1__ | __0 <br> 1__ | __0 <br> 1__ | __0 <br> 1__ | __0 <br> 1__ |
-| :---: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
-| __0__ | `lod A #_` <br> `sto P _` | `lod A _` <br> `lod P _` | `lod A B+#_` <br> `lod P B+#_` | `lod A B-#_` <br> `lod P B-#_` | `lod A P+#_` <br> `lod P P+#_` |  `lod A P+_` <br> `lod P P+_` |  `lod A P+B+#_` <br> `lod P P+B+#_` | `lod A P+B-#_` <br> `lod P P+B-#_` |
-| __1__ | `sto P B+#_` <br> `sto P B-#_` | `lea P _` <br> `sto A _` | `lea P B+#_` <br> `sto A B+#_` | `lea P B-#_` <br> `sto A B-#_` | `lea P P+#_` <br> `sto A P+#_` | `lea P P+_` <br> `sto A P+_` | `lea P P+B+#_` <br> `sto A P+B+#_` | `lea P P+B-#_` <br> `sto A P+B-#_` |
+## Instructions
+<a name="lod"></a>
+### lod
+
+<a name="lea"></a>
+### lea
+
+<a name="sto"></a>
+### sto
+
+<a name="mov"></a>
+### mov
+
+<a name="psh"></a>
+### psh
+
+<a name="phw"></a>
+### phw
+
+<a name="pul"></a>
+### pul
+
+<a name="plw"></a>
+### plw
+
+<a name="pop"></a>
+### pop
+
+<a name="ent"></a>
+### ent
+
+<a name="ext"></a>
+### ext
+
+<a name="nop"></a>
+### nop
+
+<a name="add"></a>
+### add
+
+<a name="adc"></a>
+### adc
+
+<a name="sub"></a>
+### sub
+
+<a name="sbc"></a>
+### sbc
+
+<a name="cmp"></a>
+### cmp
+
+<a name="inc"></a>
+### inc
+
+<a name="ict"></a>
+### ict
+
+<a name="dec"></a>
+### dec
+
+<a name="dct"></a>
+### dct
+
+<a name="neg"></a>
+### neg
+
+<a name="and"></a>
+### and
+
+<a name="ora"></a>
+### ora
+
+<a name="not"></a>
+### not
+
+<a name="asr"></a>
+### asr
+
+<a name="lsl"></a>
+### lsl
+
+<a name="lsr"></a>
+### lsr
+
+<a name="rol"></a>
+### rol
+
+<a name="ror"></a>
+### ror
+
+<a name="set"></a>
+### set
+
+<a name="clr"></a>
+### clr
+
+<a name="bra"></a>
+### bra
+
+<a name="brz"></a>
+### brz
+
+<a name="bnz"></a>
+### bnz
+
+<a name="brn"></a>
+### brn
+
+<a name="bnn"></a>
+### bnn
+
+<a name="brp"></a>
+### brp
+
+<a name="bnp"></a>
+### bnp
+
+<a name="brc"></a>
+### brc
+
+<a name="bnc"></a>
+### bnc
+
+<a name="jmp"></a>
+### jmp
+
+<a name="jpl"></a>
+### jpl
+
+<a name="jsr"></a>
+### jsr
+
+<a name="jsl"></a>
+### jsl
+
+<a name="rts"></a>
+### rts
+
+<a name="rtl"></a>
+### rtl
+
+<a name="rti"></a>
+### rti
+
+<a name="brk"></a>
+### brk
+

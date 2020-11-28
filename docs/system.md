@@ -1,4 +1,4 @@
-# 8602 Memory
+# 8602 System
 - [Memory Map](#map)
 - [I/O Registers](#io)
 

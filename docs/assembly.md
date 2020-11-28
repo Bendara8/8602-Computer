@@ -35,4 +35,4 @@
 ## Instruction Matrix
 | Hex   | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ | __0<br>1__ |
 | :---: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
-| __0__ | `lod A #(value)`<br>`sto P (address)` | `lod A (address)`<br>`lod P (address)` | `lod A B+#(offset)`<br>`lod P B+#(offset)` | `lod A B-#(offset)`<br>`lod P B-#(offset)` | `lod A P+#(index)`<br>`lod P P+#(index)` |  `lod A P+(address)`<br>`lod P P+(address)` |  `lod A P+B+#(offset)`<br>`lod P P+B+#(offset)` | `lod A P+B-#(offset)`<br>`lod P P+B-#(offset)` |
+| __0__ | `lod A #`<br>`sto P _` | `lod A _`<br>`lod P _` | `lod A B+#`<br>`lod P B+#` | `lod A B-#`<br>`lod P B-#` | `lod A P+#`<br>`lod P P+#` |  `lod A P+_`<br>`lod P P+_` |  `lod A P+B+#`<br>`lod P P+B+#` | `lod A P+B-#`<br>`lod P P+B-#` |

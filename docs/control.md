@@ -93,9 +93,9 @@ The dashes `--` are used to indicate control outputs which are not active for th
 | Flags in                                         | `FI` `--`
 | Flags in from data bus instead of ALU            | `FD` `--`
 
-Some instructions require different mircrocode words depending on the state of the flags register. A simple branching syntax is used in these situations. Here is an example of the branching syntax in the `brz I+#off` instruction.
+Some instructions require different mircrocode words depending on the state of the flags register. A simple branching syntax is used in these situations. Here is an example of the branching syntax in the `brz I+#imm` instruction.
 ```
-$E0: brz I+#off
+$E0: brz I+#imm
 	(Z) {
 	IA -- XZ -- XC II MO -- -- -- EO XI -- --
 	IA -- -- -- XC II MO -- -- -- EO CI -- --

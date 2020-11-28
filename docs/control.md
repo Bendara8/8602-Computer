@@ -61,16 +61,16 @@ $00: lod A #imm
 ```
 The microcode begins with the opcode for the `lod A #imm`, which is `$00`. Then the name of the instruction is listed after a comma, and the mircocode for the instruction is listed on the following lines, with each line representing a subsequent time step. A mircocode word is composed entirely of control output mnemonics, indicating which ones are active. The first mircocode word can be broken down as follows.
 
-- `IO -- XZ -- XC II MO AI EZ EO FI`
-	- `IO` Output the instruction pointer to the address bus
-	- `XZ` The index output is zeroed
-	- `XC` The index offset carry input is set
-	- `II` Load the instruction pointer from the indexed address bus
-	- `MO` Output the memory contents of the indexed address to the data bus
-	- `EZ` Zero accumulator input to ALU
-	- `EO` Select bitwise OR operation for ALU
-	- `AI` Load accumulator from ALU result bus
-	- `FI` Load negative and zero flags from ALU
+`IO -- XZ -- XC II MO AI EZ EO FI`
+- `IO` Output the instruction pointer to the address bus
+- `XZ` The index output is zeroed
+- `XC` The index offset carry input is set
+- `II` Load the instruction pointer from the indexed address bus
+- `MO` Output the memory contents of the indexed address to the data bus
+- `EZ` Zero accumulator input to ALU
+- `EO` Select bitwise OR operation for ALU
+- `AI` Load accumulator from ALU result bus
+- `FI` Load negative and zero flags from ALU
 
 In short, this microcode word will increment the instruction pointer and load the accumulator with the memory contents of the incremented instruction pointer while also updating the negative and zero flags appropriately. The next microcode word is very similar, differing only in which register loads from memory. In this case, the opcode register is loaded instead of the accumulator. Notice that even though the ALU is not being used in this time step, an operation still must be selected. The bitwise OR operation `EO` is chosen by convention in this situation. This microcode word is the standard fetch cycle which is present at the end of most 8602 instructions.
 

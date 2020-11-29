@@ -68,7 +68,7 @@
 | [`dct`](#dct) | Decrement a register or a memory address twice                 |
 | [`neg`](#neg) | Negate a register or a memory address                          |
 | [`and`](#and) | Bitwise AND a value with the accumulator                       |
-| [`ora`](#ior) | Bitwise OR a value with the accumulator                        |
+| [`ora`](#ora) | Bitwise OR a value with the accumulator                        |
 | [`not`](#not) | Bitwise NOT a register or a memory address                     |
 | [`asr`](#asr) | Arithmetically shift a register or memory address to the right |
 | [`lsl`](#lsl) | Logically shift a register or memory address to the left       |

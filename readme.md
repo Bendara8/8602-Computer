@@ -26,7 +26,7 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 	- Clock interrupt occurs at regular intervals for timing purposes
 	- Keyboard is interrupt driven
 
-# 8602 Documentation
+## Documentation
 - [Architecture](./docs/arch.md)
 	- [Diagram](./docs/arch.md#diagram)
 	- [Registers](./docs/arch.md#regs)
@@ -43,5 +43,5 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 	- [Microcode](./docs/control.md#micro)
 
 ## Status
-This project was started in September of 2020. The tools, simulator and CAD are all under progress but the design of the computer has been finalized since December of 2020.
+This project was started in September 2020. The tools, simulator, and documentation are all under progress but the overall design of the computer has been finalized since December 2020. The CAD and schematics for the 8602 have not yet been started as of December 2020.
 

@@ -1,31 +1,31 @@
 #include "chip.h"
 #include "error.h"
 
-void initChip(struct Chip *chip, enum ChipType type, size_t in_len, size_t out_len) {
+void initChip(struct Chip *chip, enum ChipType type) {
 	chip->type = type;
 	chip->state = STATE_STABLE;
 	chip->delay = 0;
-	chip->in.arr = malloc(sizeof (struct Net *) * in_len);
+	chip->in.len = CHIP_DATA_TABLE[type].in_len;
+	chip->in.arr = malloc(sizeof (struct Net *) * chip->in.len);
 	if (!chip->in.arr) raiseAbort(
 		ABORT_ALLOCATION
 	);
-	chip->in.len = in_len;
-	chip->out.arr = malloc(sizeof (struct Net *) * out_len);
+	chip->out.len = CHIP_DATA_TABLE[type].out_len;
+	chip->out.arr = malloc(sizeof (struct Net *) * chip->out.len);
 	if (!chip->out.arr) raiseAbort(
 		ABORT_ALLOCATION
 	);
-	chip->out.len = out_len;
-	chip->mem.arr = NULL;
-	chip->mem.len = 0;
+	chip->mem.len = CHIP_DATA_TABLE[type].mem_len;
+	if (chip->mem.len != 0) {
+		chip->mem.arr = malloc(sizeof (unsigned char) * chip->mem.len);
+		if (!chip->mem.arr) raiseAbort(
+			ABORT_ALLOCATION
+		);
+	}
+	else {
+		chip->mem.arr = NULL;
+	}
 	chip->val = 0;
-}
-
-void initChipMemory(struct Chip *chip, size_t len) {
-	chip->mem.arr = malloc(sizeof (unsigned char) * len);
-	if (!chip->mem.arr) raiseAbort(
-		ABORT_ALLOCATION
-	);
-	chip->mem.len = len;
 }
 
 void stepChip(struct Chip *chip) {

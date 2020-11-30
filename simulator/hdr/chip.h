@@ -3,8 +3,28 @@
 #include <stddef.h>
 
 enum ChipType {
-	CHIP_74HC00,
-	CHIP_74HC377,
+	CHIP_74HC00, /*
+	 * Quad Nand Gate
+	 * 8 in
+	 * 4 out
+	 * in0,1: Gate A inputs
+	 * in2,3: Gate B inputs
+	 * in4,5: Gate C inputs
+	 * in6,7: Gate D inputs
+	 * out0: Gate A output
+	 * out1: Gate B output
+	 * out2: Gate C output
+	 * out3: Gate D output
+	 */
+	CHIP_74HC377, /*
+	 * 8-bit Register
+	 * 3 in
+	 * 1 out
+	 * in0: Data in
+	 * in1: ~Enable
+	 * in2: Clock
+	 * out0: Data out
+	 */
 };
 
 enum ChipState {
@@ -17,18 +37,16 @@ struct Net;
 struct Chip {
 	enum ChipType type;
 	enum ChipState state;
-	long delay_ctr;
+	long delay;
 	struct {
-		struct Net **buf;
+		struct Net **arr;
 		size_t len;
-	} in_arr, out_arr;
-	union {
-		struct {
-			unsigned char *buf;
-			size_t len;
-		} mem_arr;
-		long val;
-	};
+	} in, out;
+	struct {
+		unsigned char *arr;
+		size_t len;
+	} mem;
+	int val;
 };
 
 void initChip(

@@ -7,13 +7,13 @@ struct Net;
 
 struct Circuit {
 	struct {
-		struct Chip *buf;
+		struct Chip *arr;
 		size_t len;
-	} chip_arr;
+	} chip;
 	struct {
-		struct Net *buf;
+		struct Net *arr;
 		size_t len;
-	} net_arr;
+	} net;
 };
 
 #endif

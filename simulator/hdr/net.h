@@ -3,8 +3,8 @@
 #include <stddef.h>
 
 struct Net {
-	long curr_val;
-	long next_val;
+	int curr_val;
+	int next_val;
 	int changed;
 };
 

@@ -7,8 +7,8 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 ## Specifications
 - 2.5 MHz clock rate
 - Two display modes through an 800x600 SVGA signal
-	- 400x256 pixel 2 color text mode
-	- 200x128 pixel 16 color graphics mode
+	- 400x256 pixel RGBI 2 color text mode
+	- 200x128 pixel RGBI 16 color graphics mode
 	- Both modes can be displayed at the same time by precisely switching between the two
 - 8-bit data bus
 - 16-bit address bus

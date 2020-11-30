@@ -6,8 +6,14 @@ struct Chip;
 struct Net;
 
 struct Circuit {
-	struct Chip *chip_arr;
-	struct Net *net_arr;
+	struct {
+		struct Chip *buf;
+		size_t len;
+	} chip_arr;
+	struct {
+		struct Net *buf;
+		size_t len;
+	} net_arr;
 };
 
 #endif

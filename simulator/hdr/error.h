@@ -12,7 +12,7 @@ void raiseAbort(
 	...
 );
 
-void initTargetVec(
+void initFreeTargetVec(
 	size_t cap
 );
 

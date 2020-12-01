@@ -22,7 +22,7 @@ static struct {
 	size_t cap, len;
 } free_target = {NULL, 0, 0};
 
-void initTargetVec(size_t cap) {
+void initFreeTargetVec(size_t cap) {
 	free_target.cap = cap;
 	free_target.len = 0;
 	free_target.vec = malloc(sizeof (void *) * free_target.cap);

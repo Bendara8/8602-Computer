@@ -8,7 +8,6 @@
  * chains of lod A # sto A P+#0 to adjust text mode foreground/background for syntax highlighting, use nop for timing/spacing
  * select y counter line to int with io reg
  */
-
 #include "circuit.h"
 #include "chip.h"
 #include "net.h"
@@ -16,3 +15,7 @@
 #include "keyboard.h"
 #include "display.h"
 #include "error.h"
+
+int main(int arg_len, char **arg_arr) {
+	initTargetVec(256);
+}

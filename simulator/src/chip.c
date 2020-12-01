@@ -9,6 +9,7 @@ void initChip(struct Chip *chip, enum ChipType type) {
 		if (!chip->in) raiseAbort(
 			ABORT_ALLOCATION
 		);
+		addFreeTarget(chip->in);
 	}
 	else {
 		chip->in = NULL;
@@ -18,6 +19,7 @@ void initChip(struct Chip *chip, enum ChipType type) {
 		if (!chip->out) raiseAbort(
 			ABORT_ALLOCATION
 		);
+		addFreeTarget(chip->out);
 	}
 	else {
 		chip->out = NULL;
@@ -27,6 +29,7 @@ void initChip(struct Chip *chip, enum ChipType type) {
 		if (!chip->local) raiseAbort(
 			ABORT_ALLOCATION
 		);
+		addFreeTarget(chip->local);
 	}
 	else {
 		chip->local = NULL;
@@ -36,6 +39,7 @@ void initChip(struct Chip *chip, enum ChipType type) {
 		if (!chip->mem) raiseAbort(
 			ABORT_ALLOCATION
 		);
+		addFreeTarget(chip->mem);
 	}
 	else {
 		chip->mem = NULL;

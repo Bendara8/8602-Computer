@@ -3,7 +3,10 @@
 #include <stdarg.h>
 #include "error.h"
 
-static const char *ABORT_MSG[];
+static const char *ABORT_MSG[] = {
+	"Could not allocate memory",
+	"Could not register function for call at exit",
+};
 
 void raiseAbort(enum AbortType type, ...) {
 	va_list args;
@@ -49,8 +52,3 @@ void addFreeTarget(void *target) {
 	free_target.vec[free_target.len] = target;
 	++free_target.len;
 }
-
-const char *ABORT_MSG[] = {
-	"Could not allocate memory",
-	"Could not register function for call at exit",
-};

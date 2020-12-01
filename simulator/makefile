@@ -3,9 +3,8 @@ LFLG := -g
 
 NAME := simulator
 
-SRC := circuit chip net interface keyboard display error
-DAT := chip-data
-HDR := $(addprefix hdr/,$(addsuffix .h,$(SRC))) $(addprefix hdr/,$(addsuffix .h,$(DAT)))
+SRC := circuit chip chip-data net interface keyboard display error
+HDR := $(addprefix hdr/,$(addsuffix .h,$(SRC)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(SRC)))
 LIB := -l allegro
 

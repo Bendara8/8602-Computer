@@ -35,9 +35,6 @@ struct ChipData {
 	size_t mem;
 };
 
-const struct ChipData CHIP_DATA[] = {
-	{8, 4, 0, 0},
-	{3, 1, 2, 0},
-};
+extern const struct ChipData CHIP_DATA[];
 
 #endif

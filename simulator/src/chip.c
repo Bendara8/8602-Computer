@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include "chip.h"
+#include "circuit.h"
+#include "net.h"
 #include "error.h"
 
 void initChip(struct Chip *chip, enum ChipType type) {

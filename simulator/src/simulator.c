@@ -16,6 +16,6 @@
 #include "display.h"
 #include "error.h"
 
-int main(int arg_len, char **arg_arr) {
+int main() {
 	initTargetVec(256);
 }

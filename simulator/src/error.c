@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include "error.h"
 
+static const char *ABORT_MSG[];
+
 void raiseAbort(enum AbortType type, ...) {
 	va_list args;
 	va_start(args, type);
@@ -13,9 +15,9 @@ void raiseAbort(enum AbortType type, ...) {
 }
 
 static struct {
-	void **vec = NULL;
-	size_t cap = 0, len = 0;
-} free_target;
+	void **vec;
+	size_t cap, len;
+} free_target = {NULL, 0, 0};
 
 void initTargetVec(size_t cap) {
 	free_target.cap = cap;

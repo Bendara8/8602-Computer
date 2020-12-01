@@ -10,7 +10,7 @@ struct Circuit;
 struct Chip {
 	enum ChipType type;
 	struct Circuit *circ;
-	struct Net **in, **out *local;
+	struct Net **in, **out, *local;
 	unsigned char *mem;
 };
 

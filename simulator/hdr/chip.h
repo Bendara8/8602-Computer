@@ -5,19 +5,13 @@
 
 struct Net;
 
+struct Circuit;
+
 struct Chip {
 	enum ChipType type;
-	enum ChipState state;
-	long delay;
-	struct {
-		struct Net **arr;
-		size_t len;
-	} in, out;
-	struct {
-		unsigned char *arr;
-		size_t len;
-	} mem;
-	int val;
+	struct Circuit *circ;
+	struct Net **in, **out *local;
+	unsigned char *mem;
 };
 
 void initChip(

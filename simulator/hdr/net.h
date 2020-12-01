@@ -3,9 +3,15 @@
 #include <stddef.h>
 
 struct Net {
-	int curr_val;
-	int next_val;
+	int val;
 	int changed;
+};
+
+struct NetUpdate {
+	struct NetUpdate *next;
+	struct Net *target;
+	int delay;
+	int val;
 };
 
 #endif

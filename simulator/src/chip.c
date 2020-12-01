@@ -1,31 +1,45 @@
+#include <stdlib.h>
 #include "chip.h"
 #include "error.h"
 
 void initChip(struct Chip *chip, enum ChipType type) {
 	chip->type = type;
-	chip->state = STATE_STABLE;
-	chip->delay = 0;
-	chip->in.len = CHIP_DATA_TABLE[type].in_len;
-	chip->in.arr = malloc(sizeof (struct Net *) * chip->in.len);
-	if (!chip->in.arr) raiseAbort(
-		ABORT_ALLOCATION
-	);
-	chip->out.len = CHIP_DATA_TABLE[type].out_len;
-	chip->out.arr = malloc(sizeof (struct Net *) * chip->out.len);
-	if (!chip->out.arr) raiseAbort(
-		ABORT_ALLOCATION
-	);
-	chip->mem.len = CHIP_DATA_TABLE[type].mem_len;
-	if (chip->mem.len != 0) {
-		chip->mem.arr = malloc(sizeof (unsigned char) * chip->mem.len);
-		if (!chip->mem.arr) raiseAbort(
+	if (CHIP_DATA[type].in != 0) {
+		chip->in = malloc(sizeof (struct Net *) * CHIP_DATA[type].in);
+		if (!chip->in) raiseAbort(
 			ABORT_ALLOCATION
 		);
 	}
 	else {
-		chip->mem.arr = NULL;
+		chip->in = NULL;
 	}
-	chip->val = 0;
+	if (CHIP_DATA[type].out != 0) {
+		chip->out = malloc(sizeof (struct Net *) * CHIP_DATA[type].out);
+		if (!chip->out) raiseAbort(
+			ABORT_ALLOCATION
+		);
+	}
+	else {
+		chip->out = NULL;
+	}
+	if (CHIP_DATA[type].local != 0) {
+		chip->local = malloc(sizeof (struct Net) * CHIP_DATA[type].local);
+		if (!chip->local) raiseAbort(
+			ABORT_ALLOCATION
+		);
+	}
+	else {
+		chip->local = NULL;
+	}
+	if (CHIP_DATA[type].mem != 0) {
+		chip->mem = malloc(sizeof (unsigned char) * CHIP_DATA[type].mem);
+		if (!chip->mem) raiseAbort(
+			ABORT_ALLOCATION
+		);
+	}
+	else {
+		chip->mem = NULL;
+	}
 }
 
 void stepChip(struct Chip *chip) {
@@ -40,24 +54,23 @@ void stepChip(struct Chip *chip) {
 }
 
 void step74HC00(struct Chip *chip) {
-	switch (chip->state) {
-		case STATE_STABLE:
-			for (size_t i = 0; i < chip->in.len - 1; i += 2) {
-				if (
-					chip->in.arr[i]->changed |
-					chip->in.arr[i + 1]->changed
-				) {
-					// set next out and change state... issues with stacking outputs
-					// instead schedhule a future net update in a central system? <- do this, linked list of updates
-				}
-			}
-			break;
-		case STATE_PROP_DELAY:
-
-			break;
+	int val;
+	for (size_t i = 0; i < 4; ++i) {
+		if (chip->in[i * 2]->changed | chip->in[i * 2 + 1]->changed) {
+			val = ~(chip->in[i * 2]->val & chip->in[i * 2 + 1]->val);
+			addNetUpdate(chip->circ, chip->out[i], val, 7);
+		}
 	}
 }
 
 void step74HC377(struct Chip *chip) {
-
+	if (chip->in[0]->changed) {
+		addNetUpdate(chip->circ, &chip->local[0], chip->in[0]->val, 5);
+	}
+	if (chip->in[1]->changed) {
+		addNetUpdate(chip->circ, &chip->local[1], chip->in[1]->val, 2);
+	}
+	if (chip->in[3]->changed && chip->in[3]->val && !chip->local[1].val) {
+		addNetUpdate(chip->circ, chip->out[0], chip->local[0].val, 13);
+	}
 }

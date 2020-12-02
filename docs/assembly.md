@@ -1,20 +1,21 @@
 # 8602 Assembly Language
 - [Architecture](./arch.md)
 	- [Diagram](./arch.md#diagram)
-	- [Registers](./arch.md#regs)
+	- [Registers](./arch.md#registers)
 	- [Flags](./arch.md#flags)
 - [System](./system.md)
-	- [Memory Map](./system.md#map)
-	- [I/O Registers](./system.md#io)
+	- [Memory Map](./system.md#memory-map)
+	- [I/O Registers](./system.md#io-registers)
 - [Assembly Language](./assembly.md)
-	- [Addressing Modes](./assembly.md#modes)
-	- [Instruction Set](./assembly.md#inst)
+	- [Addressing Modes](./assembly.md#addressing-modes)
+	- [Directives](./assembly.md#directives)
+	- [Instruction Set](./assembly.md#instruction-set)
 - [Control](./control.md)
-	- [Control Inputs](./control.md#inputs)
-	- [Control Outputs](./control.md#outputs)
-	- [Microcode](./control.md#micro)
+	- [Control Inputs](./control.md#control-inputs)
+	- [Control Outputs](./control.md#control-outputs)
+	- [Microcode](./control.md#microcode)
 
-<a name="modes"></a>
+<a name="addressing-modes"></a>
 ## Addressing Modes
 | Mode               | Syntax                     | Description                                                   |
 | :--:               | :----:                     | -----------                                                   |
@@ -27,7 +28,7 @@
 | Absolute Index     | `P+adr`                    | At the pointer with an index at the address                   | 
 | Offset Index       | `P+B+#imm` <br> `P+B-#imm` | At the pointer with an index at an offset to the base pointer | 
 
-<a name="dir"></a>
+<a name="directives"></a>
 ## Directives
 | Directive             | Description                   |
 | :-------:             | -----------                   |
@@ -36,7 +37,7 @@
 | [`symbol`](#symbol)   | Define a symbol               |
 | [`data`](#data)       | Insert raw data               |
 
-<a name="inst"></a>
+<a name="instruction-set"></a>
 ## Instruction Set
 ### Data Movement
 | Mnemonic      | Description                                                                 |

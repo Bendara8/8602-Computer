@@ -1,20 +1,21 @@
 # 8602 System
 - [Architecture](./arch.md)
 	- [Diagram](./arch.md#diagram)
-	- [Registers](./arch.md#regs)
+	- [Registers](./arch.md#registers)
 	- [Flags](./arch.md#flags)
 - [System](./system.md)
-	- [Memory Map](./system.md#map)
-	- [I/O Registers](./system.md#io)
+	- [Memory Map](./system.md#memory-map)
+	- [I/O Registers](./system.md#io-registers)
 - [Assembly Language](./assembly.md)
-	- [Addressing Modes](./assembly.md#modes)
-	- [Instruction Set](./assembly.md#inst)
+	- [Addressing Modes](./assembly.md#addressing-modes)
+	- [Directives](./assembly.md#directives)
+	- [Instruction Set](./assembly.md#instruction-set)
 - [Control](./control.md)
-	- [Control Inputs](./control.md#inputs)
-	- [Control Outputs](./control.md#outputs)
-	- [Microcode](./control.md#micro)
+	- [Control Inputs](./control.md#control-inputs)
+	- [Control Outputs](./control.md#control-outputs)
+	- [Microcode](./control.md#microcode)
 
-<a name="map"></a>
+<a name="memory-map"></a>
 ## Memory Map
 | Address Range | Description                          |
 | :-----------: | -----------                          |
@@ -23,7 +24,7 @@
 | $7F00 - $7FFF | I/O Page (256 B)                     |
 | $8000 - $FFFF | Current bank of flash memory (32 kB) |
 
-<a name="io"></a>
+<a name="io-registers"></a>
 ## I/O Registers
 | Address | Description
 | :-----: | -----------

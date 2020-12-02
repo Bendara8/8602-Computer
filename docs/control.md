@@ -1,20 +1,21 @@
 # 8602 Control
 - [Architecture](./arch.md)
 	- [Diagram](./arch.md#diagram)
-	- [Registers](./arch.md#regs)
+	- [Registers](./arch.md#registers)
 	- [Flags](./arch.md#flags)
 - [System](./system.md)
-	- [Memory Map](./system.md#map)
-	- [I/O Registers](./system.md#io)
+	- [Memory Map](./system.md#memory-map)
+	- [I/O Registers](./system.md#io-registers)
 - [Assembly Language](./assembly.md)
-	- [Addressing Modes](./assembly.md#modes)
-	- [Instruction Set](./assembly.md#inst)
+	- [Addressing Modes](./assembly.md#addressing-modes)
+	- [Directives](./assembly.md#directives)
+	- [Instruction Set](./assembly.md#instruction-set)
 - [Control](./control.md)
-	- [Control Inputs](./control.md#inputs)
-	- [Control Outputs](./control.md#outputs)
-	- [Microcode](./control.md#micro)
+	- [Control Inputs](./control.md#control-inputs)
+	- [Control Outputs](./control.md#control-outputs)
+	- [Microcode](./control.md#microcode)
 
-<a name="inputs"></a>
+<a name="control-inputs"></a>
 ## Control Inputs
 | Bits   | Description      |
 | :--:   | -----------      |
@@ -27,7 +28,7 @@
 | 16     | Interrupt signal |
 | 17     | Reset signal     |
 
-<a name="outputs"></a>
+<a name="control-outputs"></a>
 ## Control Outputs
 | Bits    | Description |
 | :--:    | ----------- |
@@ -49,7 +50,7 @@
 | 21      | `EC` ALU carry in or shift in                         |
 | 22 - 23 | ALU Operation <br> `ES` Sum inputs (updates zero, negative, and carry flags) <br> `ER` Right shift data bus input <br> `EA` Bitwise AND inputs <br> `EO` Bitwise OR inputs |
 
-<a name="micro"></a>
+<a name="microcode"></a>
 ## Microcode
 Each 8602 instruction consists of smaller instructions within, known as microcode. The microcode file for the 8602 can be found [here](../microcode/mircocode.src). This file uses a custom syntax for defining the microcode of each instruction, outlined below.
 

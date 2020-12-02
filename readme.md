@@ -1,5 +1,5 @@
 # 8602 Computer
-Tools, Simulator, schematics, and Documentation for the 8602 discreet logic computer
+Tools, Simulator, Schematics, and Documentation for the 8602 discreet logic computer.
 
 ## About
 The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer built almost entirely of simple discreet logic chips from the 74 series logic family. Despite its simplicity, it features a VGA output and a PS/2 keyboard input, and can be easily expanded with additional I/O. The name 8602 is representative of its two primary inspirations: the Intel 8086 and the MOS 6502. The 8602 aims to be similar in capability and feature set to the 8086, while retaining the simplicity and overall feel of the 6502.
@@ -29,18 +29,19 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 ## Documentation
 - [Architecture](./docs/arch.md)
 	- [Diagram](./docs/arch.md#diagram)
-	- [Registers](./docs/arch.md#regs)
+	- [Registers](./docs/arch.md#registers)
 	- [Flags](./docs/arch.md#flags)
 - [System](./docs/system.md)
-	- [Memory Map](./docs/system.md#map)
-	- [I/O Registers](./docs/system.md#io)
+	- [Memory Map](./docs/system.md#memory-map)
+	- [I/O Registers](./docs/system.md#io-registers)
 - [Assembly Language](./docs/assembly.md)
-	- [Addressing Modes](./docs/assembly.md#modes)
-	- [Instruction Set](./docs/assembly.md#inst)
+	- [Addressing Modes](./docs/assembly.md#addressing-modes)
+	- [Directives](./docs/assembly.md#directives)
+	- [Instruction Set](./docs/assembly.md#instruction-set)
 - [Control](./docs/control.md)
-	- [Control Inputs](./docs/control.md#inputs)
-	- [Control Outputs](./docs/control.md#outputs)
-	- [Microcode](./docs/control.md#micro)
+	- [Control Inputs](./docs/control.md#control-inputs)
+	- [Control Outputs](./docs/control.md#control-outputs)
+	- [Microcode](./docs/control.md#microcode)
 
 ## Status
 This project was started in September 2020. The tools, simulator, schematics, and documentation are all under progress but the overall design of the computer has been finalized since December 2020.

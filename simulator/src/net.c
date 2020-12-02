@@ -20,3 +20,23 @@ struct NetUpdate *allocNetUpdateBlock(size_t len) {
 	ret[len - 1].delay = 0;
 	return ret;
 }
+
+struct NetUpdate **stepNetUpdate(
+	struct NetUpdate *update,
+	struct NetUpdate **last,
+	struct NetUpdate **empty_head
+) {
+	--update->delay;
+	if (update->delay <= 0) {
+		target->val = update->val;
+		target->changed = 1;
+		*last = update->next;
+		update->next = *empty_head;
+		*empty_head = update;
+		update->target = NULL;
+		update->val = 0;
+		update->delay = 0;
+		return last;
+	}
+	else return &update->next;
+}

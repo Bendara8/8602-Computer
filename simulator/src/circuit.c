@@ -158,22 +158,48 @@ void buildCircuit(struct Circuit *circ) {
 	circ->chip.arr[17].in[9] = &circ->net.arr[81];
 }
 
+void initCircuit(struct Circuit *circ) {
+	for (size_t i = 0; i < circ->net.len; ++i) {
+		circ->net.arr[i].val = 0;
+		circ->net.arr[i].changed = 0;
+	}
+	circ->net.arr[8].val = 1;
+	circ->net.arr[80].val = 1;
+}
+
+void stepCircuit(struct Circuit *circ) {
+	// step chips and add net updates
+	for (size_t i = 0; i < circ->chip.len; ++i) {
+		stepChip(&circ->chip.arr[i]);
+	}
+
+	// clear changed status
+	for (size_t i = 0; i < circ->net.len; ++i) {
+		circ->net.arr[i].changed = 0;
+	}
+
+	// step and apply net updates
+	struct NetUpdate *temp = circ->update.head, **last = &circ->update.head;
+	while (temp) {
+		last = stepNetUpdate(temp, last, &circ->empty.head);
+		temp = *last;
+	}
+}
+
 void addNetUpdate(struct Circuit *circ, struct Net *target, int val, int delay) {
 	if (!target) return;
-	struct NetUpdate *temp = circ->update.head, *last = NULL;
+	struct NetUpdate *temp = circ->update.head, **last = &circ->update.head;
 	while (temp) {
 		if (temp->target == target && temp->delay >= delay) {
-			if (last) last->next = temp->next;
-			else circ->update.head = temp->next;
+			*last = temp->next;
 			temp->next = circ->empty.head;
 			circ->empty.head = temp;
-			if (last) temp = last->next;
-			else temp = circ->update.head;
+			temp->target = NULL;
+			temp->val = 0;
+			temp->delay = 0;
 		}
-		else {
-			last = temp;
-			temp = temp->next;
-		}
+		else last = &temp->next;
+		temp = *last
 	}
 	if (!circ->empty.head) circ->empty.head = allocNetUpdateBlock(512);
 	temp = circ->empty.head->next;

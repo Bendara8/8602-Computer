@@ -18,4 +18,10 @@ struct NetUpdate *allocNetUpdateBlock(
 	size_t len
 );
 
+struct NetUpdate **stepNetUpdate(
+	struct NetUpdate *update,
+	struct NetUpdate **last,
+	struct NetUpdate **empty_head
+);
+
 #endif

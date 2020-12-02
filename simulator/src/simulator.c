@@ -10,10 +10,6 @@
  * get zero by zeroing bank output and putting that on bus (KZ KO)
  */
 
-/* To Do
- * Switch a 1 bit per net system, more flexible even if its slower
- */
-
 #include "circuit.h"
 #include "chip.h"
 #include "net.h"
@@ -26,5 +22,5 @@ int main() {
 	initFreeTargetVec(256);
 	struct Circuit circ;
 	buildCircuit(&circ);
-
+	
 }

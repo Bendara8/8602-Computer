@@ -26,6 +26,14 @@ void buildCircuit(
 	struct Circuit *circ
 );
 
+void initCircuit(
+	struct Circuit *circ
+);
+
+void stepCircuit(
+	struct Circuit *circ
+);
+
 void addNetUpdate(
 	struct Circuit *circ,
 	struct Net *target,

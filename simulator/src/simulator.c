@@ -7,7 +7,13 @@
  * Use same pulse that latches pixel data from VRAM to latch resultant color from last pixel
  * chains of lod A # sto A P+#0 to adjust text mode foreground/background for syntax highlighting, use nop for timing/spacing
  * select y counter line to int with io reg
+ * get zero by zeroing bank output and putting that on bus (KZ KO)
  */
+
+/* To Do
+ * Switch a 1 bit per net system, more flexible even if its slower
+ */
+
 #include "circuit.h"
 #include "chip.h"
 #include "net.h"
@@ -17,5 +23,8 @@
 #include "error.h"
 
 int main() {
-	initTargetVec(256);
+	initFreeTargetVec(256);
+	struct Circuit circ;
+	buildCircuit(&circ);
+
 }

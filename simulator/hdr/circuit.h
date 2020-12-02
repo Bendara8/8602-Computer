@@ -22,6 +22,10 @@ struct Circuit {
 	} update, empty;
 };
 
+void buildCircuit(
+	struct Circuit *circ
+);
+
 void addNetUpdate(
 	struct Circuit *circ,
 	struct Net *target,

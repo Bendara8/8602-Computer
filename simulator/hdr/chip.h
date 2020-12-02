@@ -27,6 +27,38 @@ void step74HC00(
 	struct Chip *chip
 );
 
+void step74HC02(
+	struct Chip *chip
+);
+
+void step74HC08(
+	struct Chip *chip
+);
+
+void step74HC32(
+	struct Chip *chip
+);
+
+void step74HC86(
+	struct Chip *chip
+);
+
+void step74HC21(
+	struct Chip *chip
+);
+
+void step74HC157(
+	struct Chip *chip
+);
+
+void step74HC153(
+	struct Chip *chip
+);
+
+void step74HC283(
+	struct Chip *chip
+);
+
 void step74HC377(
 	struct Chip *chip
 );

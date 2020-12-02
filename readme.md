@@ -36,7 +36,7 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 	- [I/O Registers](./docs/system.md#io)
 - [Assembly Language](./docs/assembly.md)
 	- [Addressing Modes](./docs/assembly.md#modes)
-	- [Instruction Set](./docs/assembly.md#set)
+	- [Instruction Set](./docs/assembly.md#inst)
 - [Control](./docs/control.md)
 	- [Control Inputs](./docs/control.md#inputs)
 	- [Control Outputs](./docs/control.md#outputs)

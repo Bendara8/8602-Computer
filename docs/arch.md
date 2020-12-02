@@ -8,7 +8,7 @@
 	- [I/O Registers](./system.md#io)
 - [Assembly Language](./assembly.md)
 	- [Addressing Modes](./assembly.md#modes)
-	- [Instruction Set](./assembly.md#set)
+	- [Instruction Set](./assembly.md#inst)
 - [Control](./control.md)
 	- [Control Inputs](./control.md#inputs)
 	- [Control Outputs](./control.md#outputs)

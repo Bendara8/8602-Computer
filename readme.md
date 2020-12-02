@@ -44,4 +44,4 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 	- [Microcode](./docs/control.md#microcode)
 
 ## Status
-This project was started in September 2020. The overall design of the computer was finalized in December 2020. The schematics, simulator, and documentation are all under progress. The assembler, emulator, operating system, and software are not started.
+This project was started in September 2020. The overall design of the computer was finalized in December 2020. The schematics, simulator, and documentation are under progress. The assembler, emulator, operating system, and software are not started.

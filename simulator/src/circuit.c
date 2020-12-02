@@ -199,7 +199,7 @@ void addNetUpdate(struct Circuit *circ, struct Net *target, int val, int delay) 
 			temp->delay = 0;
 		}
 		else last = &temp->next;
-		temp = *last
+		temp = *last;
 	}
 	if (!circ->empty.head) circ->empty.head = allocNetUpdateBlock(512);
 	temp = circ->empty.head->next;

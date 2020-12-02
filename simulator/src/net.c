@@ -28,8 +28,8 @@ struct NetUpdate **stepNetUpdate(
 ) {
 	--update->delay;
 	if (update->delay <= 0) {
-		target->val = update->val;
-		target->changed = 1;
+		update->target->val = update->val;
+		update->target->changed = 1;
 		*last = update->next;
 		update->next = *empty_head;
 		*empty_head = update;

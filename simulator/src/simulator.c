@@ -10,6 +10,7 @@
  * get zero by zeroing bank output and putting that on bus (KZ KO)
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "circuit.h"
@@ -37,7 +38,7 @@ int main() {
 		printf("\n");
 		if (strcmp(input, "quit") == 0) exit(0);
 		else {
-			int step_count = strtoul(input, NULL, 10);
+			size_t step_count = strtoul(input, NULL, 10);
 			for (size_t i = 0; i < step_count; ++i) {
 				stepCircuit(&circ);
 			}
@@ -54,13 +55,13 @@ void printNetUpdateStatus(struct Circuit *circ) {
 		"%zu updates schedhuled, was %zu, delta %i.\n",
 		update_len,
 		last_update_len,
-		update_len - last_update_len
+		(int)update_len - (int)last_update_len
 	);
 	printf(
 		"%zu empty updates, was %zu, delta %i.\n",
 		empty_len,
 		last_empty_len,
-		empty_len - last_empty_len
+		(int)empty_len - (int)last_empty_len
 	);
 	printf(
 		"%zu nets changed.\n",

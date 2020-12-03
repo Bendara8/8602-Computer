@@ -16,7 +16,8 @@ struct Chip {
 
 void initChip(
 	struct Chip *chip,
-	enum ChipType type
+	enum ChipType type,
+	struct Circuit *circ
 );
 
 void stepChip(

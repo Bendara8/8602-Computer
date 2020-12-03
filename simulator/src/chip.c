@@ -4,8 +4,9 @@
 #include "net.h"
 #include "error.h"
 
-void initChip(struct Chip *chip, enum ChipType type) {
+void initChip(struct Chip *chip, enum ChipType type, struct Circuit *circ) {
 	chip->type = type;
+	chip->circ = circ;
 	if (CHIP_DATA[type].in != 0) {
 		chip->in = malloc(sizeof (struct Net *) * CHIP_DATA[type].in);
 		if (!chip->in) raiseAbort(
@@ -32,6 +33,9 @@ void initChip(struct Chip *chip, enum ChipType type) {
 			ABORT_ALLOCATION
 		);
 		addFreeTarget(chip->local);
+		for (size_t i = 0; i < CHIP_DATA[type].local; ++i) {
+			chip->local[i].val = 0;
+		}
 	}
 	else {
 		chip->local = NULL;
@@ -67,7 +71,7 @@ void step74HC00(struct Chip *chip) {
 	int val;
 	for (size_t i = 0; i < 4; ++i) {
 		if (chip->in[i * 2]->changed || chip->in[i * 2 + 1]->changed) {
-			val = ~(chip->in[i * 2]->val & chip->in[i * 2 + 1]->val);
+			val = !(chip->in[i * 2]->val && chip->in[i * 2 + 1]->val);
 			addNetUpdate(chip->circ, chip->out[i], val, 7);
 		}
 	}
@@ -77,7 +81,7 @@ void step74HC02(struct Chip *chip) {
 	int val;
 	for (size_t i = 0; i < 4; ++i) {
 		if (chip->in[i * 2]->changed || chip->in[i * 2 + 1]->changed) {
-			val = ~(chip->in[i * 2]->val | chip->in[i * 2 + 1]->val);
+			val = !(chip->in[i * 2]->val || chip->in[i * 2 + 1]->val);
 			addNetUpdate(chip->circ, chip->out[i], val, 7);
 		}
 	}
@@ -87,7 +91,7 @@ void step74HC08(struct Chip *chip) {
 	int val;
 	for (size_t i = 0; i < 4; ++i) {
 		if (chip->in[i * 2]->changed || chip->in[i * 2 + 1]->changed) {
-			val = chip->in[i * 2]->val & chip->in[i * 2 + 1]->val;
+			val = chip->in[i * 2]->val && chip->in[i * 2 + 1]->val;
 			addNetUpdate(chip->circ, chip->out[i], val, 7);
 		}
 	}
@@ -97,7 +101,7 @@ void step74HC32(struct Chip *chip) {
 	int val;
 	for (size_t i = 0; i < 4; ++i) {
 		if (chip->in[i * 2]->changed || chip->in[i * 2 + 1]->changed) {
-			val = chip->in[i * 2]->val | chip->in[i * 2 + 1]->val;
+			val = chip->in[i * 2]->val || chip->in[i * 2 + 1]->val;
 			addNetUpdate(chip->circ, chip->out[i], val, 7);
 		}
 	}
@@ -107,7 +111,7 @@ void step74HC86(struct Chip *chip) {
 	int val;
 	for (size_t i = 0; i < 4; ++i) {
 		if (chip->in[i * 2]->changed || chip->in[i * 2 + 1]->changed) {
-			val = chip->in[i * 2]->val ^ chip->in[i * 2 + 1]->val;
+			val = chip->in[i * 2]->val != chip->in[i * 2 + 1]->val;
 			addNetUpdate(chip->circ, chip->out[i], val, 11);
 		}
 	}
@@ -123,9 +127,9 @@ void step74HC21(struct Chip *chip) {
 			chip->in[i * 4 + 3]->changed
 		) {
 			val = 
-				chip->in[i * 4]->val &
-				chip->in[i * 4 + 1]->val &
-				chip->in[i * 4 + 2]->val &
+				chip->in[i * 4]->val &&
+				chip->in[i * 4 + 1]->val &&
+				chip->in[i * 4 + 2]->val &&
 				chip->in[i * 4 + 3]->val;
 			addNetUpdate(chip->circ, chip->out[i], val, 12);
 		}
@@ -179,7 +183,7 @@ void step74HC153(struct Chip *chip) {
 
 static void step74HC283Add(struct Chip *chip, int *delay) {
 	int a = 0, b = 0;
-	for (size_t j = 0; j < 4; ++j) {
+	for (size_t j = 3; j < 4; --j) {
 		a <<= 1;
 		a |= chip->in[j]->val;
 		b <<= 1;

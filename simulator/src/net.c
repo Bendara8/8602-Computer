@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h> // TEMP
 #include "net.h"
 #include "error.h"
 
@@ -28,8 +29,11 @@ struct NetUpdate **stepNetUpdate(
 ) {
 	--update->delay;
 	if (update->delay <= 0) {
+		if (update->val != 0 && update->val != 1) {
+			printf("Net %p out of bounds with val=%i\n", (void *)update->target, update->val);
+		}
+		if (update->target->val != update->val) update->target->changed = 1;
 		update->target->val = update->val;
-		update->target->changed = 1;
 		*last = update->next;
 		update->next = *empty_head;
 		*empty_head = update;

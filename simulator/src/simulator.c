@@ -24,19 +24,43 @@
 void printNetUpdateStatus(struct Circuit *circ);
 size_t netUpdateLen(struct NetUpdate *head);
 size_t netChangedCount(struct Net *arr, size_t len);
+void printCircuit(struct Circuit *circ);
+int busToInt(struct Net *arr, size_t idx, size_t len);
 
 int main() {
 	initFreeTargetVec(256);
 	struct Circuit circ;
 	buildCircuit(&circ);
 	initCircuit(&circ);
+	printNetUpdateStatus(&circ);
 	while (1) {
 		char input[32];
-		printNetUpdateStatus(&circ);
-		printf("> ");
+		printf("\n> ");
 		fgets(input, 32, stdin);
-		printf("\n");
+		input[strcspn(input, "\n")] = '\0';
 		if (strcmp(input, "quit") == 0) exit(0);
+		else if (strcmp(input, "print") == 0) {
+			printCircuit(&circ);
+		}
+		else if (strcmp(input, "set") == 0) {
+			printf("net: ");
+			fgets(input, 32, stdin);
+			input[strcspn(input, "\n")] = '\0';
+			size_t net = strtoul(input, NULL, 10);
+			printf("val: ");
+			fgets(input, 32, stdin);
+			input[strcspn(input, "\n")] = '\0';
+			int val = strtol(input, NULL, 10);
+			if (circ.net.arr[net].val != val) circ.net.arr[net].changed = 1;
+			circ.net.arr[net].val = val;
+		}
+		else if (strcmp(input, "get") == 0) {
+			printf("net: ");
+			fgets(input, 32, stdin);
+			input[strcspn(input, "\n")] = '\0';
+			size_t net = strtoul(input, NULL, 10);
+			printf("val:%i\n", circ.net.arr[net].val);
+		}
 		else {
 			size_t step_count = strtoul(input, NULL, 10);
 			for (size_t i = 0; i < step_count; ++i) {
@@ -85,6 +109,38 @@ size_t netChangedCount(struct Net *arr, size_t len) {
 	size_t ret = 0;
 	for (size_t i = 0; i < len; ++i) {
 		if (arr[i].changed) ++ret;
+	}
+	return ret;
+}
+
+void printCircuit(struct Circuit *circ) {
+	int accumulator = busToInt(circ->net.arr, 0, 8);
+	int bus = busToInt(circ->net.arr, 10, 8);
+	int output = busToInt(circ->net.arr, 69, 8);
+	printf(
+		"Accumulator: $%02X (%i)\nBus: $%02X (%i)\nOutput: $%02X (%i)\n",
+		accumulator, accumulator,
+		bus, bus,
+		output, output
+	);
+	printf(
+		"~EZ:%i EN:%i EC:%i CF:%i Z:%i N:%i C:%i ES:%i\n",
+		circ->net.arr[8].val,
+		circ->net.arr[9].val,
+		circ->net.arr[34].val,
+		circ->net.arr[60].val,
+		circ->net.arr[64].val,
+		circ->net.arr[76].val,
+		circ->net.arr[63].val,
+		busToInt(circ->net.arr, 61, 2)
+	);
+}
+
+int busToInt(struct Net *arr, size_t idx, size_t len) {
+	int ret = 0;
+	for (size_t i = idx + len - 1; i >= idx && i < idx + len; --i) {
+		ret <<= 1;
+		ret |= arr[i].val;
 	}
 	return ret;
 }

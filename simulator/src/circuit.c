@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h> // TEMP
 #include "circuit.h"
 #include "chip.h"
 #include "net.h"
@@ -10,33 +11,33 @@ void buildCircuit(struct Circuit *circ) {
 	if (!circ->chip.arr) raiseAbort(
 		ABORT_ALLOCATION
 	);
+	addFreeTarget(circ->chip.arr);
 	circ->net.len = 82;
 	circ->net.arr = malloc(sizeof (struct Net) * circ->net.len);
 	if (!circ->net.arr) raiseAbort(
 		ABORT_ALLOCATION
 	);
-	circ->update.head = NULL;
-	circ->empty.head = allocNetUpdateBlock(512);
+	addFreeTarget(circ->net.arr);
 
 	// define chips
-	initChip(&circ->chip.arr[0],  CHIP_74HC08);
-	initChip(&circ->chip.arr[1],  CHIP_74HC08);
-	initChip(&circ->chip.arr[2],  CHIP_74HC86);
-	initChip(&circ->chip.arr[3],  CHIP_74HC86);
-	initChip(&circ->chip.arr[4],  CHIP_74HC283);
-	initChip(&circ->chip.arr[5],  CHIP_74HC283);
-	initChip(&circ->chip.arr[6],  CHIP_74HC08);
-	initChip(&circ->chip.arr[7],  CHIP_74HC08);
-	initChip(&circ->chip.arr[8],  CHIP_74HC32);
-	initChip(&circ->chip.arr[9],  CHIP_74HC32);
-	initChip(&circ->chip.arr[10], CHIP_74HC153);
-	initChip(&circ->chip.arr[11], CHIP_74HC153);
-	initChip(&circ->chip.arr[12], CHIP_74HC153);
-	initChip(&circ->chip.arr[13], CHIP_74HC153);
-	initChip(&circ->chip.arr[14], CHIP_74HC153);
-	initChip(&circ->chip.arr[15], CHIP_74HC02);
-	initChip(&circ->chip.arr[16], CHIP_74HC21);
-	initChip(&circ->chip.arr[17], CHIP_74HC377);
+	initChip(&circ->chip.arr[0],  CHIP_74HC08,  circ);
+	initChip(&circ->chip.arr[1],  CHIP_74HC08,  circ);
+	initChip(&circ->chip.arr[2],  CHIP_74HC86,  circ);
+	initChip(&circ->chip.arr[3],  CHIP_74HC86,  circ);
+	initChip(&circ->chip.arr[4],  CHIP_74HC283, circ);
+	initChip(&circ->chip.arr[5],  CHIP_74HC283, circ);
+	initChip(&circ->chip.arr[6],  CHIP_74HC08,  circ);
+	initChip(&circ->chip.arr[7],  CHIP_74HC08,  circ);
+	initChip(&circ->chip.arr[8],  CHIP_74HC32,  circ);
+	initChip(&circ->chip.arr[9],  CHIP_74HC32,  circ);
+	initChip(&circ->chip.arr[10], CHIP_74HC153, circ);
+	initChip(&circ->chip.arr[11], CHIP_74HC153, circ);
+	initChip(&circ->chip.arr[12], CHIP_74HC153, circ);
+	initChip(&circ->chip.arr[13], CHIP_74HC153, circ);
+	initChip(&circ->chip.arr[14], CHIP_74HC153, circ);
+	initChip(&circ->chip.arr[15], CHIP_74HC02,  circ);
+	initChip(&circ->chip.arr[16], CHIP_74HC21,  circ);
+	initChip(&circ->chip.arr[17], CHIP_74HC377, circ);
 	
 	// connect nets
 	for (size_t i = 0; i < 4; ++i) {
@@ -150,7 +151,7 @@ void buildCircuit(struct Circuit *circ) {
 	circ->chip.arr[14].out[1] = NULL;
 
 	// zero test
-	circ->chip.arr[16].out[0] = &circ->net.arr[63];
+	circ->chip.arr[16].out[0] = &circ->net.arr[64];
 	circ->chip.arr[16].out[1] = NULL;
 
 	// accumulator
@@ -161,10 +162,19 @@ void buildCircuit(struct Circuit *circ) {
 void initCircuit(struct Circuit *circ) {
 	for (size_t i = 0; i < circ->net.len; ++i) {
 		circ->net.arr[i].val = 0;
-		circ->net.arr[i].changed = 0;
+		circ->net.arr[i].changed = 1;
 	}
 	circ->net.arr[8].val = 1;
 	circ->net.arr[80].val = 1;
+	circ->net.arr[79].val = 1;
+
+	// init bus input
+	//circ->net.arr[10].val = 1;
+	//circ->net.arr[12].val = 1;
+	//circ->net.arr[14].val = 1;
+
+	circ->update.head = NULL;
+	circ->empty.head = allocNetUpdateBlock(512);
 }
 
 void stepCircuit(struct Circuit *circ) {
@@ -187,6 +197,9 @@ void stepCircuit(struct Circuit *circ) {
 }
 
 void addNetUpdate(struct Circuit *circ, struct Net *target, int val, int delay) {
+	if (val != 0 && val != 1) {
+		printf("Adding out of bounds net...\n");
+	}
 	if (!target) return;
 	struct NetUpdate *temp = circ->update.head, **last = &circ->update.head;
 	while (temp) {

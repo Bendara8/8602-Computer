@@ -8,7 +8,10 @@
  * chains of lod A # sto A P+#0 to adjust text mode foreground/background for syntax highlighting, use nop for timing/spacing
  * select y counter line to int with io reg
  * get zero by zeroing bank output and putting that on bus (KZ KO)
+ * Interlaced video? could get full 256x128 resolution using VESA 1024x768
  */
+
+// TODO make logic gate chips bus compatible
 
 #include <stdlib.h>
 #include <stdio.h>

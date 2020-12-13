@@ -3,7 +3,7 @@ LFLG := -g
 
 NAME := simulator
 
-SRC := circuit chip chip-data net interface keyboard display error
+SRC := circuit chip chip-data net interface keyboard display lexer token error
 HDR := $(addprefix hdr/,$(addsuffix .h,$(SRC)))
 OBJ := $(addprefix obj/,$(addsuffix .o,$(SRC)))
 LIB := -l allegro

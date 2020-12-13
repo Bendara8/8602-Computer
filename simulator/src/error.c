@@ -6,7 +6,21 @@
 static const char *ABORT_MSG[] = {
 	"Could not allocate memory",
 	"Could not register function for call at exit",
+	"Could not find file '%s'",
 };
+
+static const char *ERROR_MSG[] = {
+	"Oversize lexeme beginning with '%s' (max length is %zu characters)",
+	"'%s' is not a number (numbers must contain only decimal digits)",
+};
+
+static char *error_path = "";
+static unsigned error_line = 0;
+
+static struct {
+	void **vec;
+	size_t cap, len;
+} free_target = {NULL, 0, 0};
 
 void raiseAbort(enum AbortType type, ...) {
 	va_list args;
@@ -17,10 +31,21 @@ void raiseAbort(enum AbortType type, ...) {
 	exit(1);
 }
 
-static struct {
-	void **vec;
-	size_t cap, len;
-} free_target = {NULL, 0, 0};
+void raiseError(enum ErrorType type, ...) {
+	va_list args;
+	va_start(args, type);
+	printf("Error: (%s:%u) ", error_path, error_line);
+	vprintf(ERROR_MSG[type], args);
+	printf("\n");
+}
+
+void setErrorPath(char *path) {
+	error_path = path;
+}
+
+void setErrorLine(unsigned line) {
+	error_line = line;
+}
 
 void initFreeTargetVec(size_t cap) {
 	free_target.cap = cap;

@@ -6,14 +6,14 @@ enum TokenType {
 	TOK_BUS,
 	TOK_NET,
 	TOK_CHIP,
+	TOK_SYMBOL,
+	TOK_NUM,
 	TOK_BEG_BRACE,
 	TOK_END_BRACE,
 	TOK_EQUALS,
 	TOK_COLON,
 	TOK_COMMA,
 	TOK_DASH,
-	TOK_SYMBOL,
-	TOK_NUM,
 };
 
 struct Token {

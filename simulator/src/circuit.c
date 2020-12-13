@@ -5,6 +5,7 @@
 #include "net.h"
 #include "error.h"
 
+/*
 void buildCircuit(struct Circuit *circ) {
 	circ->chip.len = 18;
 	circ->chip.arr = malloc(sizeof (struct Chip) * circ->chip.len);
@@ -176,6 +177,9 @@ void initCircuit(struct Circuit *circ) {
 	circ->update.head = NULL;
 	circ->empty.head = allocNetUpdateBlock(512);
 }
+*/
+
+
 
 void stepCircuit(struct Circuit *circ) {
 	// step chips and add net updates

@@ -29,122 +29,122 @@ net {
 }
 
 chip {
-	74HC08 {
+	_74HC08 {
 		in:0,2,4,6 = ACC:0-3
 		in:1,3,5,7 = ~EZ
 		out:0-3 = ACCZ:0-3
 	}
-	74HC08 {
+	_74HC08 {
 		in:0,2,4,6 = ACC:4-7
 		in:1,3,5,7 = ~EZ
 		out:0-3 = ACCZ:4-7
 	}
-	74HC86 {
+	_74HC86 {
 		in:0,2,4,6 = DAT:0-3
 		in:1,3,5,7 = EN
 		out:0-3 = DATN:0-3
 	}
-	74HC86 {
+	_74HC86 {
 		in:0,2,4,6 = DAT:4-7
 		in:1,3,5,7 = EN
 		out:0-3 = DATN:4-7
 	}
-	74HC283 {
+	_74HC283 {
 		in:0-3 = ACCZ:0-3
 		in:4-7 = DATN:0-3
 		in:8 = EC
 		out:0-3 = SUM:0-3
 		out:4 = CINT
 	}
-	74HC283 {
+	_74HC283 {
 		in:0-3 = ACCZ:4-7
 		in:4-7 = DATN:4-7
 		in:8 = CINT
 		out:0-3 = SUM:4-7
 		out:4 = COUT
 	}
-	74HC08 {
+	_74HC08 {
 		in:0,2,4,6 = ACCZ:0-3
 		in:1,3,5,7 = DATN:0-3
 		out:0-3 = AND:0-3
 	}
-	74HC08 {
+	_74HC08 {
 		in:0,2,4,6 = ACCZ:4-7
 		in:1,3,5,7 = DATN:4-7
 		out:0-3 = AND:4-7
 	}
-	74HC32 {
+	_74HC32 {
 		in:0,2,4,6 = ACCZ:0-3
 		in:1,3,5,7 = DATN:0-3
 		out:0-3 = OR:0-3
 	}
-	74HC32 {
+	_74HC32 {
 		in:0,2,4,6 = ACCZ:4-7
 		in:1,3,5,7 = DATN:4-7
 		out:0-3 = OR:4-7
 	}
-	74HC153 {
+	_74HC153 {
 		in:0-1 = OR:0-1
 		in:2-3 = AND:0-1
 		in:4-5 = DATN:1-2
 		in:6-7 = SUM:0-1
-		in:8-9 = ES
+		in:8-9 = ES:0-1
 		in:10-11 = GND
 		out:0-1 = OUT:0-1
 	}
-	74HC153 {
+	_74HC153 {
 		in:0-1 = OR:2-3
 		in:2-3 = AND:2-3
 		in:4-5 = DATN:3-4
 		in:6-7 = SUM:2-3
-		in:8-9 = ES
+		in:8-9 = ES:0-1
 		in:10-11 = GND
 		out:0-1 = OUT:2-3
 	}
-	74HC153 {
+	_74HC153 {
 		in:0-1 = OR:4-5
 		in:2-3 = AND:4-5
 		in:4-5 = DATN:5-6
 		in:6-7 = SUM:4-5
-		in:8-9 = ES
+		in:8-9 = ES:0-1
 		in:10-11 = GND
 		out:0-1 = OUT:4-5
 	}
-	74HC153 {
+	_74HC153 {
 		in:0-1 = OR:6-7
 		in:2-3 = AND:6-7
 		in:4 = DATN:7
 		in:5 = EC
 		in:6-7 = SUM:6-7
-		in:8-9 = ES
+		in:8-9 = ES:0-1
 		in:10-11 = GND
 		out:0-1 = OUT:6-7
 	}
-	74HC153 {
+	_74HC153 {
 		in:0 = CF
 		in:2 = CF
 		in:4 = DATN:0
 		in:6 = COUT
 		in:1,3,5,7 = GND
-		in:8-9 = ES
+		in:8-9 = ES:0-1
 		in:10-11 = GND
 		out:0 = C
 		out:1 = null
 	}
-	74HC02 {
-		in:0-7 = OUT
-		out:0-3 = ZINT
+	_74HC02 {
+		in:0-7 = OUT:0-7
+		out:0-3 = ZINT:0-3
 	}
-	74HC21 {
-		in:0-3 = ZINT
+	_74HC21 {
+		in:0-3 = ZINT:0-3
 		in:4-7 = GND
 		out:0 = Z
 		out:1 = null
 	}
-	74HC377 {
-		in:0-7 = OUT
+	_74HC377 ACC_REG {
+		in:0-7 = OUT:0-7
 		in:8 = ~EACC
 		in:9 = CLK
-		out:0-7 = ACC
+		out:0-7 = ACC:0-7
 	}
 }

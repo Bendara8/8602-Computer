@@ -9,14 +9,33 @@ struct Circuit;
 
 struct Chip {
 	enum ChipType type;
+	char *name;
 	struct Circuit *circ;
 	struct Net **in, **out, *local;
 	unsigned char *mem;
 };
 
+struct ChipVec {
+	struct Chip *buf;
+	size_t len, cap;
+};
+
 void initChip(
 	struct Chip *chip,
 	enum ChipType type,
+	char *name,
+	struct Circuit *circ
+);
+
+void initChipVec(
+	struct ChipVec *vec,
+	size_t cap
+);
+
+struct Chip *addChip(
+	struct ChipVec *vec,
+	char *type_str,
+	char *name,
 	struct Circuit *circ
 );
 

@@ -1,33 +1,20 @@
 #ifndef HDR_CIRCUIT
 #define HDR_CIRCUIT
 #include <stddef.h>
-
-struct Chip;
-
-struct Net;
-
-struct NetUpdate;
+#include <chip.h>
+#include <net.h>
 
 struct Circuit {
-	struct {
-		struct Chip *arr;
-		size_t len;
-	} chip;
-	struct {
-		struct Net *arr;
-		size_t len;
-	} net;
-	struct {
-		struct NetUpdate *head;
-	} update, empty;
+	struct ChipVec chip_vec;
+	struct BusVec bus_vec;
+	struct NetVec net_vec;
+	struct NetUpdateList update_list;
+	struct NetUpdateList empty_list;
 };
 
-void buildCircuit(
-	struct Circuit *circ
-);
-
 void initCircuit(
-	struct Circuit *circ
+	struct Circuit *circ,
+	char *path
 );
 
 void stepCircuit(

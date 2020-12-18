@@ -7,15 +7,27 @@ static const char *ABORT_MSG[] = {
 	"Could not allocate memory",
 	"Could not register function for call at exit",
 	"Could not find file '%s'",
+	"Invalid arguments (expected single circuit definition file)",
+	"Missing free target",
+	"Fatal error",
 };
 
 static const char *ERROR_MSG[] = {
 	"Oversize lexeme beginning with '%s' (max length is %zu characters)",
 	"'%s' is not a number (numbers must contain only decimal digits)",
+	"'%s' is not a chip",
+	"Unexpected token",
+	"Unexpected end of file",
+	"'%i' is an invalid value in this context",
+	"Too many nets (max %zu)",
+	"Unmatched quantity of nets",
+	"'%s' is not a net",
+	"'%s' is not a bus",
 };
 
 static char *error_path = "";
 static unsigned error_line = 0;
+static int error_flag = 0;
 
 static struct {
 	void **vec;
@@ -37,6 +49,7 @@ void raiseError(enum ErrorType type, ...) {
 	printf("Error: (%s:%u) ", error_path, error_line);
 	vprintf(ERROR_MSG[type], args);
 	printf("\n");
+	error_flag = 1;
 }
 
 void setErrorPath(char *path) {
@@ -45,6 +58,10 @@ void setErrorPath(char *path) {
 
 void setErrorLine(unsigned line) {
 	error_line = line;
+}
+
+int getErrorFlag(void) {
+	return error_flag;
 }
 
 void initFreeTargetVec(size_t cap) {
@@ -76,4 +93,11 @@ void addFreeTarget(void *target) {
 	}
 	free_target.vec[free_target.len] = target;
 	++free_target.len;
+}
+
+void **findFreeTarget(void *target) {
+	for (size_t i = 0; i < free_target.len; ++i) {
+		if (target == free_target.vec[i]) return &free_target.vec[i];
+	}
+	return NULL;
 }

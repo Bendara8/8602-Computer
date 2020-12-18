@@ -65,7 +65,7 @@ enum ChipType {
 	 * out:0 = Gate A output
 	 * out:1 = Gate B output
 	 */
-	CHIP_74HC157, /* 4-bit 2-input Multiplexor
+	CHIP_74HC157, /* 4-bit 2-input Multiplexer
 	 * 10 in, 4 out
 	 * in:0-3 = Input data 0
 	 * in:4-7 = Input data 1
@@ -73,7 +73,7 @@ enum ChipType {
 	 * in:9 = ~Enable
 	 * out0-3: Output data
 	 */
-	CHIP_74HC153, /* 2-bit 4-input Multiplexor
+	CHIP_74HC153, /* 2-bit 4-input Multiplexer
 	 * 12 in, 2 out
 	 * in:0-1 = Input data 0
 	 * in:2-3 = Input data 1
@@ -103,12 +103,18 @@ enum ChipType {
 };
 
 struct ChipData {
+	char *name;
 	size_t in;
 	size_t out;
 	size_t local;
 	size_t mem;
 };
 
+enum ChipType strToChipType(
+	char *str
+);
+
 extern const struct ChipData CHIP_DATA[];
+extern const size_t CHIP_DATA_LEN;
 
 #endif

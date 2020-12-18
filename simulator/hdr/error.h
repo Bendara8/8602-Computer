@@ -6,11 +6,22 @@ enum AbortType {
 	ABORT_ALLOCATION,
 	ABORT_ATEXIT,
 	ABORT_NO_FILE,
+	ABORT_NUM_ARGS,
+	ABORT_NO_FREE_TARGET,
+	ABORT_FATAL_ERROR,
 };
 
 enum ErrorType {
 	ERROR_LONG_LEXEME,
 	ERROR_NOT_NUM,
+	ERROR_NOT_CHIP,
+	ERROR_UNEXPECTED_TOKEN,
+	ERROR_UNEXPECTED_EOF,
+	ERROR_INVALID_NUM,
+	ERROR_MANY_NETS,
+	ERROR_NUM_NETS,
+	ERROR_NOT_NET,
+	ERROR_NOT_BUS,
 };
 
 void raiseAbort(
@@ -31,6 +42,10 @@ void setErrorLine(
 	unsigned line
 );
 
+int getErrorFlag(
+	void
+);
+
 void initFreeTargetVec(
 	size_t cap
 );
@@ -40,6 +55,10 @@ void freeTargetVec(
 );
 
 void addFreeTarget(
+	void *target
+);
+
+void **findFreeTarget(
 	void *target
 );
 

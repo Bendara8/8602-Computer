@@ -41,6 +41,15 @@ static void tokenizeLexeme(char *lexeme, struct Token *tok) {
 	else if (strcmp(lexeme, "chip") == 0) {
 		tok->type = TOK_CHIP;
 	}
+	else if (strcmp(lexeme, "in") == 0) {
+		tok->type = TOK_IN;
+	}
+	else if (strcmp(lexeme, "out") == 0) {
+		tok->type = TOK_OUT;
+	}
+	else if (strcmp(lexeme, "null") == 0) {
+		tok->type = TOK_NULL;
+	}
 	else {
 		tok->type = TOK_SYMBOL;
 		tok->str = malloc(strlen(lexeme) + 1);
@@ -132,4 +141,5 @@ void lexFile(char *path, struct TokenVec *tok_vec) {
 			}
 		}
 	}
+	fclose(file);
 }

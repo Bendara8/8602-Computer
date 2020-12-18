@@ -4,8 +4,9 @@
 #include "net.h"
 #include "error.h"
 
-void initChip(struct Chip *chip, enum ChipType type, struct Circuit *circ) {
+void initChip(struct Chip *chip, enum ChipType type, char *name, struct Circuit *circ) {
 	chip->type = type;
+	chip->name = name;
 	chip->circ = circ;
 	if (CHIP_DATA[type].in != 0) {
 		chip->in = malloc(sizeof (struct Net *) * CHIP_DATA[type].in);
@@ -50,6 +51,31 @@ void initChip(struct Chip *chip, enum ChipType type, struct Circuit *circ) {
 	else {
 		chip->mem = NULL;
 	}
+}
+
+void initChipVec(struct ChipVec *vec, size_t cap) {
+	vec->buf = malloc(sizeof (struct Chip) * cap);
+	if (!vec->buf) raiseAbort(
+		ABORT_ALLOCATION
+	);
+	addFreeTarget(vec->buf);
+	vec->cap = cap;
+	vec->len = 0;
+}
+
+struct Chip *addChip(struct ChipVec *vec, char *type_str, char *name, struct Circuit *circ) {
+	if (vec->len == vec->cap) {
+		vec->cap *= 2;
+		void **target = findFreeTarget(vec->buf);
+		if (!target) raiseAbort(ABORT_NO_FREE_TARGET);
+		vec->buf = realloc(vec->buf, sizeof (struct Chip) * vec->cap);
+		if (!vec->buf) raiseAbort(
+			ABORT_ALLOCATION
+		);
+		*target = vec->buf;
+	}
+	initChip(&vec->buf[vec->len], strToChipType(type_str), name, circ);
+	return &vec->buf[vec->len++];
 }
 
 void stepChip(struct Chip *chip) {

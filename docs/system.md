@@ -14,24 +14,33 @@
 	- [Control Inputs](./control.md#control-inputs)
 	- [Control Outputs](./control.md#control-outputs)
 	- [Microcode](./control.md#microcode)
+- [Simulator](./simulator.md)
+	- [About](./simulator.md#about)
+	- [Invocation](./simulator.md#invocation)
+	- [Commands](./simulator.md#commands)
+	- [Circuit Definition](./simulator.md#circuit-definition)
 
 <a name="memory-map"></a>
 ## Memory Map
-| Address Range | Description                          |
-| :-----------: | -----------                          |
-| $0000 - $3FFF | Current VRAM buffer (16 kB)          |
-| $4000 - $7EFF | General purpose SRAM (16 kB)         |
-| $7F00 - $7FFF | I/O Page (256 B)                     |
-| $8000 - $FFFF | Current bank of flash memory (32 kB) |
+| Address Range | Description
+| :-----------: | -----------
+| $0000 - $3FFF | Current VRAM buffer (16 kB)
+| $4000 - $7EFF | General purpose SRAM (16 kB)
+| $7F00 - $7FFF | I/O Page (256 B)
+| $8000 - $FFFF | Current bank of flash memory (32 kB)
 
 <a name="io-registers"></a>
 ## I/O Registers
 | Address | Description
 | :-----: | -----------
-| $7F00   | Output register <br> (keyboard output, video control, interrupt clear, and LED control) |
-| $7F01   | Input <br> (keyboard input, video status, interrupt status, and LED status)             |
-| $7F02   | Color palette memory address register                                                   |
-| $7F03   | Color palette memory data register                                                      |
+| $7F00   | Input <br> (keyboard input, video status, interrupt status, and LED status)
+| $7F01   | Output register <br> (keyboard output, video control, interrupt clear, and LED control)
+| $7F02   | Color palette register for 2 color RGBI graphics mode <br> Background color in lower 4 bits and foreground color in upper 4 bits
+| $7F03   | Unused
+| $7F04   | Unused
+| $7F05   | Unused
+| $7F06   | Unused
+| $7F07   | Unused
 
 ### Output Register
 | Bit | Description

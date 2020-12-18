@@ -14,6 +14,11 @@
 	- [Control Inputs](./control.md#control-inputs)
 	- [Control Outputs](./control.md#control-outputs)
 	- [Microcode](./control.md#microcode)
+- [Simulator](./simulator.md)
+	- [About](./simulator.md#about)
+	- [Invocation](./simulator.md#invocation)
+	- [Commands](./simulator.md#commands)
+	- [Circuit Definition](./simulator.md#circuit-definition)
 
 <a name="control-inputs"></a>
 ## Control Inputs

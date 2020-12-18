@@ -27,6 +27,7 @@ The 8602 simulator is a very detailed simulation of the computer. It simulates e
 <a name="invocation"></a>
 ## Invocation
 The simulator must be invoked with a filepath to a text file containing the circuit definition. By convention, the `.src` suffix is used for these circuit definition files. The circuit definition syntax is explained in the [Circuit Definition](#circuit-definition) section.
+
 `simulator circuit-def.src`
 
 <a name="commands"></a>
@@ -65,7 +66,7 @@ Here is a list of the available commands with links to more information on the u
 
 <a name="circuit-definition"></a>
 ## Circuit Definition
-Circuit definitions contain three definition sections: one for busses, one for nets, and one for chips. A net is essentially a wire that connects any number of chips together through their pins. A bus is collection of nets that form a single value. The sections can be split up and rearranged in any way, provided that busses and nets referenced in chip definition sections are defined prior to that section. Comment lines begin with a hash symbol `#` and are ignored. Comments can occur on any line, provided that they are the last thing on that line. Below is an example circuit definition for an 8-bit adder/subtractor.
+Circuit definitions contain three definition sections: one for buses, one for nets, and one for chips. A net is essentially a wire that connects any number of chips together through their pins. A bus is collection of nets that form a single value. The sections can be split up and rearranged in any way, provided that buses and nets referenced in chip definition sections are defined prior to that section. Comment lines begin with a hash symbol `#` and are ignored. Comments can occur on any line, provided that they are the last thing on that line. Below is an example circuit definition for an 8-bit adder/subtractor.
 ```
 # Example 8-bit Adder/Subtractor
 
@@ -109,7 +110,11 @@ chip {
 	}
 }
 ```
-Each line in the `bus` section has a name for the bus, as well as the width of the bus. For example, the `IN_B` bus is 8 bits wide. Each line in the `net` section has a name for the net, and an optional inital value for the net. Inital values can be either 0 or 1, and all nets are initalized to 0 by default if no intial value is given. For example, the `SUB` net is intialized to 1, while the `CARRY_OUT` net is left with default initialization of 0. The `chip` section is the most complex; it defines what chip to use, an optional chip name, and how each pin of each chip should be connected. The first entry in the chip section begins with `_74HC86` signifying that this chip is a 74HC86 Quad 2-input XOR Gate. An underscore must be included before chip types beginning with numbers to prevent the chip type from being interpreted as a number. On the next line, input pins 0, 2, 4, and 6 are connected to nets 0 through 3 of the `IN_B` bus. Specifically, input pin 0 is connected to net 0 of `IN_B`, input pin 2 is connected to net 1 of `IN_B`, and so on. The number of input pins being connected must match the number of nets specified, unless there is only a single net specified in which case all inputs are connected to that net. There is an example of this on the next line: input pins 1, 3, 5, and 7 are all connected to the `SUB` net. Notice that busses must be followed by a colon specifying which nets of that bus to connect, while nets are not followed by colon. Chips can also be given a name; the two 74HC283 4-Bit Adders are given the names `ADDER_LOW` and `ADDER_HIGH` so that they can be referenced during the simulation. Each chip available to the simulation attempts to model a real integrated circuit, although the pin numbers are changed to make the connection process easier. A full list of chips can be found in the following table, which links to more information for each chip.
+Each line in the `bus` section has a name for the bus, as well as the width of the bus. For example, the `IN_B` bus is 8 bits wide. Each line in the `net` section has a name for the net, and an optional inital value for the net. Inital values can be either 0 or 1, and all nets are initalized to 0 by default if no intial value is given. For example, the `SUB` net is intialized to 1, while the `CARRY_OUT` net is left with default initialization of 0. All buses are always initalized to 0.
+
+The `chip` section is the most complex; it defines what chip to use, an optional chip name, and how each pin of each chip should be connected. The first entry in the chip section begins with `_74HC86` signifying that this chip is a 74HC86 Quad 2-input XOR Gate. An underscore must be included before chip types beginning with numbers to prevent the chip type from being interpreted as a number. On the next line, input pins 0, 2, 4, and 6 are connected to nets 0 through 3 of the `IN_B` bus. Specifically, input pin 0 is connected to net 0 of `IN_B`, input pin 2 is connected to net 1 of `IN_B`, and so on. The number of input pins being connected must match the number of nets specified, unless there is only a single net specified in which case all inputs are connected to that net. There is an example of this on the next line: input pins 1, 3, 5, and 7 are all connected to the `SUB` net.
+
+Notice that buses must be followed by a colon specifying which nets of that bus to connect, while nets are not followed by colon. Chips can also be given a name; the two 74HC283 4-Bit Adders are given the names `ADDER_LOW` and `ADDER_HIGH` so that they can be referenced during the simulation. Each chip available to the simulation models a real integrated circuit, although the pin numbers are changed to make the connection process easier. A full list of chips can be found in the following table, which links to pin information for each chip.
 
 | Chip                | Description
 | :--:                | -----------

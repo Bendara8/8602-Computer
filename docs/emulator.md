@@ -21,4 +21,4 @@
 	- [Circuit Definition](./simulator.md#circuit-definition)
 
 ## About
-The 8602 emulator provides an environment for testing software. It runs much faster than the simulator, however it cannot be used to test hardware and merely replicates the behavior of fixed hardware in order to run software at speeds as close to real life as possible. Aside from a speed increase, the emulator has many more commands and features available that are useful for debugging software.
+The 8602 emulator provides an environment for testing software. It runs much faster than the simulator, however it cannot be used to test hardware and merely replicates the behavior of fixed hardware in order to run software as close to realistic speeds as possible. Aside from a speed increase, the emulator has many more commands and features available that are useful for debugging software.

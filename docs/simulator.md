@@ -41,6 +41,7 @@ Here is a list of the available commands with links to more information on the u
 | [`clock`](#clock) | Runs the simulation for a given number of system clock cycles <br> 1 system clock cycle equals 400 nanoseconds
 | [`step`](#step)   | Runs the simulation for a given number of instructions
 | [`run`](#run)     | Runs the simulation until the user interrupts the simulation with `Ctrl+C`
+| [`quit`](#quit)   | Quit the simulation
 
 ### Information
 | Command               | Description
@@ -141,6 +142,9 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 
 <a name="run"></a>
 ### `run`
+
+<a name="quit"></a>
+### `quit`
 
 <a name="updates"></a>
 ### `updates`

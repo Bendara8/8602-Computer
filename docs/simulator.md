@@ -57,13 +57,10 @@ Here is a list of the available commands with links to more information on the u
 | [`hex`](#hex) | Hexdump a portion of the memory contained in a chip
 
 ### Manipulation
-| Command                     | Description
-| :-----:                     | -----------
-| [`set bus`](#set-bus)       | Set a bus to a value
-| [`set net`](#set-net)       | Set a net to a value
-| [`touch chip`](#touch-chip) | Touch all nets that depend on a chip
-| [`touch bus`](#touch-bus)   | Touch a bus so that dependent chips will update
-| [`touch net`](#touch-bus)   | Touch a net so that dependent chips will update
+| Command           | Description
+| :-----:           | -----------
+| [`set`](#set)     | Set a bus or net to a value
+| [`touch`](#touch) | Touch a chip, bus, or net so that dependent chips will update
 
 <a name="circuit-definition"></a>
 ## Circuit Definition
@@ -161,20 +158,11 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 <a name="hex"></a>
 ### `hex`
 
-<a name="set-bus"></a>
-### `set bus`
+<a name="set"></a>
+### `set`
 
-<a name="set-net"></a>
-### `set net`
-
-<a name="touch-chip"></a>
-### `touch chip`
-
-<a name="touch-bus"></a>
-### `touch bus`
-
-<a name="touch-net"></a>
-### `touch net`
+<a name="touch"></a>
+### `touch`
 
 ## Chip Details
 <a name="74HC00"></a>

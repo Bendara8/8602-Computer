@@ -47,12 +47,12 @@ enum TokenType peekTokenType(struct TokenQue *tok_que) {
 }
 
 void assertNextTokenType(struct TokenQue *tok_que, enum TokenType type) {
-	if (!nextToken(tok_que)) {
+	if (!peekToken(tok_que)) {
 		setErrorLine(currToken(tok_que)->line);
 		raiseError(ERROR_UNEXPECTED_EOF);
 		raiseAbort(ABORT_FATAL_ERROR);
 	}
-	else if (currToken(tok_que)->type != type) {
+	else if (nextToken(tok_que)->type != type) {
 		setErrorLine(currToken(tok_que)->line);
 		raiseError(ERROR_UNEXPECTED_TOKEN);
 		raiseAbort(ABORT_FATAL_ERROR);

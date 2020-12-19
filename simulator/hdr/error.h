@@ -22,6 +22,8 @@ enum ErrorType {
 	ERROR_NUM_NETS,
 	ERROR_NOT_NET,
 	ERROR_NOT_BUS,
+	ERROR_LONG_COMMAND,
+	ERROR_NOT_COMMAND,
 };
 
 void raiseAbort(

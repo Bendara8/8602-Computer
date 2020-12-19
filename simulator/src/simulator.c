@@ -20,10 +20,11 @@
 #include "error.h"
 
 int main(int arg_arr_len, char **arg_arr) {
+	printInfo();
 	if (arg_arr_len != 2) raiseAbort(ABORT_NUM_ARGS);
 	initFreeTargetVec(256);
 	struct Circuit circ;
 	initCircuit(&circ, arg_arr[1]);
-	
+	enterInterface(&circ);
 }
 

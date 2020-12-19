@@ -23,6 +23,8 @@ static const char *ERROR_MSG[] = {
 	"Unmatched quantity of nets",
 	"'%s' is not a net",
 	"'%s' is not a bus",
+	"Command contains too many parts (max is %zu parts)",
+	"'%s' is not a command",
 };
 
 static char *error_path = "";
@@ -46,7 +48,8 @@ void raiseAbort(enum AbortType type, ...) {
 void raiseError(enum ErrorType type, ...) {
 	va_list args;
 	va_start(args, type);
-	printf("Error: (%s:%u) ", error_path, error_line);
+	if (error_line == 0) printf("Error: ");
+	else printf("Error: (%s:%u) ", error_path, error_line);
 	vprintf(ERROR_MSG[type], args);
 	printf("\n");
 	error_flag = 1;

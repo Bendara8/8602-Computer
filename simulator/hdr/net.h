@@ -77,4 +77,24 @@ struct Bus *findBus(
 	char *name
 );
 
+struct Bus *findBusFromNetIdx(
+	struct BusVec *vec,
+	size_t net_idx
+);
+
+struct NetUpdate *findNetUpdateFromNet(
+	struct NetUpdate *head,
+	struct Net *net
+);
+
+int busToInt(
+	struct Bus *bus,
+	struct NetVec *net_vec
+);
+
+unsigned busToUns(
+	struct Bus *bus,
+	struct NetVec *net_vec
+);
+
 #endif

@@ -9,4 +9,12 @@ void lexFile(
 	struct TokenVec *tok_vec
 );
 
+unsigned parseNum(
+	char *lexeme
+);
+
+unsigned parseHex(
+	char *lexeme
+);
+
 #endif

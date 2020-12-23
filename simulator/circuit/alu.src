@@ -16,7 +16,7 @@ bus {
 net {
 	GND
 	VCC = 1
-	~EZ
+	~EZ = 1
 	EN
 	EC
 	CF
@@ -24,7 +24,7 @@ net {
 	Z
 	CINT
 	COUT
-	~EACC
+	~EACC = 1
 	CLK
 }
 

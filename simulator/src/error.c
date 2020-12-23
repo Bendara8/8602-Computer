@@ -15,6 +15,9 @@ static const char *ABORT_MSG[] = {
 static const char *ERROR_MSG[] = {
 	"Oversize lexeme beginning with '%s' (max length is %zu characters)",
 	"'%s' is not a number (numbers must contain only decimal digits)",
+	"'%s' is not a hexadecimal humber\n       (hexadecimal numbers must contain only hexadecimal digits and start with '$')",
+	"Expected a number",
+	"Expected a hexadecimal number",
 	"'%s' is not a chip",
 	"Unexpected token",
 	"Unexpected end of file",
@@ -25,6 +28,9 @@ static const char *ERROR_MSG[] = {
 	"'%s' is not a bus",
 	"Command contains too many parts (max is %zu parts)",
 	"'%s' is not a command",
+	"'%s' is an invalid option",
+	"Incorrect number of arguments for %s command",
+	"'%s' does not have any onboard memory",
 };
 
 static char *error_path = "";
@@ -61,6 +67,10 @@ void setErrorPath(char *path) {
 
 void setErrorLine(unsigned line) {
 	error_line = line;
+}
+
+void setErrorFlag(int flag) {
+	error_flag = flag;
 }
 
 int getErrorFlag(void) {

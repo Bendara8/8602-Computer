@@ -14,6 +14,9 @@ enum AbortType {
 enum ErrorType {
 	ERROR_LONG_LEXEME,
 	ERROR_NOT_NUM,
+	ERROR_NOT_HEX,
+	ERROR_NO_NUM,
+	ERROR_NO_HEX,
 	ERROR_NOT_CHIP,
 	ERROR_UNEXPECTED_TOKEN,
 	ERROR_UNEXPECTED_EOF,
@@ -24,6 +27,9 @@ enum ErrorType {
 	ERROR_NOT_BUS,
 	ERROR_LONG_COMMAND,
 	ERROR_NOT_COMMAND,
+	ERROR_INVALID_OPTION,
+	ERROR_NUM_COMMAND_ARGS,
+	ERROR_NO_MEM,
 };
 
 void raiseAbort(
@@ -42,6 +48,10 @@ void setErrorPath(
 
 void setErrorLine(
 	unsigned line
+);
+
+void setErrorFlag(
+	int flag
 );
 
 int getErrorFlag(

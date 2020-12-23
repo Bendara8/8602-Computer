@@ -7,13 +7,17 @@
 #include "token.h"
 #include "error.h"
 
+static unsigned long elapsed_time = 0;
+
 static void parseBusDef(struct TokenQue *tok_que, struct BusVec *bus_vec, struct NetVec *net_vec) {
 	assertNextTokenType(tok_que, TOK_BEG_BRACE);
 	while (peekTokenType(tok_que) != TOK_END_BRACE) {
 		assertNextTokenType(tok_que, TOK_SYMBOL);
 		char *name = currToken(tok_que)->str;
 		assertNextTokenType(tok_que, TOK_NUM);
-		addBus(bus_vec, net_vec, name, currToken(tok_que)->num);
+		unsigned width = currToken(tok_que)->num;
+		if (width == 0) raiseError(ERROR_INVALID_NUM, (int)width);
+		else addBus(bus_vec, net_vec, name, width);
 	}
 	nextToken(tok_que);
 }
@@ -268,6 +272,12 @@ void stepCircuit(struct Circuit *circ) {
 		last = stepNetUpdate(temp, last, &circ->empty_list.head);
 		temp = *last;
 	}
+
+	++elapsed_time;
+}
+
+unsigned long getElapsedTime(void) {
+	return elapsed_time;
 }
 
 void addNetUpdate(struct Circuit *circ, struct Net *target, int val, int delay) {
@@ -296,4 +306,22 @@ void addNetUpdate(struct Circuit *circ, struct Net *target, int val, int delay) 
 	circ->update_list.head->target = target;
 	circ->update_list.head->val = val;
 	circ->update_list.head->delay = delay;
+}
+
+size_t numNetsUpdated(struct Circuit *circ) {
+	size_t count = 0;
+	for (size_t i = 0; i < circ->net_vec.len; ++i) {
+		if (circ->net_vec.buf[i].changed) ++count;
+	}
+	return count;
+}
+
+size_t lenSchedule(struct Circuit *circ) {
+	struct NetUpdate *curr = circ->update_list.head;
+	size_t len = 0;
+	while (curr) {
+		curr = curr->next;
+		++len;
+	}
+	return len;
 }

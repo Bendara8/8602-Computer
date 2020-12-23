@@ -11,22 +11,6 @@ static void discardLine(FILE *file) {
 	do next = getc(file); while (next != '\n' && next != EOF);
 }
 
-static unsigned parseNum(char *lexeme) {
-	unsigned result = 0;
-	size_t i = 0;
-	while (lexeme[i] != '\0') {
-		if (!isdigit(lexeme[i])) {
-			raiseError(
-				ERROR_NOT_NUM,
-				lexeme
-			);
-			return 0;
-		}
-		result = result * 10 + (lexeme[i++] & 0x0F);
-	}
-	return result;
-}
-
 static void tokenizeLexeme(char *lexeme, struct Token *tok) {
 	if (isdigit(lexeme[0])) {
 		tok->type = TOK_NUM;
@@ -142,4 +126,37 @@ void lexFile(char *path, struct TokenVec *tok_vec) {
 		}
 	}
 	fclose(file);
+}
+
+unsigned parseNum(char *lexeme) {
+	unsigned result = 0;
+	size_t i = 0;
+	if (lexeme[0] == '\0') raiseError(ERROR_NO_NUM);
+	else do {
+		if (!isdigit(lexeme[i])) {
+			raiseError(ERROR_NOT_NUM, lexeme);
+			return 0;
+		}
+		result = result * 10 + (lexeme[i++] & 0x0F);
+	} while (lexeme[i] != '\0');
+	return result;
+}
+
+unsigned parseHex(char *lexeme) {
+	unsigned result = 0;
+	size_t i = 0;
+	if (lexeme[0] == '\0') raiseError(ERROR_NO_HEX);
+	else if (lexeme[i++] != '$') raiseError(ERROR_NOT_HEX, lexeme);
+	else do {
+		if (!isxdigit(lexeme[i])) {
+			raiseError(ERROR_NOT_HEX, lexeme);
+			return 0;
+		}
+		unsigned digit;
+		if (isdigit(lexeme[i])) digit = lexeme[i] & 0x0F;
+		else digit = toupper(lexeme[i]) - 'A' + 10;
+		result = result * 16 + digit;
+		++i;
+	} while (lexeme[i] != '\0');
+	return result;
 }

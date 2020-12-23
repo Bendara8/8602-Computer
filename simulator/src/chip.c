@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "chip.h"
 #include "circuit.h"
 #include "net.h"
@@ -35,6 +36,7 @@ void initChip(struct Chip *chip, enum ChipType type, char *name, struct Circuit 
 		);
 		addFreeTarget(chip->local);
 		for (size_t i = 0; i < CHIP_DATA[type].local; ++i) {
+			chip->local[i].name = NULL;
 			chip->local[i].val = 0;
 		}
 	}
@@ -42,7 +44,7 @@ void initChip(struct Chip *chip, enum ChipType type, char *name, struct Circuit 
 		chip->local = NULL;
 	}
 	if (CHIP_DATA[type].mem != 0) {
-		chip->mem = malloc(sizeof (unsigned char) * CHIP_DATA[type].mem);
+		chip->mem = malloc(sizeof (unsigned char) * (1 << CHIP_DATA[type].mem));
 		if (!chip->mem) raiseAbort(
 			ABORT_ALLOCATION
 		);
@@ -76,6 +78,13 @@ struct Chip *addChip(struct ChipVec *vec, char *type_str, char *name, struct Cir
 	}
 	initChip(&vec->buf[vec->len], strToChipType(type_str), name, circ);
 	return &vec->buf[vec->len++];
+}
+
+struct Chip *findChip(struct ChipVec *vec, char *name) {
+	for (size_t i = 0; i < vec->len; ++i) {
+		if (vec->buf[i].name && strcmp(vec->buf[i].name, name) == 0) return &vec->buf[i];
+	}
+	return NULL;
 }
 
 void stepChip(struct Chip *chip) {
@@ -193,8 +202,8 @@ void step74HC153(struct Chip *chip) {
 		}
 	}
 	else if (!chip->in[10]->val && !chip->in[11]->val) {
-		size_t offset = (chip->in[10]->val * 2) + (chip->in[11]->val * 4);
-		if (chip->in[10]->changed || chip->in[11]->changed) {
+		size_t offset = (chip->in[8]->val * 2) + (chip->in[9]->val * 4);
+		if (chip->in[8]->changed || chip->in[9]->changed) {
 			for (size_t i = 0; i < 2; ++i) {
 				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 18);
 			}

@@ -39,6 +39,11 @@ struct Chip *addChip(
 	struct Circuit *circ
 );
 
+struct Chip *findChip(
+	struct ChipVec *vec,
+	char *name
+);
+
 void stepChip(
 	struct Chip *chip
 );

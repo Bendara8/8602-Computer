@@ -114,3 +114,35 @@ struct Bus *findBus(struct BusVec *vec, char *name) {
 	}
 	return NULL;
 }
+
+struct Bus *findBusFromNetIdx(struct BusVec *vec, size_t net_idx) {
+	for (size_t i = 0; i < vec->len; ++i) {
+		if (net_idx - vec->buf[i].net_idx < vec->buf[i].width) return &vec->buf[i];
+	}
+	return NULL;
+}
+
+struct NetUpdate *findNetUpdateFromNet(struct NetUpdate *head, struct Net *net) {
+	struct NetUpdate *curr = head;
+	struct NetUpdate *min = NULL;
+	while (curr) {
+		if (curr->target == net && (!min || curr->delay < min->delay)) min = curr; 
+		curr = curr->next;
+	}
+	return min;
+}
+
+int busToInt(struct Bus *bus, struct NetVec *net_vec) {
+	int result = (int)busToUns(bus, net_vec);
+	if (result < (1 << (bus->width - 1))) return result;
+	else return result | (int)((unsigned)~0 << bus->width);
+}
+
+unsigned busToUns(struct Bus *bus, struct NetVec *net_vec) {
+	unsigned result = 0;
+	for (size_t i = bus->width - 1; i < bus->width; --i) {
+		result <<= 1;
+		result |= net_vec->buf[bus->net_idx + i].val;
+	}
+	return result;
+}

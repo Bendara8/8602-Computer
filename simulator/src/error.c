@@ -31,6 +31,7 @@ static const char *ERROR_MSG[] = {
 	"'%s' is an invalid option",
 	"Incorrect number of arguments for %s command",
 	"'%s' does not have any onboard memory",
+	"'%s' only has %zu bytes of onboard memory (max address is $%0*lX)",
 };
 
 static char *error_path = "";

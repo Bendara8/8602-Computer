@@ -30,6 +30,7 @@ enum ErrorType {
 	ERROR_INVALID_OPTION,
 	ERROR_NUM_COMMAND_ARGS,
 	ERROR_NO_MEM,
+	ERROR_MEM_BOUND,
 };
 
 void raiseAbort(

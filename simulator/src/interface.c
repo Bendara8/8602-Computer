@@ -363,8 +363,21 @@ static void runCommandHex(char **command, struct Circuit *circ) {
 		return;
 	}
 	size_t addr_width = CHIP_DATA[chip->type].mem;
-	if (addr_width) printHex(chip, addr_width, start, size);
-	else raiseError(ERROR_NO_MEM, chip->name);
+	if (!addr_width) {
+		raiseError(ERROR_NO_MEM, chip->name);
+		return;
+	}
+	if (start + size >= ((size_t)1 << addr_width)) {
+		raiseError(
+			ERROR_MEM_BOUND,
+			chip->name,
+			(1 << addr_width),
+			(int)((addr_width + 3) / 4),
+			(1 << addr_width) - 1
+		);
+		return;
+	}
+	printHex(chip, addr_width, start, size);
 }
 
 static void runCommandSet(char **command, struct Circuit *circ) {

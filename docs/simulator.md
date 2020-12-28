@@ -116,6 +116,7 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 
 | Chip                | Description
 | :--:                | -----------
+| [CLK40M](#CLK40M)   | Clock (40 MHz)
 | [74HC00](#74HC00)   | Quad 2-input NAND Gate
 | [74HC02](#74HC02)   | Quad 2-input NOR Gate
 | [74HC08](#74HC08)   | Quad 2-input AND Gate
@@ -165,8 +166,19 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 ### `touch`
 
 ## Chip Details
+<a name="CLK40M"></a>
+### CLK40M
+
 <a name="74HC00"></a>
 ### 74HC00
+Quad 2-input NAND Gate
+
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0, 1  | Gate A      | 0      | Gate A
+| 2, 3  | Gate B      | 1      | Gate B
+| 4, 5  | Gate C      | 2      | Gate C
+| 6, 7  | Gate D      | 3      | Gate D
 
 <a name="74HC02"></a>
 ### 74HC02

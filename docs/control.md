@@ -65,7 +65,7 @@ $00: lod A #imm
 	IO -- XZ -- XC II MO EZ -- -- EO AI FI --
 	IO -- XZ -- XC II MO -- -- -- EO CI -- --
 ```
-The microcode begins with the opcode for the `lod A #imm`, which is `$00`. Then the name of the instruction is listed after a comma, and the mircocode for the instruction is listed on the following lines, with each line representing a subsequent time step. A mircocode word is composed entirely of control output mnemonics, indicating which ones are active. The first mircocode word can be broken down as follows.
+The microcode begins with the opcode for the `lod A #imm`, which is `$00`. Then the name of the instruction is listed after a colon, and the mircocode for the instruction is listed on the following lines, with each line representing a subsequent time step. A mircocode word is composed entirely of control output mnemonics, indicating which ones are active. The first mircocode word can be broken down as follows.
 
 `IO -- XZ -- XC II MO AI EZ EO FI`
 - `IO` Output the instruction pointer to the address bus

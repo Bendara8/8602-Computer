@@ -38,8 +38,7 @@ Here is a list of the available commands with links to more information on the u
 | Command           | Description
 | :-----:           | -----------
 | [`nano`](#nano)   | Runs the simulation for a given number of nanoseconds
-| [`clock`](#clock) | Runs the simulation for a given number of system clock cycles <br> 1 system clock cycle equals 400 nanoseconds
-| [`step`](#step)   | Runs the simulation for a given number of instructions
+| [`clock`](#clock) | Runs the simulation until a net changes
 | [`run`](#run)     | Runs the simulation until the user interrupts the simulation with `Ctrl+C`
 | [`quit`](#quit)   | Quit the simulation
 
@@ -60,7 +59,6 @@ Here is a list of the available commands with links to more information on the u
 | Command           | Description
 | :-----:           | -----------
 | [`set`](#set)     | Set a bus or net to a value
-| [`touch`](#touch) | Touch a chip, bus, or net so that dependent chips will update
 
 <a name="circuit-definition"></a>
 ## Circuit Definition
@@ -116,7 +114,7 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 
 | Chip                | Description
 | :--:                | -----------
-| [CLK40M](#CLK40M)   | Clock (40 MHz)
+| [CLK40M](#CLK40M)   | 40 MHz Clock
 | [74HC00](#74HC00)   | Quad 2-input NAND Gate
 | [74HC02](#74HC02)   | Quad 2-input NOR Gate
 | [74HC08](#74HC08)   | Quad 2-input AND Gate
@@ -127,6 +125,7 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | [74HC153](#74HC153) | 2-bit 4-input Multiplexer
 | [74HC283](#74HC283) | 4-bit Adder
 | [74HC377](#74HC377) | 8-bit Register
+| [74HC541](#74HC541) | 8-bit Bus Driver
 
 ## Command Details
 <a name="nano"></a>
@@ -134,9 +133,6 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 
 <a name="clock"></a>
 ### `clock`
-
-<a name="step"></a>
-### `step`
 
 <a name="run"></a>
 ### `run`
@@ -162,45 +158,104 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 <a name="set"></a>
 ### `set`
 
-<a name="touch"></a>
-### `touch`
-
 ## Chip Details
 <a name="CLK40M"></a>
-### CLK40M
+### CLK40M 40 MHz Clock
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0     | Enable      | 0      | Clock
 
 <a name="74HC00"></a>
 ### 74HC00 Quad 2-input NAND Gate
 | Input | Description | Output | Description
 | :---: | ----------- | :----: | -----------
-| 0, 1  | Gate A      | 0      | Gate A
-| 2, 3  | Gate B      | 1      | Gate B
-| 4, 5  | Gate C      | 2      | Gate C
-| 6, 7  | Gate D      | 3      | Gate D
+| 0 - 1 | Gate A      | 0      | Gate A
+| 2 - 3 | Gate B      | 1      | Gate B
+| 4 - 5 | Gate C      | 2      | Gate C
+| 6 - 7 | Gate D      | 3      | Gate D
 
 <a name="74HC02"></a>
-### 74HC02
+### 74HC02 Quad 2-input NOR Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 1 | Gate A      | 0      | Gate A
+| 2 - 3 | Gate B      | 1      | Gate B
+| 4 - 5 | Gate C      | 2      | Gate C
+| 6 - 7 | Gate D      | 3      | Gate D
 
 <a name="74HC08"></a>
-### 74HC08
+### 74HC08 Quad 2-input AND Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 1 | Gate A      | 0      | Gate A
+| 2 - 3 | Gate B      | 1      | Gate B
+| 4 - 5 | Gate C      | 2      | Gate C
+| 6 - 7 | Gate D      | 3      | Gate D
 
 <a name="74HC32"></a>
-### 74HC32
+### 74HC32 Quad 2-input OR Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 1 | Gate A      | 0      | Gate A
+| 2 - 3 | Gate B      | 1      | Gate B
+| 4 - 5 | Gate C      | 2      | Gate C
+| 6 - 7 | Gate D      | 3      | Gate D
 
 <a name="74HC86"></a>
-### 74HC86
+### 74HC86 Quad 2-input XOR Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 1 | Gate A      | 0      | Gate A
+| 2 - 3 | Gate B      | 1      | Gate B
+| 4 - 5 | Gate C      | 2      | Gate C
+| 6 - 7 | Gate D      | 3      | Gate D
 
 <a name="74HC21"></a>
-### 74HC21
+### 74HC21 Dual 4-input AND Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 3 | Gate A      | 0      | Gate A
+| 4 - 7 | Gate B      | 1      | Gate B
 
 <a name="74HC157"></a>
-### 74HC157
+### 74HC157 4-bit 2-input Multiplexer
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 3 | Data 0      | 0 - 3  | Selected Data
+| 4 - 7 | Data 1      |        |
+| 8     | Select      |        |
+| 9     | ~Enable     |        |
 
 <a name="74HC153"></a>
-### 74HC153
+### 74HC153 2-bit 4-input Multiplexer
+| Input   | Description | Output | Description
+| :---:   | ----------- | :----: | -----------
+| 0 - 1   | Data 0      | 0 - 1  | Selected Data
+| 2 - 3   | Data 1      |        |
+| 4 - 5   | Data 2      |        |
+| 6 - 7   | Data 3      |        |
+| 8 - 9   | Select      |        |
+| 10 - 11 | ~Enables    |        |
 
 <a name="74HC283"></a>
-### 74HC283
+### 74HC283 4-bit Adder
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 3 | Data A      | 0 - 3  | Sum of A and B
+| 4 - 7 | Data B      | 4      | Carry out
+| 8     | Carry in    |        |
 
 <a name="74HC377"></a>
-### 74HC377
+### 74HC377 8-bit Register
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 7 | Data        | 0 - 7  | Latched Data
+| 8     | ~Enable     |        |
+| 9     | Clock       |        |
+
+<a name="74HC541"></a>
+### 74HC541 8-bit Bus Driver
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 7 | Data        | 0 - 7  | Bus Connection
+| 8 - 9 | ~Enables    |        |

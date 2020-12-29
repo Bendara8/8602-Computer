@@ -188,6 +188,7 @@ static void parseChipDef(
 	assertNextTokenType(tok_que, TOK_BEG_BRACE);
 	while (peekTokenType(tok_que) != TOK_END_BRACE) {
 		assertNextTokenType(tok_que, TOK_SYMBOL);
+		setErrorLine(currToken(tok_que)->line);
 		char *type_str = currToken(tok_que)->str;
 		char *name = (peekTokenType(tok_que) == TOK_SYMBOL) ? nextToken(tok_que)->str : NULL;
 		struct Chip *chip = addChip(chip_vec, type_str, name, circ);

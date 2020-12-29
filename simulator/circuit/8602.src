@@ -1,0 +1,148 @@
+# 8602 Discrete Logic Computer Circuit Definition
+
+# System
+bus {
+	DAT 8  # Data Bus
+	ADR 16 # Address Bus
+	IAD 16 # Indexed Address Bus
+}
+net {
+	GND     # Ground logical zero
+	VCC = 1 # Supply voltage logical one
+}
+
+# Video Output
+bus {
+	X 11 # X position on screen
+	~X 6 # Logical NOT of X:3-8
+	Y 10 # Y position on screen
+	~Y 6 # Logical NOT of Y:0-5
+}
+net {
+	PXL_CLK # Pixel clock (40 MHz)
+	X_RPL_0 # X counter ripple 0
+	X_RPL_1 # X counter ripple 1
+	Y_RPL_0 # Y counter ripple 0
+	Y_RPL_1 # Y counter ripple 1
+	~X_100   # Set when X:3-10 = 100
+	~X_105   # Set when X:3-10 = 105
+	~X_121   # Set when X:3-10 = 121
+	~X_132   # Set when X:3-10 = 132
+	~Y_601   # Set when Y:0-9 = 601
+	~Y_605   # Set when Y:0-9 = 605
+	~Y_628   # Set when Y:0-9 = 628
+	HBLNK   # Horizontal Blank
+	~HBLNK
+	HSYNC   # Horizontal Sync
+	~HSYNC
+	~VBLNK  # Vertical Blank
+	VSYNC   # Vertical Sync
+	~VSYNC  # Vertical Sync
+}
+
+# Arithmetic and Logic Unit
+bus {
+	ACC 8       # Accumulator
+	FLG 4       # Flags
+	ACC_ZRO 8   # Accumulator after zeroing
+	DAT_NOT 8   # Data Bus after logical NOT
+	IOR 8       # Logical inclusive OR of ACC_ZRO and DAT_NOT
+	AND 8       # Logical AND of ACC_ZRO and DAT_NOT
+	SUM 8       # Sum of ACC_ZRO and DAT_NOT
+	RES 8       # Result of ALU
+	ES 2        # ALU Operation Select
+	INT_RES_Z 4 # Internal to zero test on RES
+}
+net {
+	~EZ    # Zero Accumulator input to ALU
+	EN     # Logical NOT Data Bus input to ALU
+	EC     # Carry/Shift input to ALU
+	RES_C  # Carry/Shift output from ALU
+	RES_Z  # Zero test output from ALU
+	INT_C  # Internal carry
+	~ACC_E # Enable Accumulator register
+	~FLG_E # Enable Flag register
+}
+
+# System
+chip {
+	
+}
+
+# Video Output
+chip {
+	CLK40M PXL_CLK {
+		in:0 = VCC
+		out:0 = PXL_CLK
+	}
+	_74HC161 X_CTR_0 {
+		in:0-3 = GND
+		in:4 = VCC
+		in:5 = VCC
+		in:6 = VCC
+		in:7 = PXL_CLK
+		out:0-3 = X:0-3
+		out:4 = X_RPL_0
+	}
+	_74HC161 X_CTR_1 {
+		in:0-3 = GND
+		in:4 = VCC
+		in:5 = VCC
+		in:6 = X_RPL_0
+		in:7 = PXL_CLK
+		out:0-3 = X:4-7
+		out:4 = X_RPL_1
+	}
+	_74HC161 X_CTR_2 {
+		in:0-3 = GND
+		in:4 = VCC
+		in:5 = VCC
+		in:6 = X_RPL_1
+		in:7 = PXL_CLK
+		out:0-2 = X:8-10
+		out:3 = null
+		out:4 = null
+	}
+	_74HC04 X_NOT {
+		in:0-5 = X:3-8
+		out:0-5 = ~X:0-5
+	}
+	_74HC30 X_TEST_100 {
+		in:2,5,6 = X:5,8,9
+		in:0,1,3,4 = ~X:0,1,3,4
+		in:7 = null
+		out:0 = ~X_100
+	}
+	_74HC30 X_TEST_105 {
+		in:0,3,5,6 = X:3,6,8,9
+		in:1,2,4 = ~X:1,2,4
+		in:7 = null
+		out:0 = ~X_105
+	}
+	_74HC30 X_TEST_121 {
+		in:0,3,4,5,6 = X:3,6,7,8,9
+		in:1,2 = ~X:1,2
+		in:7 = null
+		out:0 = ~X_121
+	}
+	_74HC30 X_TEST_132 {
+		in:2,7 = X:5,10
+		in:0,1,3,4,5 = ~X:0,1,3,4,5
+		in:6 = null
+		out:0 = ~X_132
+	}
+	_74HC00 X_LATCH {
+		in:0 = ~X_100
+		in:1 = ~HBLNK
+		out:0 = HBLNK
+		in:2 = HBLNK
+		in:3 = ~X_132
+		out:1 = ~HBLNK
+		in:4 = ~X_105
+		in:5 = HSYNC
+		out:2 = ~HSYNC
+		in:6 = ~HSYNC
+		in:7 = ~X_121
+		out:3 = HSYNC
+	}
+}

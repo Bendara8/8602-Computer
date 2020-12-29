@@ -116,11 +116,13 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | :--:                | -----------
 | [CLK40M](#CLK40M)   | 40 MHz Clock
 | [74HC00](#74HC00)   | Quad 2-input NAND Gate
+| [74HC30](#74HC30)   | 8-input NAND Gate
 | [74HC02](#74HC02)   | Quad 2-input NOR Gate
+| [74HC04](#74HC04)   | Hex NOT Gate
 | [74HC08](#74HC08)   | Quad 2-input AND Gate
+| [74HC21](#74HC21)   | Dual 4-input AND Gate
 | [74HC32](#74HC32)   | Quad 2-input OR Gate
 | [74HC86](#74HC86)   | Quad 2-input XOR Gate
-| [74HC21](#74HC21)   | Dual 4-input AND Gate
 | [74HC157](#74HC157) | 4-bit 2-input Multiplexer
 | [74HC153](#74HC153) | 2-bit 4-input Multiplexer
 | [74HC161](#74HC161) | 4-bit Synch Counter Asynch Reset
@@ -175,6 +177,12 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 4 - 5 | Gate C      | 2      | Gate C
 | 6 - 7 | Gate D      | 3      | Gate D
 
+<a name="74HC30"></a>
+### 74HC30 8-input NAND Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 7 | Gate        | 0      | Gate
+
 <a name="74HC02"></a>
 ### 74HC02 Quad 2-input NOR Gate
 | Input | Description | Output | Description
@@ -184,6 +192,17 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 4 - 5 | Gate C      | 2      | Gate C
 | 6 - 7 | Gate D      | 3      | Gate D
 
+<a name="74HC04"></a>
+### 74HC04 Hex NOT Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0     | Gate A      | 0      | Gate A
+| 1     | Gate B      | 1      | Gate B
+| 2     | Gate C      | 2      | Gate C
+| 3     | Gate D      | 3      | Gate D
+| 4     | Gate E      | 4      | Gate E
+| 5     | Gate F      | 5      | Gate F
+
 <a name="74HC08"></a>
 ### 74HC08 Quad 2-input AND Gate
 | Input | Description | Output | Description
@@ -192,6 +211,13 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 2 - 3 | Gate B      | 1      | Gate B
 | 4 - 5 | Gate C      | 2      | Gate C
 | 6 - 7 | Gate D      | 3      | Gate D
+
+<a name="74HC21"></a>
+### 74HC21 Dual 4-input AND Gate
+| Input | Description | Output | Description
+| :---: | ----------- | :----: | -----------
+| 0 - 3 | Gate A      | 0      | Gate A
+| 4 - 7 | Gate B      | 1      | Gate B
 
 <a name="74HC32"></a>
 ### 74HC32 Quad 2-input OR Gate
@@ -210,13 +236,6 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 2 - 3 | Gate B      | 1      | Gate B
 | 4 - 5 | Gate C      | 2      | Gate C
 | 6 - 7 | Gate D      | 3      | Gate D
-
-<a name="74HC21"></a>
-### 74HC21 Dual 4-input AND Gate
-| Input | Description | Output | Description
-| :---: | ----------- | :----: | -----------
-| 0 - 3 | Gate A      | 0      | Gate A
-| 4 - 7 | Gate B      | 1      | Gate B
 
 <a name="74HC157"></a>
 ### 74HC157 4-bit 2-input Multiplexer

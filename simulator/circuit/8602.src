@@ -19,25 +19,26 @@ bus {
 	~Y 6 # Logical NOT of Y:0-5
 }
 net {
-	PXL_CLK # Pixel clock (40 MHz)
-	X_RPL_0 # X counter ripple 0
-	X_RPL_1 # X counter ripple 1
-	Y_RPL_0 # Y counter ripple 0
-	Y_RPL_1 # Y counter ripple 1
-	~X_100   # Set when X:3-10 = 100
-	~X_105   # Set when X:3-10 = 105
-	~X_121   # Set when X:3-10 = 121
-	~X_132   # Set when X:3-10 = 132
-	~Y_601   # Set when Y:0-9 = 601
-	~Y_605   # Set when Y:0-9 = 605
-	~Y_628   # Set when Y:0-9 = 628
-	HBLNK   # Horizontal Blank
-	~HBLNK
-	HSYNC   # Horizontal Sync
-	~HSYNC
-	~VBLNK  # Vertical Blank
-	VSYNC   # Vertical Sync
-	~VSYNC  # Vertical Sync
+	PXL_CLK     # Pixel clock (40 MHz)
+	PXL_CLK_ENB # Pixel clock enable
+	X_RPL_0     # X counter ripple 0
+	X_RPL_1     # X counter ripple 1
+	Y_RPL_0     # Y counter ripple 0
+	Y_RPL_1     # Y counter ripple 1
+	~X_100 = 1  # Set when X:3-10 = 100
+	~X_105 = 1  # Set when X:3-10 = 105
+	~X_121 = 1  # Set when X:3-10 = 121
+	~X_132 = 1  # Set when X:3-10 = 132
+	~Y_601 = 1  # Set when Y:0-9 = 601
+	~Y_605 = 1  # Set when Y:0-9 = 605
+	~Y_628 = 1  # Set when Y:0-9 = 628
+	HBLNK       # Horizontal Blank
+	~HBLNK = 1
+	HSYNC       # Horizontal Sync
+	~HSYNC = 1
+	~VBLNK      # Vertical Blank
+	VSYNC       # Vertical Sync
+	~VSYNC = 1
 }
 
 # Arithmetic and Logic Unit
@@ -72,33 +73,36 @@ chip {
 # Video Output
 chip {
 	CLK40M PXL_CLK {
-		in:0 = VCC
+		in:0 = PXL_CLK_ENB
 		out:0 = PXL_CLK
 	}
-	_74HC161 X_CTR_0 {
+	_74AC161 X_CTR_0 {
 		in:0-3 = GND
 		in:4 = VCC
 		in:5 = VCC
 		in:6 = VCC
-		in:7 = PXL_CLK
+		in:7 = ~X_132
+		in:8 = PXL_CLK
 		out:0-3 = X:0-3
 		out:4 = X_RPL_0
 	}
-	_74HC161 X_CTR_1 {
+	_74AC161 X_CTR_1 {
 		in:0-3 = GND
 		in:4 = VCC
 		in:5 = VCC
 		in:6 = X_RPL_0
-		in:7 = PXL_CLK
+		in:7 = ~X_132
+		in:8 = PXL_CLK
 		out:0-3 = X:4-7
 		out:4 = X_RPL_1
 	}
-	_74HC161 X_CTR_2 {
+	_74AC161 X_CTR_2 {
 		in:0-3 = GND
 		in:4 = VCC
 		in:5 = VCC
 		in:6 = X_RPL_1
-		in:7 = PXL_CLK
+		in:7 = ~X_132
+		in:8 = PXL_CLK
 		out:0-2 = X:8-10
 		out:3 = null
 		out:4 = null
@@ -110,25 +114,25 @@ chip {
 	_74HC30 X_TEST_100 {
 		in:2,5,6 = X:5,8,9
 		in:0,1,3,4 = ~X:0,1,3,4
-		in:7 = null
+		in:7 = VCC
 		out:0 = ~X_100
 	}
 	_74HC30 X_TEST_105 {
 		in:0,3,5,6 = X:3,6,8,9
 		in:1,2,4 = ~X:1,2,4
-		in:7 = null
+		in:7 = VCC
 		out:0 = ~X_105
 	}
 	_74HC30 X_TEST_121 {
 		in:0,3,4,5,6 = X:3,6,7,8,9
 		in:1,2 = ~X:1,2
-		in:7 = null
+		in:7 = VCC
 		out:0 = ~X_121
 	}
 	_74HC30 X_TEST_132 {
 		in:2,7 = X:5,10
 		in:0,1,3,4,5 = ~X:0,1,3,4,5
-		in:6 = null
+		in:6 = VCC
 		out:0 = ~X_132
 	}
 	_74HC00 X_LATCH {

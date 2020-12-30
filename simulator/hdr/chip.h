@@ -48,7 +48,15 @@ void stepChip(
 	struct Chip *chip
 );
 
+void stepCLK40M(
+	struct Chip *chip
+);
+
 void step74HC00(
+	struct Chip *chip
+);
+
+void step74HC30(
 	struct Chip *chip
 );
 
@@ -56,7 +64,15 @@ void step74HC02(
 	struct Chip *chip
 );
 
+void step74HC04(
+	struct Chip *chip
+);
+
 void step74HC08(
+	struct Chip *chip
+);
+
+void step74HC21(
 	struct Chip *chip
 );
 
@@ -68,15 +84,15 @@ void step74HC86(
 	struct Chip *chip
 );
 
-void step74HC21(
-	struct Chip *chip
-);
-
 void step74HC157(
 	struct Chip *chip
 );
 
 void step74HC153(
+	struct Chip *chip
+);
+
+void step74AC161(
 	struct Chip *chip
 );
 

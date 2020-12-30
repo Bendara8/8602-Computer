@@ -125,7 +125,7 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | [74HC86](#74HC86)   | Quad 2-input XOR Gate
 | [74HC157](#74HC157) | 4-bit 2-input Multiplexer
 | [74HC153](#74HC153) | 2-bit 4-input Multiplexer
-| [74HC161](#74HC161) | 4-bit Synch Counter Asynch Reset
+| [74AC161](#74AC161) | 4-bit Synch Counter Asynch Reset
 | [74HC283](#74HC283) | 4-bit Adder
 | [74HC377](#74HC377) | 8-bit Register
 | [74HC541](#74HC541) | 8-bit Bus Driver
@@ -257,15 +257,16 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 8 - 9   | Select      |        |
 | 10 - 11 | ~Enables    |        |
 
-<a name="74HC161"></a>
-### 74HC161 4-bit Synch Counter Asynch Reset
+<a name="74AC161"></a>
+### 74AC161 4-bit Synch Counter Asynch Reset
 | Input | Description | Output | Description
 | :---: | ----------- | :----: | -----------
 | 0 - 3 | Data        | 0 - 3  | Latched Data
 | 4     | ~Load       | 4      | Ripple
 | 5     | Count       |        |
 | 6     | Ripple      |        |
-| 7     | Clock       |        |
+| 7     | ~Clear      |        |
+| 8     | Clock       |        |
 
 <a name="74HC283"></a>
 ### 74HC283 4-bit Adder

@@ -98,8 +98,8 @@ void stepChip(struct Chip *chip) {
 		case CHIP_74HC21:  step74HC21(chip); break;
 		case CHIP_74HC32:  step74HC32(chip); break;
 		case CHIP_74HC86:  step74HC86(chip); break;
-		case CHIP_74HC157: step74HC157(chip); break;
-		case CHIP_74HC153: step74HC153(chip); break;
+		case CHIP_74HC157: step74AC157(chip); break;
+		case CHIP_74HC153: step74AC153(chip); break;
 		case CHIP_74AC161: step74AC161(chip); break;
 		case CHIP_74HC283: step74HC283(chip); break;
 		case CHIP_74HC377: step74HC377(chip); break;
@@ -204,46 +204,46 @@ void step74HC86(struct Chip *chip) {
 	}
 }
 
-void step74HC157(struct Chip *chip) {
+void step74AC157(struct Chip *chip) {
 	if (chip->in[9]->changed && chip->in[9]->val) {
 		for (size_t i = 0; i < 4; ++i) {
-			addNetUpdate(chip->circ, chip->out[i], 0, 14);
+			addNetUpdate(chip->circ, chip->out[i], 0, 6);
 		}
 	}
 	else if (!chip->in[9]->val) {
 		size_t offset = chip->in[8]->val * 4;
 		if (chip->in[8]->changed) {
 			for (size_t i = 0; i < 4; ++i) {
-				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 15);
+				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 6);
 			}
 		}
 		else for (size_t i = 0; i < 4; ++i) {
 			if (chip->in[i + offset]->changed) {
-				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 13);
+				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 4);
 			}
 		}
 	}
 }
 
-void step74HC153(struct Chip *chip) {
+void step74AC153(struct Chip *chip) {
 	if (
 		(chip->in[10]->changed && chip->in[10]->val) ||
 		(chip->in[11]->changed && chip->in[11]->val)
 	) {
 		for (size_t i = 0; i < 2; ++i) {
-			addNetUpdate(chip->circ, chip->out[i], 0, 12);
+			addNetUpdate(chip->circ, chip->out[i], 0, 6);
 		}
 	}
 	else if (!chip->in[10]->val && !chip->in[11]->val) {
 		size_t offset = (chip->in[8]->val * 2) + (chip->in[9]->val * 4);
 		if (chip->in[8]->changed || chip->in[9]->changed) {
 			for (size_t i = 0; i < 2; ++i) {
-				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 18);
+				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 7);
 			}
 		}
 		else for (size_t i = 0; i < 2; ++i) {
 			if (chip->in[i + offset]->changed) {
-				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 17);
+				addNetUpdate(chip->circ, chip->out[i], chip->in[i + offset]->val, 6);
 			}
 		}
 	}
@@ -253,7 +253,7 @@ static void step74AC161Count(struct Chip *chip) {
 	int ripple = 1;
 	for (size_t i = 0; i < 4; ++i) {
 		if (!ripple) break;
-		addNetUpdate(chip->circ, chip->out[i], !chip->out[i]->val, 15);
+		addNetUpdate(chip->circ, chip->out[i], !chip->out[i]->val, 5);
 		ripple = chip->out[i]->val;
 	}
 	if (
@@ -261,32 +261,37 @@ static void step74AC161Count(struct Chip *chip) {
 		chip->out[2]->val &&
 		chip->out[3]->val
 	) {
-		addNetUpdate(chip->circ, chip->out[4], !chip->out[0]->val, 15);
+		addNetUpdate(chip->circ, chip->out[4], !chip->out[0]->val, 7);
 	}
 }
 
 void step74AC161(struct Chip *chip) {
 	for (size_t i = 0; i < 5; ++i) {
 		if (chip->in[i]->changed) {
-			addNetUpdate(chip->circ, &chip->local[i], chip->in[i]->val, 5);
+			addNetUpdate(chip->circ, &chip->local[i], chip->in[i]->val, 4);
+		}
+	}
+	for (size_t i = 5; i < 7; ++i) {
+		if (chip->in[i]->changed) {
+			addNetUpdate(chip->circ, &chip->local[i], chip->in[i]->val, 2);
 		}
 	}
 	if (!chip->in[7]->val) {
 		if (chip->in[7]->changed) {
 			for (size_t i = 0; i < 4; ++i) {
-				addNetUpdate(chip->circ, chip->out[i], 0, 15);
+				addNetUpdate(chip->circ, chip->out[i], 0, 6);
 			}
-			addNetUpdate(chip->circ, chip->out[4], 0, 15);
+			addNetUpdate(chip->circ, chip->out[4], 0, 9);
 		}
 	}
 	else {
 		if (chip->in[8]->changed && chip->in[8]->val) {
-			if (!chip->in[4]->val) {
+			if (!chip->local[4].val) {
 				for (size_t i = 0; i < 4; ++i) {
-					addNetUpdate(chip->circ, chip->out[i], chip->local[i].val, 15);
+					addNetUpdate(chip->circ, chip->out[i], chip->local[i].val, 5);
 				}
 			}
-			else if (chip->in[5]->val && chip->in[6]->val) {
+			else if (chip->local[5].val && chip->local[6].val) {
 				step74AC161Count(chip);
 			}
 		}
@@ -298,9 +303,9 @@ void step74AC161(struct Chip *chip) {
 				chip->out[2]->val &&
 				chip->out[3]->val
 			) {
-				addNetUpdate(chip->circ, chip->out[4], 1, 9);
+				addNetUpdate(chip->circ, chip->out[4], 1, 5);
 			}
-			else addNetUpdate(chip->circ, chip->out[4], 0, 9);
+			else addNetUpdate(chip->circ, chip->out[4], 0, 5);
 		}
 	}
 }

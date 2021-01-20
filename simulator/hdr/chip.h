@@ -84,11 +84,11 @@ void step74HC86(
 	struct Chip *chip
 );
 
-void step74HC157(
+void step74AC157(
 	struct Chip *chip
 );
 
-void step74HC153(
+void step74AC153(
 	struct Chip *chip
 );
 

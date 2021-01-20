@@ -123,8 +123,8 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | [74HC21](#74HC21)   | Dual 4-input AND Gate
 | [74HC32](#74HC32)   | Quad 2-input OR Gate
 | [74HC86](#74HC86)   | Quad 2-input XOR Gate
-| [74HC157](#74HC157) | 4-bit 2-input Multiplexer
-| [74HC153](#74HC153) | 2-bit 4-input Multiplexer
+| [74AC157](#74HC157) | 4-bit 2-input Multiplexer
+| [74AC153](#74HC153) | 2-bit 4-input Multiplexer
 | [74AC161](#74AC161) | 4-bit Synch Counter Asynch Reset
 | [74HC283](#74HC283) | 4-bit Adder
 | [74HC377](#74HC377) | 8-bit Register
@@ -237,8 +237,8 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 4 - 5 | Gate C      | 2      | Gate C
 | 6 - 7 | Gate D      | 3      | Gate D
 
-<a name="74HC157"></a>
-### 74HC157 4-bit 2-input Multiplexer
+<a name="74AC157"></a>
+### 74AC157 4-bit 2-input Multiplexer
 | Input | Description | Output | Description
 | :---: | ----------- | :----: | -----------
 | 0 - 3 | Data 0      | 0 - 3  | Selected Data
@@ -246,8 +246,8 @@ Notice that buses must be followed by a colon specifying which nets of that bus 
 | 8     | Select      |        |
 | 9     | ~Enable     |        |
 
-<a name="74HC153"></a>
-### 74HC153 2-bit 4-input Multiplexer
+<a name="74AC153"></a>
+### 74AC153 2-bit 4-input Multiplexer
 | Input   | Description | Output | Description
 | :---:   | ----------- | :----: | -----------
 | 0 - 1   | Data 0      | 0 - 1  | Selected Data

@@ -13,10 +13,14 @@ net {
 
 # Video Output
 bus {
-	X 11 # X position on screen
-	~X 6 # Logical NOT of X:3-8
-	Y 10 # Y position on screen
-	~Y 6 # Logical NOT of Y:0-5
+	X 11   # X position on screen
+	~X 6   # Logical NOT of X:3-8
+	Y 10   # Y position on screen
+	~Y 6   # Logical NOT of Y:0-5
+	VBUS 8 # Video Ram Data Bus
+	VDAT 8 # Video Data
+	PDAT 4 # Pixel Data
+	RGBI 4 # RGBI Output
 }
 net {
 	PXL_CLK     # Pixel clock (40 MHz)
@@ -25,20 +29,23 @@ net {
 	X_RPL_1     # X counter ripple 1
 	Y_RPL_0     # Y counter ripple 0
 	Y_RPL_1     # Y counter ripple 1
-	~X_100 = 1  # Set when X:3-10 = 100
-	~X_105 = 1  # Set when X:3-10 = 105
-	~X_121 = 1  # Set when X:3-10 = 121
-	~X_132 = 1  # Set when X:3-10 = 132
-	~Y_601 = 1  # Set when Y:0-9 = 601
-	~Y_605 = 1  # Set when Y:0-9 = 605
+	~X_100 = 1  # Set when X:3-10 = 100 (HBLNK = 1)
+	~X_105 = 1  # Set when X:3-10 = 105 (HSYNC = 0)
+	~X_121 = 1  # Set when X:3-10 = 121 (HSYNC = 1)
+	~X_132 = 1  # Set when X:3-10 = 132 (HBLNK = 0)
+	~Y_601 = 1  # Set when Y:0-9 = 601  (VSYNC = 0)
+	~Y_605 = 1  # Set when Y:0-9 = 605  (VSYNC = 1)
 	~Y_628 = 1  # Set when Y:0-9 = 628
-	HBLNK       # Horizontal Blank
+	HBLNK = 0   # Horizontal Blank
 	~HBLNK = 1
-	HSYNC       # Horizontal Sync
-	~HSYNC = 1
-	~VBLNK      # Vertical Blank
-	VSYNC       # Vertical Sync
-	~VSYNC = 1
+	HSYNC = 1   # Horizontal Sync
+	~HSYNC = 0
+	~VBLNK = 1  # Vertical Blank
+	VSYNC = 1   # Vertical Sync
+	~VSYNC = 0
+	BLNK = 0    # Combined Blank
+	VMODE       # Video Mode
+	SUB_PXL     # Sub Pixel for Text Mode
 }
 
 # Arithmetic and Logic Unit
@@ -148,5 +155,96 @@ chip {
 		in:6 = ~HSYNC
 		in:7 = ~X_121
 		out:3 = HSYNC
+	}
+	_74AC161 Y_CTR_0 {
+		in:0-3 = GND
+		in:4 = VCC
+		in:5 = VCC
+		in:6 = VCC
+		in:7 = ~Y_628
+		in:8 = ~HBLNK
+		out:0-3 = Y:0-3
+		out:4 = Y_RPL_0
+	}
+	_74AC161 Y_CTR_1 {
+		in:0-3 = GND
+		in:4 = VCC
+		in:5 = VCC
+		in:6 = Y_RPL_0
+		in:7 = ~Y_628
+		in:8 = ~HBLNK
+		out:0-3 = Y:4-7
+		out:4 = Y_RPL_1
+	}
+	_74AC161 Y_CTR_2 {
+		in:0-3 = GND
+		in:4 = VCC
+		in:5 = VCC
+		in:6 = Y_RPL_1
+		in:7 = ~Y_628
+		in:8 = ~HBLNK
+		out:0-1 = Y:8-9
+		out:2-3 = null
+		out:4 = null
+	}
+	_74HC04 Y_NOT {
+		in:0-5 = Y:0-5
+		out:0-5 = ~Y:0-5
+	}
+	_74HC30 Y_TEST_601 {
+		in:0,3,4,6,7 = Y:0,3,4,6,9
+		in:1,2,5 = ~Y:1,2,5
+		out:0 = ~Y_601
+	}
+	_74HC30 Y_TEST_605 {
+		in:0,2,3,4,6,7 = Y:0,2,3,4,6,9
+		in:1,5 = ~Y:1,5
+		out:0 = ~Y_605
+	}
+	_74HC30 Y_TEST_628 {
+		in:2,4,5,6,7 = Y:2,4,5,6,9
+		in:0,1,3 = ~Y:0,1,3
+		out:0 = ~Y_628
+	}
+	_74HC00 Y_LATCH {
+		in:0,1 = Y:9
+		out:0 = ~VBLNK
+		in:2 = ~HBLNK
+		in:3 = ~VBLNK
+		out:1 = BLNK
+		in:4 = ~Y_601
+		in:5 = VSYNC
+		out:2 = ~VSYNC
+		in:6 = ~VSYNC
+		in:7 = ~Y_605
+		out:3 = VSYNC
+	}
+	_74HC377 VDAT_REG {
+		in:0-7 = VBUS:0-7
+		in:8 = GND
+		in:9 = X:2
+		out:0-7 = VDAT:0-7
+	}
+	_74AC157 PDAT_SEL {
+		in:0-7 = VDAT:0-7
+		in:8 = X:2
+		in:9 = GND
+		out:0-3 = PDAT:0-3
+	}
+	_74AC153 SUB_PXL_SEL {
+		in:0,2,4,6 = PDAT:0-3
+		in:1,3,5,7 = GND
+		in:8 = X:1
+		in:9 = Y:1
+		in:10,11 = GND
+		out:0 = SUB_PXL
+		out:1 = null
+	}
+	_74AC157 VMODE_SEL {
+		in:0-3 = SUB_PXL
+		in:4-7 = PDAT:0-3
+		in:8 = VMODE
+		in:9 = BLNK
+		out:0-3 = RGBI:0-3
 	}
 }

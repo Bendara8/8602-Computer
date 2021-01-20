@@ -83,7 +83,7 @@ chip {
 		in:1,3,5,7 = DATN:4-7
 		out:0-3 = OR:4-7
 	}
-	_74HC153 {
+	_74AC153 {
 		in:0-1 = OR:0-1
 		in:2-3 = AND:0-1
 		in:4-5 = DATN:1-2
@@ -92,7 +92,7 @@ chip {
 		in:10-11 = GND
 		out:0-1 = OUT:0-1
 	}
-	_74HC153 {
+	_74AC153 {
 		in:0-1 = OR:2-3
 		in:2-3 = AND:2-3
 		in:4-5 = DATN:3-4
@@ -101,7 +101,7 @@ chip {
 		in:10-11 = GND
 		out:0-1 = OUT:2-3
 	}
-	_74HC153 {
+	_74AC153 {
 		in:0-1 = OR:4-5
 		in:2-3 = AND:4-5
 		in:4-5 = DATN:5-6
@@ -110,7 +110,7 @@ chip {
 		in:10-11 = GND
 		out:0-1 = OUT:4-5
 	}
-	_74HC153 {
+	_74AC153 {
 		in:0-1 = OR:6-7
 		in:2-3 = AND:6-7
 		in:4 = DATN:7
@@ -120,7 +120,7 @@ chip {
 		in:10-11 = GND
 		out:0-1 = OUT:6-7
 	}
-	_74HC153 {
+	_74AC153 {
 		in:0 = CF
 		in:2 = CF
 		in:4 = DATN:0

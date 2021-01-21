@@ -38,7 +38,6 @@ Here is a list of the available commands with links to more information on the u
 | Command           | Description
 | :-----:           | -----------
 | [`nano`](#nano)   | Runs the simulation for a given number of nanoseconds
-| [`clock`](#clock) | Runs the simulation until a net changes
 | [`run`](#run)     | Runs the simulation until the user interrupts the simulation with `Ctrl+C`
 | [`quit`](#quit)   | Quit the simulation
 

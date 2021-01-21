@@ -7,20 +7,19 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 ## Specifications
 - 2.5 MHz clock rate
 - Two display modes through an 800x600 SVGA signal
-	- 400x256 pixel RGBI 2 color text mode
-	- 200x128 pixel RGBI 16 color graphics mode
-	- Both modes can be displayed at the same time by precisely switching between the two
+	- 400x256 pixel 8 color text mode
+	- 200x128 pixel 64 color graphics mode
+	- Both modes can be used at the same time
 - 8-bit data bus
 - 16-bit address bus
 - 32 kB VRAM
-	- Split into dual 16 kB buffers
 - 16 kB SRAM with 256 bytes of memory-mapped I/O
 	- Up to 8 I/O addresses
 	- Each I/O address can be used as either input or output
-- Up to 8 MB of non-volatile flash memory
-	- Split into 32 kB banks
+- Up to 4 MB of non-volatile flash memory
+	- Split into up to 16 chips with 16 16 kB banks each
+	- 256 kB on a single flash chip with no additional glue logic
 	- Larger amounts of memory require additional glue logic
-	- Up to 512 kB for a single flash chip with no additional glue logic
 - Microcoded CISC instruction set
 - Full interrupt support, with ability to distinguish between interrupt sources
 	- Clock interrupt occurs at regular intervals for timing purposes

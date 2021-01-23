@@ -2,6 +2,7 @@
  * generates ROM timing data for video output
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 
 const size_t FILE_SIZE = 524288;

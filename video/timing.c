@@ -42,12 +42,16 @@ int main() {
 
 	// pull XRST low and YCLK high at end of each line
 	for (size_t y = 0; y < Y_SIZE; ++y) {
-		out_buf[(y << X_WIDTH) | X_MAX] &= ~XRST;
-		out_buf[(y << X_WIDTH) | X_MAX] |= YCLK;
+		for (size_t x = X_MAX; x < X_SIZE; ++x) {
+			out_buf[(y << X_WIDTH) | x] &= ~XRST;
+			out_buf[(y << X_WIDTH) | x] |= YCLK;
+		}
 	}
 
 	// pull YRST low at end of frame
-	out_buf[(Y_MAX << X_WIDTH) | X_MAX] &= ~YRST;
+	for (size_t i = (Y_MAX << X_WIDTH) | X_MAX; i < FILE_SIZE; ++i) {
+		out_buf[i] &= ~YRST;
+	}
 
 	// pull HSYN low during horizontal sync pulse
 	for (size_t y = 0; y < Y_SIZE; ++y) {

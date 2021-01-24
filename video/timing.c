@@ -81,6 +81,28 @@ int main() {
 		return 1;
 	}
 
+	/* simulate timing (debug)
+	size_t x = 0, y = 0;
+	size_t time = 0;
+	while (1) {
+		time += 100;
+		char out = out_buf[(y << X_WIDTH) | x];
+		if ((out & XRST) == 0) {
+			x = 0;
+		}
+		else {
+			++x;
+		}
+		if ((out & YCLK) != 0) {
+			++y;
+		}
+		if ((out & YRST) == 0) {
+			break;
+		}
+	}
+	printf("Elapsed time: %zuns\n", time);
+	*/
+
 	// write output buffer to file
 	for (size_t i = 0; i < FILE_SIZE; ++i) {
 		char c = out_buf[i];

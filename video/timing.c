@@ -74,13 +74,6 @@ int main() {
 		}
 	}
 
-	// open output file
-	FILE *out_file = fopen("timing.bin", "wb");
-	if (!out_file) {
-		puts("Could not open 'timing.bin'.");
-		return 1;
-	}
-
 	/* simulate timing (debug)
 	size_t x = 0, y = 0;
 	size_t time = 0;
@@ -102,6 +95,13 @@ int main() {
 	}
 	printf("Elapsed time: %zuns\n", time);
 	*/
+
+	// open output file
+	FILE *out_file = fopen("timing.bin", "wb");
+	if (!out_file) {
+		puts("Could not open 'timing.bin'.");
+		return 1;
+	}
 
 	// write output buffer to file
 	for (size_t i = 0; i < FILE_SIZE; ++i) {

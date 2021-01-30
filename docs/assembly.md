@@ -19,6 +19,9 @@
 	- [Invocation](./simulator.md#invocation)
 	- [Commands](./simulator.md#commands)
 	- [Circuit Definition](./simulator.md#circuit-definition)
+- [Emulator](./emulator.md)
+	- [About](./emulator.md#about)
+	- [Invocation](./emulator.md#invocation)
 
 <a name="addressing-modes"></a>
 ## Addressing Modes

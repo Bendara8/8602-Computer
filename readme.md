@@ -46,6 +46,9 @@ The 8602 (_pronounced "eight-six-oh-two"_) is a minimalistic 8-bit computer buil
 	- [Invocation](./docs/simulator.md#invocation)
 	- [Commands](./docs/simulator.md#commands)
 	- [Circuit Definition](./docs/simulator.md#circuit-definition)
+- [Emulator](./emulator.md)
+	- [About](./emulator.md#about)
+	- [Invocation](./emulator.md#invocation)
 
 ## Status
 This project was started in September 2020. The overall design of the computer was finalized in December 2020. The schematics, simulator, and documentation are under progress. The assembler, emulator, operating system, and software are not started.

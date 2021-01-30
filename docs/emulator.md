@@ -29,7 +29,7 @@ The 8602 emulator provides an environment for testing software. It runs much fas
 
 <a name="invocation"></a>
 ## Invocation
-The emulator can be run with default options by simply invoking it through the terminal. The following options are available:
+The emulator can be run with default options by invoking it through the terminal with no arguments. To change default settings, the following options are available:
 
 | Syntax                           | Description
 | ------                           | -----------

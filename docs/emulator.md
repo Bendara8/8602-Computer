@@ -31,11 +31,8 @@ The 8602 emulator provides an environment for testing software. It runs much fas
 ## Invocation
 The emulator can be run with default options by simply invoking it through the terminal. The following options are available:
 
-`-f, --flash <path>`
-Override the default location of the file containing the flash memory data. Default location is `res/flash.bin`.
-
-`-m, --microcode <path>`
-Override the default location of the file containing the compiled microcode. Default location is `res/microcode.bin`.
-
-`-r, --run`
-Run the emulator immediately after invocation.
+| Syntax                   | Description
+| ------                   | -----------
+| `-f, --flash <path>`     | Override the default location of the file containing the flash memory data. Default location is `res/flash.bin`.
+| `-m, --microcode <path>` | Override the default location of the file containing the compiled microcode. Default location is `res/microcode.bin`.
+| `-r, --run`              | Run the emulator immediately after invocation.

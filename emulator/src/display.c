@@ -50,6 +50,7 @@ bool initDisplay(
 		puts("Could not create Allegro display");
 		return false;
 	}
+	al_set_window_title(disp, "8602 Emulator");
 	return true;
 }
 

@@ -33,6 +33,6 @@ The emulator can be run with default options by simply invoking it through the t
 
 | Syntax                   | Description
 | ------                   | -----------
-| `-f, --flash <path>`     | Override the default location of the file containing the flash memory data. Default location is `res/flash.bin`.
-| `-m, --microcode <path>` | Override the default location of the file containing the compiled microcode. Default location is `res/microcode.bin`.
+| `-f, --flash <path>`     | Override the default location of the file containing the flash memory data.<br>Default location is `res/flash.bin`.
+| `-m, --microcode <path>` | Override the default location of the file containing the compiled microcode.<br>Default location is `res/microcode.bin`.
 | `-r, --run`              | Run the emulator immediately after invocation.

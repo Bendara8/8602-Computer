@@ -7,8 +7,18 @@ enum Interrupt {
 	INTER_LEN,
 };
 
+bool
+getInterrupt(
+	enum Interrupt interrupt
+);
+
 void
 generateInterrupt(
+	enum Interrupt interrupt
+);
+
+void
+resetInterrupt(
 	enum Interrupt interrupt
 );
 

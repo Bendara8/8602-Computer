@@ -7,19 +7,20 @@ enum Interrupt {
 	INTER_LEN,
 };
 
-bool
-getInterrupt(
+bool getInterrupt(
 	enum Interrupt interrupt
 );
 
-void
-generateInterrupt(
+void generateInterrupt(
 	enum Interrupt interrupt
 );
 
-void
-resetInterrupt(
+void resetInterrupt(
 	enum Interrupt interrupt
+);
+
+void readInterrupts(
+	void
 );
 
 #endif

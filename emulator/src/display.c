@@ -1,5 +1,6 @@
 #include "display.h"
 #include "interrupt.h"
+#include "memory.h"
 #include <stdio.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_primitives.h>
@@ -8,7 +9,6 @@ static const uint16_t MAX_WIDTH = 512, MAX_HEIGHT = 256;
 
 static uint16_t width, height, scale; // display dimensions
 static uint64_t interrupt_time;       // time (ns) between interrupts
-static uint8_t *vram_buf;             // 32kB VRAM
 static ALLEGRO_DISPLAY *disp = NULL;
 
 static void drawSubPixel(uint16_t x, uint16_t y,	ALLEGRO_COLOR color);
@@ -17,15 +17,13 @@ static ALLEGRO_COLOR toTextColor(uint8_t pixel);
 
 bool initDisplay(
 	uint16_t w, uint16_t h, uint16_t s,
-	uint64_t i,
-	uint8_t *v
+	uint64_t i
 ) {
 	// init globals
 	width = w;
 	height = h;
 	scale = s;
 	interrupt_time = i;
-	vram_buf = v;
 
 	// check globals
 	if (width > MAX_WIDTH) {
@@ -75,7 +73,7 @@ void updateDisplay(void) {
 	static uint8_t back_pixel = 0;
 	for (uint16_t y = 0; y < height / 2; ++y) {
 		for (uint16_t x = 0; x < width / 2; ++x) {
-			uint8_t pixel = vram_buf[(y << 8) | x];
+			uint8_t pixel = readVRAM((y << 8) | x);
 			uint16_t base_x = x * 2 * scale;
 			uint16_t base_y = y * 2 * scale;
 			if (pixel & 0x80) {

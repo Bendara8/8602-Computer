@@ -1,24 +1,20 @@
 #ifndef HDR_ARGUMENTS
 #define HDR_ARGUMENTS
 
-bool
-readArguments(
+bool readArguments(
 	char **arg,
 	size_t arg_len
 );
 
-char *
-getFlashPath(
+char *getFlashPath(
 	void
 );
 
-char *
-getMicrocodePath(
+char *getMicrocodePath(
 	void
 );
 
-bool
-getRun(
+bool getRun(
 	void
 );
 

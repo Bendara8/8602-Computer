@@ -40,13 +40,6 @@ bool initMemory(char *flash_path, char *microcode_path) {
 	return true;
 }
 
-void deinitMemory(void) {
-	free(vram);
-	free(ram);
-	free(flash);
-	free(microcode);
-}
-
 bool loadMemory(uint8_t *buffer, size_t size, char *path) {
 	FILE *file = fopen(path, "rb");
 	if (!file) {
@@ -57,14 +50,41 @@ bool loadMemory(uint8_t *buffer, size_t size, char *path) {
 		int byte = getc(file);
 		if (byte == EOF) {
 			printf("File '%s' is too small, expected %zu bytes\n", path, size);
+			fclose(file);
 			return false;
 		}
 		buffer[i] = (uint8_t)byte;
+	}
+	if (getc(file) != EOF) {
+		printf("File '%s' is too large, expected %zu bytes\n", path, size);
+		fclose(file);
+		return false;
 	}
 	fclose(file);
 	return true;
 }
 
-uint8_t *getVRAM(void) {
-	return vram;
+void deinitMemory(void) {
+	free(vram);
+	free(ram);
+	free(flash);
+	free(microcode);
+}
+
+uint8_t readMemory(uint16_t address) {
+	return 0;
+}
+
+void writeMemory(uint8_t data, uint16_t address) {
+
+}
+
+uint8_t readVRAM(uint16_t address) {
+	if (address < VRAM_SIZE) return vram[address];
+	return 0;
+}
+
+uint8_t readMicrocode(uint32_t address) {
+	if (address < MICROCODE_SIZE) return microcode[address];
+	return 0;
 }

@@ -6,7 +6,7 @@ LINK_FLG :=
 
 # user files and libraries
 NAME := emulator
-SRC := arguments interface display keyboard interrupt cpu memory
+SRC := arguments interface display keyboard interrupt cpu alu control memory
 LIB := allegro allegro_primitives
 
 HDR  := $(addprefix hdr/,$(addsuffix .h,$(SRC)))

@@ -1,4 +1,5 @@
 #include "display.h"
+#include "interrupt.h"
 #include <stdio.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_primitives.h>
@@ -62,7 +63,7 @@ void deinitDisplay(void) {
 void stepDisplay(uint64_t step_time) {
 	static uint64_t elapsed = 0;
 	if (elapsed >= interrupt_time) {
-		// generate interrupt
+		generateInterrupt(INTER_0);
 		elapsed = 0;
 	}
 	else {

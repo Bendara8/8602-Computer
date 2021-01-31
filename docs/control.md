@@ -25,16 +25,16 @@
 
 <a name="control-inputs"></a>
 ## Control Inputs
-| Bits   | Description      |
-| :--:   | -----------      |
-| 0 - 3  | Step counter     |
-| 4      | Zero flag        |
-| 5      | Negative flag    |
-| 6      | Carry flag       |
-| 7      | Interrupt flag   |
-| 8 - 15 | Instruction code |
-| 16     | Interrupt signal |
-| 17     | Reset signal     |
+| Bits    | Description      |
+| :--:    | -----------      |
+| 0 - 3   | Step counter     |
+| 4       | Zero flag        |
+| 5       | Negative flag    |
+| 6       | Carry flag       |
+| 7       | Interrupt flag   |
+| 8 - 15  | Instruction code |
+| 16 - 17 | Interrupt signal |
+| 18      | Reset signal     |
 
 <a name="control-outputs"></a>
 ## Control Outputs

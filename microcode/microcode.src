@@ -1,5 +1,17 @@
 RST:
-	TO -- XZ -- -- -- HO -- -- -- EO TL -- --
+	TO KZ XZ -- -- -- HO -- -- -- EO TL -- --
+	TO KZ XZ -- -- -- HO -- -- -- EO TH -- -- ; T=$FFFF
+	TO KZ XZ XN -- PI HO EZ EN -- EO AI FI FD ; P=$FFFE A=$00 F=$0
+	PO KZ XZ XN -- PI AO -- -- -- EO XI -- -- ; P=$FFFD X=$00
+	PO KZ XZ XN -- PI AO -- -- -- EO KI -- -- ; P=$FFFC K=$00
+	PO KZ XZ XN -- PI MO -- -- -- EO TH -- -- ; P=$FFFB
+	PO KZ XZ XN -- -- MO -- -- -- EO TL -- -- ; T=[$FFFA]
+	TO KZ XZ -- -- II AO -- -- -- EO TL -- -- ; I=[$FFFA]
+	TO KZ XZ -- -- -- AO -- -- -- EO TH -- -- ; T=$0000
+	TO KZ XZ -- -- PI AO -- -- -- EO -- -- -- ; P=$0000
+	TO KZ XZ -- -- BI AO -- -- -- EO -- -- -- ; B=$0000
+	TO KZ XZ -- -- SI AO -- -- -- EO -- -- -- ; S=$0000
+	IO KZ XZ -- -- -- MO -- -- -- EO CI -- -- ; C=[[$FFFA]]
 
 INT:
 

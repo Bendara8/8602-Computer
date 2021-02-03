@@ -12,7 +12,7 @@ void deinitDisplay(
 	void
 );
 
-void stepDisplay(
+void clockDisplay(
 	uint64_t step_time
 );
 

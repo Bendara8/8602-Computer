@@ -5,7 +5,7 @@ void resetCPU(
 	void
 );
 
-void stepCPU(
+void clockCPU(
 	void
 );
 

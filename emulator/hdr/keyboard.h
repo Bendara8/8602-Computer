@@ -9,7 +9,7 @@ void deinitKeyboard(
 	void
 );
 
-void stepKeyboard(
+void clockKeyboard(
 	uint64_t step_time
 );
 

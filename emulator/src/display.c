@@ -58,7 +58,7 @@ void deinitDisplay(void) {
 	al_destroy_display(disp);
 }
 
-void stepDisplay(uint64_t step_time) {
+void clockDisplay(uint64_t step_time) {
 	static uint64_t elapsed = 0;
 	if (elapsed >= interrupt_time) {
 		generateInterrupt(INTER_0);

@@ -27,7 +27,7 @@ void resetCPU(void) {
 	reset = 1;
 }
 
-void stepCPU(void) {
+void clockCPU(void) {
 	// get control word
 	enum Control control = readControl(
 		step, flags, opcode,

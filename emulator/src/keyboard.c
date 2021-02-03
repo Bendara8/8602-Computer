@@ -48,7 +48,7 @@ void deinitKeyboard(void) {
 	al_destroy_event_queue(queue);
 }
 
-void stepKeyboard(uint64_t step_time) {
+void clockKeyboard(uint64_t step_time) {
 	static uint64_t elapsed_time = 0;
 	static uint8_t data[4] = {0};
 	static size_t idx = 0;

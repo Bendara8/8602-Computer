@@ -90,7 +90,7 @@ void stepCPU(void) {
 		case CTRL_ND: break;
 	}
 
-	// opcode in side effects
+	// load opcode side effects
 	if ((control & CTRL_ND) == CTRL_CI) {
 		reset = 0;
 		readInterrupts();
@@ -98,5 +98,5 @@ void stepCPU(void) {
 
 	// increment step counter
 	++step;
-	if (step == 16 || (control & CTRL_ND) == CTRL_CI) step = 0;
+	if ((control & CTRL_ND) == CTRL_CI || step == 16 || reset == 1) step = 0;
 }

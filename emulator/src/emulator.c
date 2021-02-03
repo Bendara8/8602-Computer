@@ -1,7 +1,11 @@
 #include "arguments.h"
 #include "display.h"
+#include "keyboard.h"
+#include "cpu.h"
 #include "memory.h"
 #include <stdlib.h>
+
+static const uint64_t CLOCK_PERIOD = 400; // clock period (ns)
 
 int32_t main(int arg_len, char **arg) {
 	if (!readArguments(arg, (size_t)arg_len)) return 1;
@@ -11,7 +15,15 @@ int32_t main(int arg_len, char **arg) {
 
 	if (!initDisplay(512, 256, 1, 16666667)) return 1;
 	atexit(deinitDisplay);
+
+	if (!initKeyboard()) return 1;
+	atexit(deinitKeyboard);
 	
-	for (uint64_t i = 0; i < 1000000000; ++i) {}
+	resetCPU();
+	while (1) {
+		stepKeyboard(CLOCK_PERIOD);
+		stepCPU();
+		stepDisplay(CLOCK_PERIOD);
+	}
 	return 0;
 }

@@ -2,7 +2,7 @@
 #include "interrupt.h"
 #include "memory.h"
 #include <stdio.h>
-#include <allegro5/allegro5.h>
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 
 static const uint16_t MAX_WIDTH = 512, MAX_HEIGHT = 256;
@@ -36,7 +36,7 @@ bool initDisplay(
 	}
 
 	// init allegro display
-	if(!al_init()) {
+	if(!al_is_system_installed() && !al_init()) {
 		puts("Could not initialize Allegro");
 		return false;
 	}

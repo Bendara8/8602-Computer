@@ -15,8 +15,9 @@ void generateInterrupt(
 	enum Interrupt interrupt
 );
 
-void resetInterrupt(
-	enum Interrupt interrupt
+void setInterruptReset(
+	enum Interrupt interrupt,
+	bool value
 );
 
 void readInterrupts(

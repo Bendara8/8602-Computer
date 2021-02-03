@@ -19,7 +19,7 @@ static const struct {
 	{MICROCODE, "-m", "--microcode"},
 	{RUN,       "-r", "--run"},
 };
-static const size_t OPTION_TABLE_LEN = sizeof OPTION_TABLE / sizeof *OPTION_TABLE;
+static const size_t OPTION_TABLE_LEN = sizeof OPTION_TABLE / sizeof OPTION_TABLE[0];
 
 static const char *HELP_MSG =
 	"---8602 Emulator Invocation Options---\n"

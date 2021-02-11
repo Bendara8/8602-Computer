@@ -1,4 +1,5 @@
 #include "arguments.h"
+#include "interface.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -32,7 +33,6 @@ static const char *HELP_MSG =
 	"-r, --run              | Run the emulator immediately after invocation";
 
 static char *flash_path = "res/flash.bin", *microcode_path = "res/microcode.bin";
-static bool run = false;
 
 static enum Option searchOptionTable(char *string);
 static bool assertNextArgument(size_t i, char **arg, size_t arg_len);
@@ -46,7 +46,7 @@ bool readArguments(char **arg, size_t arg_len) {
 
 			case HELP:
 				puts(HELP_MSG);
-				break;
+				return false;
 
 			case FLASH:
 				if (!assertNextArgument(i, arg, arg_len)) return false;
@@ -59,7 +59,7 @@ bool readArguments(char **arg, size_t arg_len) {
 				break;
 
 			case RUN:
-				run = true;
+				setRunning(true);
 				break;
 		}
 	}
@@ -90,8 +90,4 @@ char *getFlashPath(void) {
 
 char *getMicrocodePath(void) {
 	return microcode_path;
-}
-
-bool getRun(void) {
-	return run;
 }

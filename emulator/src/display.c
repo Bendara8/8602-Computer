@@ -10,6 +10,7 @@ static const uint16_t MAX_WIDTH = 512, MAX_HEIGHT = 256;
 static uint16_t width, height, scale; // display dimensions
 static uint64_t interrupt_time;       // time (ns) between interrupts
 static ALLEGRO_DISPLAY *disp = NULL;
+static ALLEGRO_EVENT_QUEUE *queue = NULL;
 
 static void drawSubPixel(uint16_t x, uint16_t y,	ALLEGRO_COLOR color);
 static ALLEGRO_COLOR toPixelColor(uint8_t pixel);
@@ -50,22 +51,38 @@ bool initDisplay(
 		return false;
 	}
 	al_set_window_title(disp, "8602 Emulator");
+	queue = al_create_event_queue();
+	if (!queue) {
+		puts("Could not create Allegro event queue for display");
+		return false;
+	}
+	al_register_event_source(queue, al_get_display_event_source(disp));
 	return true;
 }
 
 void deinitDisplay(void) {
 	al_shutdown_primitives_addon();
 	al_destroy_display(disp);
+	al_destroy_event_queue(queue);
 }
 
 void clockDisplay(uint64_t step_time) {
 	static uint64_t elapsed = 0;
+	elapsed += step_time;
 	if (elapsed >= interrupt_time) {
 		generateInterrupt(INTER_0);
-		elapsed = 0;
+		elapsed -= interrupt_time;
 	}
-	else {
-		elapsed += step_time;
+	if (!al_is_event_queue_empty(queue)) {
+		ALLEGRO_EVENT event;
+		al_get_next_event(queue, &event);
+		switch (event.type) {
+			case ALLEGRO_EVENT_DISPLAY_CLOSE:
+				exit(0);
+				break;
+
+			default: break;
+		}
 	}
 }
 

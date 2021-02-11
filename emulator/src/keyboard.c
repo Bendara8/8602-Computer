@@ -19,7 +19,7 @@ static bool
 	host_clock = true, host_data = true,
 	dev_clock = true, dev_data = true;
 
-static ALLEGRO_EVENT_QUEUE *queue;
+static ALLEGRO_EVENT_QUEUE *queue = NULL;
 
 bool getKeyCodes(uint8_t *data);
 bool searchKeyTable(int allegro_code, uint8_t *code, bool *extended);
@@ -36,7 +36,7 @@ bool initKeyboard(void) {
 	}
 	queue = al_create_event_queue();
 	if (!queue) {
-		puts("Could not create Allegro event queue");
+		puts("Could not create Allegro event queue for keyboard");
 		return false;
 	}
 	al_register_event_source(queue, al_get_keyboard_event_source());

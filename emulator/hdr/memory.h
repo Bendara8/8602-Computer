@@ -40,4 +40,8 @@ uint8_t readMicrocode(
 	uint32_t address
 );
 
+void setBank(
+	uint8_t bank
+);
+
 #endif

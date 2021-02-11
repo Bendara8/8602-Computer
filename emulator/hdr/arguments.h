@@ -14,8 +14,4 @@ char *getMicrocodePath(
 	void
 );
 
-bool getRun(
-	void
-);
-
 #endif

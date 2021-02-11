@@ -20,8 +20,9 @@ static uint8_t *vram, *ram, *bank, *flash, *microcode;
 static uint8_t status_led;
 
 static bool loadMemory(uint8_t *buffer, size_t size, char *path);
-uint8_t readIO(enum IO select);
-void writeIO(uint8_t data, enum IO select);
+static uint8_t readIO(enum IO select);
+static void writeIO(uint8_t data, enum IO select);
+static void writeFlash(uint8_t data, uint16_t address);
 
 bool initMemory(char *flash_path, char *microcode_path) {
 	vram = malloc(VRAM_SIZE);
@@ -97,7 +98,7 @@ void writeMemory(uint8_t data, uint16_t address) {
 	if (address < VRAM_START + VRAM_SIZE) vram[address & 0x7FFF] = data;
 	if (address < RAM_START + RAM_SIZE)   ram[address & 0x3FFF] = data;
 	if (address < IO_START + IO_SIZE)     writeIO(data, (uint8_t)(address & 0x0007));
-	if (address < BANK_START + BANK_SIZE) bank[address & 0x3FFF] = data;
+	if (address < BANK_START + BANK_SIZE) writeFlash(data, address & 0x3FFF);
 }
 
 uint8_t readIO(enum IO select) {
@@ -129,6 +130,10 @@ void writeIO(uint8_t data, enum IO select) {
 	}
 }
 
+void writeFlash(uint8_t data, uint16_t address) {
+
+}
+
 uint8_t readVRAM(uint16_t address) {
 	if (address < VRAM_SIZE) return vram[address];
 	return 0;
@@ -137,4 +142,8 @@ uint8_t readVRAM(uint16_t address) {
 uint8_t readMicrocode(uint32_t address) {
 	if (address < MICROCODE_SIZE) return microcode[address];
 	return 0;
+}
+
+void setBank(uint8_t b) {
+	bank = flash + (BANK_SIZE * b);
 }

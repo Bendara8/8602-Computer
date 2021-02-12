@@ -1,4 +1,4 @@
-RST:
+"reset"
 	TO KZ XZ -- -- -- HO -- -- -- EO TL -- --
 	TO KZ XZ -- -- -- HO -- -- -- EO TH -- -- ; T=$FFFF
 	TO KZ XZ XN -- PI HO EZ EN -- EO AI FI FD ; P=$FFFE A=$00 F=$0
@@ -13,8 +13,17 @@ RST:
 	TO KZ XZ -- -- SI AO -- -- -- EO -- -- -- ; S=$0000
 	IO KZ XZ -- -- -- MO -- -- -- EO CI -- -- ; C=[[$FFFA]]
 
-INT:
+"interrupt"
 
-$00: lod A #imm
+$00 "lod A #imm"
 	IO -- XZ -- XC II MO EZ -- -- EO AI FI --
 	IO -- XZ -- XC II MO -- -- -- EO CI -- --
+
+$E0 "brz I+#imm"
+	(Z) {
+		IA -- XZ -- XC II MO -- -- -- EO XI -- --
+		IA -- -- -- XC II MO -- -- -- EO CI -- --
+	} {
+		IA -- XZ -- XC II MO -- -- -- EO -- -- --
+		IA -- XZ -- XC II MO -- -- -- EO CI -- --
+	}

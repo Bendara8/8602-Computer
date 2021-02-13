@@ -25,10 +25,12 @@ static uint32_t error_count;
 
 static void printError(struct Token *token, size_t token_len);
 static void unexpectedToken(struct Token *token, size_t token_len, char *name);
+static void unexpectedEndOfTokens(struct Token *token, size_t token_len);
 static char *typeToStr(enum TokenType type);
+static void discardSequence(struct Token *token, size_t token_len);
 
 static bool assertNextTokenType(struct Token *token, size_t token_len, enum TokenType type, char *name);
-static void advanceTokenIdx(struct Token *token, size_t token_len);
+static bool advanceTokenIdx(struct Token *token, size_t token_len);
 
 static void parseOpcode(struct Token *token, size_t token_len);
 static void parseAlternate(struct Token *token, size_t token_len);
@@ -92,15 +94,22 @@ uint8_t *parseTokens(struct Token *token, size_t token_len) {
 
 void printError(struct Token *token, size_t token_len) {
 	printf("%s:%u:%u: ", getTargetPath(), token[token_idx].line, token[token_idx].col);
-	while (token_idx < token_len && token[token_idx].type != TOK_OPCODE) ++token_idx;
 	++error_count;
 }
 
 void unexpectedToken(struct Token *token, size_t token_len, char *name) {
 	printError(token, token_len);
 	printf("Unexpected %s token", typeToStr(token[token_idx].type));
-	if (name != NULL) printf(" in %s\n", name);
+	if (name != NULL) printf(" in '%s'\n", name);
 	else printf("\n");
+	discardSequence(token, token_len);
+}
+
+void unexpectedEndOfTokens(struct Token *token, size_t token_len) {
+	printf("%s: Unexpected end of tokens\n", getTargetPath());
+	freeTokenArr(token, token_len);
+	free(output);
+	exit(1);
 }
 
 char *typeToStr(enum TokenType type) {
@@ -110,23 +119,22 @@ char *typeToStr(enum TokenType type) {
 	return "?";
 }
 
+void discardSequence(struct Token *token, size_t token_len) {
+	while (token_idx < token_len && token[token_idx].type != TOK_OPCODE) ++token_idx;
+}
+
 bool assertNextTokenType(struct Token *token, size_t token_len, enum TokenType type, char *name) {
-	advanceTokenIdx(token, token_len);
-	if (token[token_idx].type != TOK_NAME) {
+	if (!advanceTokenIdx(token, token_len)) unexpectedEndOfTokens(token, token_len);
+	if (token[token_idx].type != type) {
 		unexpectedToken(token, token_len, name);
 		return false;
 	}
 	return true;
 }
 
-void advanceTokenIdx(struct Token *token, size_t token_len) {
+bool advanceTokenIdx(struct Token *token, size_t token_len) {
 	++token_idx;
-	if (token_idx < token_len) return;
-	printError(token, token_len);
-	printf("Unexpected end of tokens\n");
-	freeTokenArr(token, token_len);
-	free(output);
-	exit(1);
+	return token_idx < token_len;
 }
 
 void parseOpcode(struct Token *token, size_t token_len) {
@@ -146,11 +154,13 @@ void parseAlternate(struct Token *token, size_t token_len) {
 enum Control buildControlWord(struct Token *token, size_t token_len, char *name) {
 	enum Control control = 0;
 	for (size_t i = 0; i < 14; ++i) {
+		if (!assertNextTokenType(token, token_len, TOK_SYMBOL, name)) return 0xFFFFFF;
 		size_t j = 0;
 		while (1) {
 			if (CONTROL_TABLE[i][j].symbol[0] == '\0') {
 				printError(token, token_len);
-				printf("'%c%c' is an invalid symbol\n", token[token_idx].symbol[0], token[token_idx].symbol[1]);
+				printf("'%c%c' is an invalid symbol (%zu %zu)\n", token[token_idx].symbol[0], token[token_idx].symbol[1], i, j);
+				discardSequence(token, token_len);
 				return 0xFFFFFF;
 			}
 			if (isSymbolMatch(token[token_idx].symbol, CONTROL_TABLE[i][j].symbol)) {
@@ -159,7 +169,6 @@ enum Control buildControlWord(struct Token *token, size_t token_len, char *name)
 			}
 			++j;
 		}
-		assertNextTokenType(token, token_len, TOK_SYMBOL, name);
 	}
 	return control;
 }
@@ -178,12 +187,16 @@ void putSequence(
 ) {
 	enum Control control = 0;
 	uint8_t step = 0;
-	if (!assertNextTokenType(token, token_len, TOK_SYMBOL, name)) return;
 	while (1) {
 		control = buildControlWord(token, token_len, name);
-		advanceTokenIdx(token, token_len);
+		if (control == 0xFFFFFF) return;
+		if (!advanceTokenIdx(token, token_len)) return;
 		bool put_control = false;
-		while (token[token_idx].type != TOK_SYMBOL) {
+		while (
+			token[token_idx].type != TOK_SYMBOL &&
+			token[token_idx].type != TOK_OPCODE &&
+			token[token_idx].type != TOK_NAME
+		) {
 			switch (token[token_idx].type) {
 				case TOK_STAR:  step = 0; break;
 				case TOK_TILDE: --step; break;
@@ -201,8 +214,11 @@ void putSequence(
 					unexpectedToken(token, token_len, name);
 					return;
 			}
+			if (!advanceTokenIdx(token, token_len)) return;
 		}
 		if (!put_control) putControl(control, reset, interrupt, opcode, step, FLG_ALL, 0);
+		if (token[token_idx].type == TOK_OPCODE || token[token_idx].type == TOK_NAME) return;
+		--token_idx;
 		++step;
 	}
 }

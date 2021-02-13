@@ -1,43 +1,41 @@
 "reset"
 	TO KZ XZ -- -- -- HO -- -- -- EO TL -- --
 	TO KZ XZ -- -- -- HO -- -- -- EO TH -- -- ; T=$FFFF
-	TO KZ XZ XN -- PI HO EZ EN -- EO AI FI FD ; P=$FFFE A=$00 F=$0
-	PO KZ XZ XN -- PI AO -- -- -- EO XI -- -- ; P=$FFFD X=$00
-	PO KZ XZ XN -- PI AO -- -- -- EO KI -- -- ; P=$FFFC K=$00
-	PO KZ XZ XN -- PI MO -- -- -- EO TH -- -- ; P=$FFFB
-	PO KZ XZ XN -- -- MO -- -- -- EO TL -- -- ; T=[$FFFA]
-	TO KZ XZ -- -- II AO -- -- -- EO TL -- -- ; I=[$FFFA]
-	TO KZ XZ -- -- -- AO -- -- -- EO TH -- -- ; T=$0000
-	TO KZ XZ -- -- PI AO -- -- -- EO -- -- -- ; P=$0000
-	TO KZ XZ -- -- BI AO -- -- -- EO -- -- -- ; B=$0000
-	TO KZ XZ -- -- SI AO -- -- -- EO -- -- -- ; S=$0000
-	IO KZ XZ -- -- -- MO -- -- -- EO CI -- -- ; C=[[$FFFA]]
-
-"interrupt"
+	;TO KZ XZ XN -- PI HO EZ EN -- EO AI FI FD ; P=$FFFE A=$00 F=$0
+	;PO KZ XZ XN -- PI AO -- -- -- EO XI -- -- ; P=$FFFD X=$00
+	;PO KZ XZ XN -- PI AO -- -- -- EO KI -- -- ; P=$FFFC K=$00
+	;PO KZ XZ XN -- PI MO -- -- -- EO TH -- -- ; P=$FFFB
+	;PO KZ XZ XN -- -- MO -- -- -- EO TL -- -- ; T=[$FFFA]
+	;TO KZ XZ -- -- II AO -- -- -- EO TL -- -- ; I=[$FFFA]
+	;TO KZ XZ -- -- -- AO -- -- -- EO TH -- -- ; T=$0000
+	;TO KZ XZ -- -- PI AO -- -- -- EO -- -- -- ; P=$0000
+	;TO KZ XZ -- -- BI AO -- -- -- EO -- -- -- ; B=$0000
+	;TO KZ XZ -- -- SI AO -- -- -- EO -- -- -- ; S=$0000
+	;IO KZ XZ -- -- -- MO -- -- -- EO CI -- -- ; C=[[$FFFA]]
 
 $00 "lod A #imm"
 	IO -- XZ -- XC II MO EZ -- -- EO AI FI --
 	IO -- XZ -- XC II MO -- -- -- EO CI -- --
 
 $E0 "brz I+#imm"
-	IA -- XZ -- XC II MO -- -- -- EO XI -- --
-	IA -- -- -- XC II MO -- -- -- EO CI -- -- *
-	IA -- XZ -- XC II MO -- -- -- EO -- -- -- !Z0
-	IA -- XZ -- XC II MO -- -- -- EO CI -- -- !Z0
+	IO -- XZ -- XC II MO -- -- -- EO XI -- --
+	IO -- -- -- XC II MO -- -- -- EO CI -- -- *
+	IO -- XZ -- XC II MO -- -- -- EO -- -- -- !Z0
+	IO -- XZ -- XC II MO -- -- -- EO CI -- -- !Z0
 
 $EC "brg I+#imm"
-	IA -- XZ -- XC II MO -- -- -- EO XI -- --
-	IA -- -- -- XC II MO -- -- -- EO CI -- -- *
-	IA -- XZ -- XC II MO -- -- -- EO -- -- -- !Z1 !N1
-	IA -- XZ -- XC II MO -- -- -- EO CI -- -- !Z1 !N1
+	IO -- XZ -- XC II MO -- -- -- EO XI -- --
+	IO -- -- -- XC II MO -- -- -- EO CI -- -- *
+	IO -- XZ -- XC II MO -- -- -- EO -- -- -- !Z1 !N1
+	IO -- XZ -- XC II MO -- -- -- EO CI -- -- !Z1 !N1
 
 $EE "bng I+#imm"
-	IA -- XZ -- XC II MO -- -- -- EO -- -- --
-	IA -- XZ -- XC II MO -- -- -- EO CI -- -- *
-	IA -- XZ -- XC II MO -- -- -- EO XI -- -- !Z1 !N1
-	IA -- -- -- XC II MO -- -- -- EO CI -- -- !Z1 !N1
+	IO -- XZ -- XC II MO -- -- -- EO -- -- --
+	IO -- XZ -- XC II MO -- -- -- EO CI -- -- *
+	IO -- XZ -- XC II MO -- -- -- EO XI -- -- !Z1 !N1
+	IO -- -- -- XC II MO -- -- -- EO CI -- -- !Z1 !N1
 
 $58 "adc #imm"
-	IA -- XZ -- XC II MO -- -- -- ES AI FI -- !C0 ~
-	IA -- XZ -- XC II MO -- -- EC ES AI FI -- !C1
-	IA -- XZ -- XC II MO -- -- -- EO CI -- --
+	IO -- XZ -- XC II MO -- -- -- ES AI FI -- !C0 ~
+	IO -- XZ -- XC II MO -- -- EC ES AI FI -- !C1
+	IO -- XZ -- XC II MO -- -- -- EO CI -- --

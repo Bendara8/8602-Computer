@@ -54,7 +54,11 @@ struct Token *buildTokens(size_t *token_len_ptr) {
 				break;
 
 			default:
-				if (isupper(ch)) addSymbol(file);
+				if (isupper(ch) || ch == '-') {
+					ungetc(ch, file);
+					--col;
+					addSymbol(file);
+				}
 				else if (!isspace(ch)) {
 					printError(file);
 					printf("Unexpected character '%c'\n", (char)ch);
@@ -159,7 +163,7 @@ void addName(FILE *file) {
 	}
 	name[name_len] = '\0';
 	addToken(TOK_NAME, file);
-	token[token_len - 1].name = malloc(name_len * sizeof token[token_len - 1].name[0]);
+	token[token_len - 1].name = malloc((name_len + 1) * sizeof token[token_len - 1].name[0]);
 	if (!token[token_len - 1].name) {
 		puts("Unable to allocate name");
 		freeTokenArr(token, token_len);

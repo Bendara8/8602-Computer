@@ -273,6 +273,7 @@ void putOpcode(
 }
 
 void writeOutput(enum Control control, uint32_t address) {
+	control ^= CTRL_FI | CTRL_TO | CTRL_NA | CTRL_KZ | CTRL_XZ | CTRL_EZ;
 	output[(0 << 19) | address] = (control & 0x000000FF) >> 0;
 	output[(1 << 19) | address] = (control & 0x0000FF00) >> 8;
 	output[(2 << 19) | address] = (control & 0x00FF0000) >> 16;

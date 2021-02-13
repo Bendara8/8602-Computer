@@ -21,7 +21,7 @@ void clockCPU(void) {
 
 	// output to address bus
 	uint16_t address_bus = 0;
-	if (cpu.control & CTRL_TO) address_bus = cpu.transfer_pointer;
+	if (!(cpu.control & CTRL_TO)) address_bus = cpu.transfer_pointer;
 	else switch (cpu.control & CTRL_IO) {
 		case CTRL_PO: address_bus = cpu.pointer; break;
 		case CTRL_BO: address_bus = cpu.base_pointer; break;
@@ -52,7 +52,7 @@ void clockCPU(void) {
 	}
 
 	// calculate alu
-	uint8_t alu_out = calcALU(cpu.accumulator, data_bus, &cpu.flags);
+	uint8_t alu_out = calcALU(cpu.accumulator, data_bus, &cpu.flags, cpu.control);
 
 	// load from address output
 	if (cpu.control & CTRL_NA) switch (cpu.control & CTRL_II) {
@@ -63,6 +63,7 @@ void clockCPU(void) {
 	}
 
 	// load from data bus and alu
+	if (!(cpu.control & CTRL_FI) && cpu.control & CTRL_FD) cpu.flags = data_bus;
 	switch (cpu.control & CTRL_ND) {
 		case CTRL_AI: cpu.accumulator = alu_out; break;
 		case CTRL_XI: cpu.index = data_bus; break;

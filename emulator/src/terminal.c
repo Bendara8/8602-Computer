@@ -102,6 +102,7 @@ void drawTerminal(void) {
 	line = drawWindow(WIN_FLASH, "flash", "F3", &drawFlash, line);
 	line = drawWindow(WIN_CONSOLE, "console", "F2", &drawConsole, line);
 	move(LINES - 1, getConsolePos() + 2);
+	curs_set(focus == WIN_CONSOLE ? 1 : 0);
 	refresh();
 }
 

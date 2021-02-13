@@ -1,5 +1,6 @@
 #ifndef HDR_ALU
 #define HDR_ALU
+#include "control.h"
 
 enum Flag {
 	FLAG_Z = 0x1,
@@ -11,7 +12,8 @@ enum Flag {
 uint8_t calcALU(
 	uint8_t in_a,
 	uint8_t in_b,
-	enum Flag *flags
+	enum Flag *flags,
+	enum Control control
 );
 
 #endif

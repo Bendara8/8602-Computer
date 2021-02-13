@@ -50,11 +50,11 @@ void clockSystem(void) {
 }
 
 void stepInstruction(void) {
-	while (getCPU()->step != 0) clockSystem();
+	do clockSystem(); while (getCPU()->step != 0);
 }
 
 void nextInstruction(void) {
-	// stepInstruction unless its a subroutine instruction then step and finish
+	// step unless its a subroutine instruction then step and finish
 }
 
 void finishSubroutine(void) {

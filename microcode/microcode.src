@@ -20,10 +20,24 @@ $00 "lod A #imm"
 	IO -- XZ -- XC II MO -- -- -- EO CI -- --
 
 $E0 "brz I+#imm"
-	(Z) {
-		IA -- XZ -- XC II MO -- -- -- EO XI -- --
-		IA -- -- -- XC II MO -- -- -- EO CI -- --
-	} {
-		IA -- XZ -- XC II MO -- -- -- EO -- -- --
-		IA -- XZ -- XC II MO -- -- -- EO CI -- --
-	}
+	IA -- XZ -- XC II MO -- -- -- EO XI -- --
+	IA -- -- -- XC II MO -- -- -- EO CI -- -- *
+	IA -- XZ -- XC II MO -- -- -- EO -- -- -- !Z0
+	IA -- XZ -- XC II MO -- -- -- EO CI -- -- !Z0
+
+$EC "brg I+#imm"
+	IA -- XZ -- XC II MO -- -- -- EO XI -- --
+	IA -- -- -- XC II MO -- -- -- EO CI -- -- *
+	IA -- XZ -- XC II MO -- -- -- EO -- -- -- !Z1 !N1
+	IA -- XZ -- XC II MO -- -- -- EO CI -- -- !Z1 !N1
+
+$EE "bng I+#imm"
+	IA -- XZ -- XC II MO -- -- -- EO -- -- --
+	IA -- XZ -- XC II MO -- -- -- EO CI -- -- *
+	IA -- XZ -- XC II MO -- -- -- EO XI -- -- !Z1 !N1
+	IA -- -- -- XC II MO -- -- -- EO CI -- -- !Z1 !N1
+
+$58 "adc #imm"
+	IA -- XZ -- XC II MO -- -- -- ES AI FI -- !C0 ~
+	IA -- XZ -- XC II MO -- -- EC ES AI FI -- !C1
+	IA -- XZ -- XC II MO -- -- -- EO CI -- --

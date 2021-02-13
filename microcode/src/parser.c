@@ -190,7 +190,10 @@ void putSequence(
 	while (1) {
 		control = buildControlWord(token, token_len, name);
 		if (control == 0xFFFFFF) return;
-		if (!advanceTokenIdx(token, token_len)) return;
+		if (!advanceTokenIdx(token, token_len)) {
+			putControl(control, reset, interrupt, opcode, step, FLG_ALL, 0);
+			return;
+		}
 		bool put_control = false;
 		while (
 			token[token_idx].type != TOK_SYMBOL &&
@@ -262,11 +265,11 @@ void putOpcode(
 ) {
 	for (size_t i = 0; i < 16; ++i) {
 		uint32_t address = 
-			((reset << 18) & 0x01) |
-			((interrupt << 16) & 0x03) |
-			((opcode << 8) & 0xFF) |
-			((i << 4) & 0x0F) |
-			(step & 0x0F);
+			((reset     & 0x01) << 18) |
+			((interrupt & 0x03) << 16) |
+			((opcode    & 0xFF) << 8) |
+			((i         & 0x0F) << 4) |
+			((step      & 0x0F) << 0);
 		if (flag == FLG_ALL) writeOutput(control, address);
 		else if ((!!(flag & i)) == value) writeOutput(control, address);
 	}

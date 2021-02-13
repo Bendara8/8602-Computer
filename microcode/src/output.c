@@ -4,14 +4,14 @@
 #include <stdio.h>
 #include <string.h>
 
-static void multiFile(uint8_t *output, size_t output_size, char *star);
+static void multiFile(uint8_t *output, size_t output_size, char *hash);
 static void singleFile(uint8_t *output, size_t output_size);
 static FILE *openFile(char *path);
 
 void outputToFile(uint8_t *output, size_t output_size) {
-	char *star = strchr(getOutputPath(), '*');
-	if (star != NULL) {
-		multiFile(output, output_size, star);
+	char *hash = strchr(getOutputPath(), '#');
+	if (hash != NULL) {
+		multiFile(output, output_size, hash);
 	}
 	else {
 		singleFile(output, output_size);
@@ -19,10 +19,10 @@ void outputToFile(uint8_t *output, size_t output_size) {
 	free(output);
 }
 
-void multiFile(uint8_t *output, size_t output_size, char *star) {
+void multiFile(uint8_t *output, size_t output_size, char *hash) {
 	FILE *output_file[3] = {NULL};
 	for (size_t i = 0; i < 3; ++i) {
-		*star = i + '0';
+		*hash = i + '0';
 		output_file[i] = openFile(getOutputPath());
 		if (!output_file[i]) {
 			for (size_t j = i - 1; j < i; --j) {

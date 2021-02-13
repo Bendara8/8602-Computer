@@ -45,11 +45,10 @@ struct Token *buildTokens(size_t *token_len_ptr) {
 			case ';':  discardLine(file); break;
 			case '$':  addOpcode(file); break;
 			case '"':  addName(file); break;
-			case '(':  addFlag(file); break;
-			case '{':  addToken(TOK_LBRACE, file); break;
-			case '}':  addToken(TOK_RBRACE, file); break;
+			case '!':  addFlag(file); break;
+			case '*':  addToken(TOK_STAR, file); break;
+			case '~':  addToken(TOK_TILDE, file); break;
 			case '\n':
-				addToken(TOK_NEWLINE, file);
 				++line;
 				col = 1;
 				break;
@@ -62,13 +61,14 @@ struct Token *buildTokens(size_t *token_len_ptr) {
 				}
 				break;
 		}
+		ch = getc(file);
 		++col;
 	}
 
 	fclose(file);
 	*token_len_ptr = token_len;
 	if (error_count > 0) {
-		free(token);
+		freeTokenArr(token, token_len);
 		printf("%s: Had %u errors\n", getTargetPath(), error_count);
 		exit(1);
 	}
@@ -106,7 +106,6 @@ void discardLine(FILE *file) {
 		if (ch == EOF) return;
 		ch = getc(file);
 	}
-	addToken(TOK_NEWLINE, file);
 	++line;
 	col = 1;
 }
@@ -116,6 +115,7 @@ void addOpcode(FILE *file) {
 	int ch;
 	for (size_t i = 0; i < 2; ++i) {
 		ch = getc(file);
+		++col;
 		switch (ch) {
 			case EOF:  unexpectedEOF(); return;
 			case '\n': unexpectedEOL(); return;
@@ -131,7 +131,6 @@ void addOpcode(FILE *file) {
 		}
 		opcode <<= 4;
 		opcode |= digit;
-		++col;
 	}
 	addToken(TOK_OPCODE, file);
 	token[token_len - 1].opcode = opcode;
@@ -141,6 +140,7 @@ void addName(FILE *file) {
 	char name[NAME_CAP];
 	size_t name_len = 0;
 	int ch = getc(file);
+	++col;
 	while (ch != '"') {
 		switch (ch) {
 			case EOF:  unexpectedEOF(); return;
@@ -154,8 +154,8 @@ void addName(FILE *file) {
 			return;
 		}
 		name[name_len++] = ch;
-		++col;
 		ch = getc(file);
+		++col;
 	}
 	name[name_len] = '\0';
 	addToken(TOK_NAME, file);
@@ -171,25 +171,36 @@ void addName(FILE *file) {
 
 void addFlag(FILE *file) {
 	enum Flag flag = 0;
+	uint8_t value = 0;
 	int ch = getc(file);
-	while (ch != ')') {
-		switch (ch) {
-			case EOF:  unexpectedEOF(); return;
-			case '\n': unexpectedEOL(); return;
-			case 'Z': flag |= FLG_Z; break;
-			case 'N': flag |= FLG_N; break;
-			case 'C': flag |= FLG_C; break;
-			case 'I': flag |= FLG_I; break;
-			default:
-				printError(file);
-				printf("'%c' is not a flag\n", (char)ch);
-				return;
-		}
-		++col;
-		ch = getc(file);
+	++col;
+	switch (ch) {
+		case EOF:  unexpectedEOF(); return;
+		case '\n': unexpectedEOL(); return;
+		case 'Z': flag = FLG_Z; break;
+		case 'N': flag = FLG_N; break;
+		case 'C': flag = FLG_C; break;
+		case 'I': flag = FLG_I; break;
+		default:
+			printError(file);
+			printf("'%c' is not a flag\n", (char)ch);
+			return;
+	}
+	ch = getc(file);
+	++col;
+	switch (ch) {
+		case EOF:  unexpectedEOF(); return;
+		case '\n': unexpectedEOL(); return;
+		case '0': value = 0; break;
+		case '1': value = 1; break;
+		default:
+			printError(file);
+			printf("'%c' is not a value\n", (char)ch);
+			return;
 	}
 	addToken(TOK_FLAG, file);
 	token[token_len - 1].flag = flag;
+	token[token_len - 1].value = value;
 }
 
 void addSymbol(FILE *file) {
@@ -197,6 +208,7 @@ void addSymbol(FILE *file) {
 	int ch;
 	for (size_t i = 0; i < 2; ++i) {
 		ch = getc(file);
+		++col;
 		switch (ch) {
 			case EOF:  unexpectedEOF(); return;
 			case '\n': unexpectedEOL(); return;
@@ -207,12 +219,10 @@ void addSymbol(FILE *file) {
 			default: break;
 		}
 		symbol[i] = (char)ch;
-		++col;
 	}
 	addToken(TOK_SYMBOL, file);
 	token[token_len - 1].symbol[0] = symbol[0];
 	token[token_len - 1].symbol[1] = symbol[1];
-	token[token_len - 1].symbol[2] = '\0';
 }
 
 void addToken(enum TokenType type, FILE *file) {

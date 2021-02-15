@@ -2,29 +2,27 @@
 #define HDR_CONTROL
 
 enum Control {
-	CTRL_AO = 0x000000,
-	CTRL_FO = 0x000001,
-	CTRL_KO = 0x000002,
-	CTRL_MO = 0x000003,
-	CTRL_PL = 0x000004,
+	CTRL_AO = 0x000010,
+	CTRL_FO = 0x000011,
+	CTRL_KO = 0x000012,
+	CTRL_MO = 0x000013,
+	CTRL_PL = 0x000014,
 	CTRL_PH = 0x00000C,
-	CTRL_BL = 0x000005,
+	CTRL_BL = 0x000015,
 	CTRL_BH = 0x00000D,
-	CTRL_IL = 0x000006,
+	CTRL_IL = 0x000016,
 	CTRL_IH = 0x00000E,
-	CTRL_HO = 0x000007,
-	CTRL_OD = 0x00000F,
+	CTRL_ZO = 0x000017,
+	CTRL_HO = 0x00000F,
 
 	CTRL_AI = 0x000000,
-	CTRL_XI = 0x000010,
-	CTRL_KI = 0x000020,
-	CTRL_MI = 0x000030,
-	CTRL_CI = 0x000040,
-	CTRL_TL = 0x000050,
-	CTRL_TH = 0x000060,
-	CTRL_ND = 0x000070,
-
-	CTRL_FI = 0x000080, // inverted
+	CTRL_XI = 0x000020,
+	CTRL_KI = 0x000040,
+	CTRL_MI = 0x000060,
+	CTRL_CI = 0x000080,
+	CTRL_TL = 0x0000A0,
+	CTRL_TH = 0x0000C0,
+	CTRL_ND = 0x0000E0,
 	
 	CTRL_PO = 0x000000,
 	CTRL_BO = 0x000100,
@@ -38,8 +36,8 @@ enum Control {
 	CTRL_II = 0x001800,
 	CTRL_NA = 0x002000, // inverted
 	
-	CTRL_FD = 0x004000,
-	CTRL_KZ = 0x008000, // inverted
+	CTRL_FI = 0x004000, // inverted
+	CTRL_FD = 0x008000,
 	CTRL_XZ = 0x010000, // inverted
 	CTRL_XN = 0x020000,
 	CTRL_XC = 0x040000,
@@ -56,17 +54,13 @@ enum Control {
 static struct {
 	enum Control control;
 	char symbol[2];
-} const CONTROL_TABLE[][12] = {
+} const CONTROL_TABLE[][13] = {
 	{
 		{CTRL_PO, "PO"},
 		{CTRL_BO, "BO"},
 		{CTRL_SO, "SO"},
 		{CTRL_IO, "IO"},
 		{CTRL_TO, "TO"},
-		{0, "\0\0"},
-	}, {
-		{CTRL_KZ, "KZ"},
-		{0,       "--"},
 		{0, "\0\0"},
 	}, {
 		{CTRL_XZ, "XZ"},
@@ -98,6 +92,7 @@ static struct {
 		{CTRL_BH, "BH"},
 		{CTRL_IL, "IL"},
 		{CTRL_IH, "IH"},
+		{CTRL_ZO, "ZO"},
 		{CTRL_HO, "HO"},
 		{0, "\0\0"},
 	}, {	

@@ -19,9 +19,9 @@ static size_t const OPTION_TABLE_LEN = sizeof OPTION_TABLE / sizeof OPTION_TABLE
 
 static char const *const HELP_MSG =
 	"---8602 Microcode Compiler Invocation Options---\n"
-	"Syntax              | Description\n"
-	"-h, --help          | Display this message\n"
-	"-o, --output <path> | Set output target, include a '#' in the path to split output into 3 files";
+	"Syntax:             | Description:\n"
+	"-h, --help          | Display this message.\n"
+	"-o, --output <path> | Set output target. Include a '#' in the path to split output into 3 files.";
 
 static char *const DEFAULT_TARGET = "microcode.src";
 static char *const DEFAULT_OUTPUT = "microcode.bin";

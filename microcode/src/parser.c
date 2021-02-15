@@ -153,13 +153,13 @@ void parseAlternate(struct Token *token, size_t token_len) {
 
 enum Control buildControlWord(struct Token *token, size_t token_len, char *name) {
 	enum Control control = 0;
-	for (size_t i = 0; i < 14; ++i) {
+	for (size_t i = 0; i < 13; ++i) {
 		if (!assertNextTokenType(token, token_len, TOK_SYMBOL, name)) return 0xFFFFFF;
 		size_t j = 0;
 		while (1) {
 			if (CONTROL_TABLE[i][j].symbol[0] == '\0') {
 				printError(token, token_len);
-				printf("'%c%c' is an invalid symbol (%zu %zu)\n", token[token_idx].symbol[0], token[token_idx].symbol[1], i, j);
+				printf("'%c%c' is an invalid symbol here\n", token[token_idx].symbol[0], token[token_idx].symbol[1]);
 				discardSequence(token, token_len);
 				return 0xFFFFFF;
 			}
@@ -250,7 +250,9 @@ void putControl(
 		}
 	}
 	else {
-		putOpcode(control, 0, 0, opcode, step, flag, value);
+		for (size_t i = 0; i < 4; ++i) {
+			putOpcode(control, 0, i, opcode, step, flag, value);
+		}
 	}
 }
 
@@ -276,7 +278,7 @@ void putOpcode(
 }
 
 void writeOutput(enum Control control, uint32_t address) {
-	control ^= CTRL_FI | CTRL_TO | CTRL_NA | CTRL_KZ | CTRL_XZ | CTRL_EZ;
+	control ^= CTRL_FI | CTRL_TO | CTRL_NA | CTRL_XZ | CTRL_EZ;
 	output[(0 << 19) | address] = (control & 0x000000FF) >> 0;
 	output[(1 << 19) | address] = (control & 0x0000FF00) >> 8;
 	output[(2 << 19) | address] = (control & 0x00FF0000) >> 16;

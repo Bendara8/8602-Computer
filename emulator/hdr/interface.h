@@ -25,7 +25,7 @@ void runCommand(
 	char *str
 );
 
-char *getFeedback(
+bool getRunning(
 	void
 );
 

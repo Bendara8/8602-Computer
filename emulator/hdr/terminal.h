@@ -13,4 +13,8 @@ void updateTerminal(
 	void
 );
 
+void drawTerminal(
+	void
+);
+
 #endif

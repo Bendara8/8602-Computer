@@ -1,8 +1,12 @@
 # user flags
 INCL_FLG := -I hdr/ -include stddef.h -include stdint.h -include stdbool.h
 DBUG_FLG := -g -Og
+PROF_FLG := -g -pg
+OPTM_FLG := -O3
 WARN_FLG := -Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter
-LINK_FLG := 
+
+# compile mode
+MODE := $(OPTM_FLG)
 
 # user files and libraries
 NAME := emulator
@@ -14,10 +18,10 @@ OBJ  := $(addprefix obj/,$(addsuffix .o,$(SRC)))
 LINK := $(addprefix -l ,$(LIB))
 
 $(NAME): % : obj/$(NAME).o $(OBJ)
-	gcc $(LINK_FLG) -o $@ $^ $(LINK)
+	gcc $(MODE) -o $@ $^ $(LINK)
 
 obj/$(NAME).o: % : src/$(NAME).c $(HDR)
-	gcc -c $(INCL_FLG) $(DBUG_FLG) $(WARN_FLG) -o $@ $< 
+	gcc -c $(INCL_FLG) $(MODE) $(WARN_FLG) -o $@ $< 
 
 $(OBJ): obj/%.o : src/%.c $(HDR)
-	gcc -c $(INCL_FLG) $(DBUG_FLG) $(WARN_FLG) -o $@ $<
+	gcc -c $(INCL_FLG) $(MODE) $(WARN_FLG) -o $@ $<

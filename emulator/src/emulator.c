@@ -12,7 +12,7 @@ int main(int arg_len, char **arg) {
 	if (!initMemory(getFlashPath(), getMicrocodePath())) return 1;
 	atexit(&deinitMemory);
 
-	if (!initDisplay(512, 256, 1, 16666667)) return 1;
+	if (!initDisplay()) return 1;
 	atexit(&deinitDisplay);
 
 	if (!initKeyboard()) return 1;

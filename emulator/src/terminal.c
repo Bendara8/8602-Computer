@@ -1,4 +1,6 @@
 #include "terminal.h"
+#include "interface.h"
+#include "command.h"
 #include "input.h"
 #include "draw.h"
 #include "cpu.h"
@@ -22,9 +24,9 @@ static bool visible[WIN_COUNT] = {false};
 static bool hidden[WIN_COUNT] = {false};
 static enum Window focus = WIN_CONSOLE;
 
+static void haltIfRunning(void);
 static void sizeTerminal(int remaining_size);
 static int  sizeWindow(enum Window win, int remaining_size, int below_headers);
-static void drawTerminal(void);
 static int  drawWindow(enum Window win, char *name, char *key, void (*drawFunction)(int), int line);
 
 bool initTerminal(void) {
@@ -33,11 +35,11 @@ bool initTerminal(void) {
 	noecho();
 	keypad(stdscr, TRUE);
 	nodelay(stdscr, TRUE);
-	size[WIN_REGISTERS] = 15;
+	size[WIN_REGISTERS] = 13;
 	size[WIN_CODE] = 11;
-	size[WIN_STACK] = 9;
-	size[WIN_MEMORY] = 9;
-	size[WIN_FLASH] = 9;
+	size[WIN_STACK] = 11;
+	size[WIN_MEMORY] = 11;
+	size[WIN_FLASH] = 11;
 	size[WIN_CONSOLE] = 3;
 	visible[WIN_CONSOLE] = true;
 	if (!initInput()) return false;
@@ -72,23 +74,29 @@ void updateTerminal(void) {
 	int ch = getch();
 	if (ch != ERR) {
 		switch (ch) {
-			case KEY_F(7): focus = WIN_REGISTERS; break;
-			case KEY_F(6): focus = WIN_CODE;      break;
-			case KEY_F(5): focus = WIN_STACK;     break;
-			case KEY_F(4): focus = WIN_MEMORY;    break;
-			case KEY_F(3): focus = WIN_FLASH;     break;
-			case KEY_F(2): focus = WIN_CONSOLE;   break;
+			case KEY_F(7): focus = WIN_REGISTERS; haltIfRunning(); drawTerminal(); break;
+			case KEY_F(6): focus = WIN_CODE;      haltIfRunning(); drawTerminal(); break;
+			case KEY_F(5): focus = WIN_STACK;     haltIfRunning(); drawTerminal(); break;
+			case KEY_F(4): focus = WIN_MEMORY;    haltIfRunning(); drawTerminal(); break;
+			case KEY_F(3): focus = WIN_FLASH;     haltIfRunning(); drawTerminal(); break;
+			case KEY_F(2): focus = WIN_CONSOLE;   drawTerminal(); break;
 			default: switch (focus) {
-				case WIN_REGISTERS: inputRegisters(ch); break;
-				case WIN_CODE:      inputCode(ch); break;
-				case WIN_STACK:     inputStack(ch); break;
-				case WIN_MEMORY:    inputMemory(ch); break;
-				case WIN_FLASH:     inputFlash(ch); break;
-				case WIN_CONSOLE:   inputConsole(ch); break;
+				case WIN_REGISTERS: inputRegisters(ch); drawTerminal(); break;
+				case WIN_CODE:      inputCode(ch);      drawTerminal(); break;
+				case WIN_STACK:     inputStack(ch);     drawTerminal(); break;
+				case WIN_MEMORY:    inputMemory(ch);    drawTerminal(); break;
+				case WIN_FLASH:     inputFlash(ch);     drawTerminal(); break;
+				case WIN_CONSOLE:   inputConsole(ch);   drawConsoleLine(); break;
 			}
 		}
 	}
-	drawTerminal();
+}
+
+void haltIfRunning(void) {
+	if (getRunning()) {
+		setRunning(false);
+		setFeedback("Halted system.");
+	}
 }
 
 void drawTerminal(void) {

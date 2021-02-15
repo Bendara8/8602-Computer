@@ -25,4 +25,8 @@ void drawConsole(
 	int line
 );
 
+void drawConsoleLine(
+	void
+);
+
 #endif

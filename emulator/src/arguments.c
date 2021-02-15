@@ -1,5 +1,8 @@
 #include "arguments.h"
 #include "interface.h"
+#include "command.h"
+#include "display.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -8,6 +11,8 @@ enum Option {
 	OPT_HELP,
 	OPT_FLASH,
 	OPT_MICROCODE,
+	OPT_DIMENSION,
+	OPT_SCALE,
 	OPT_RUN,
 };
 
@@ -18,19 +23,26 @@ static const struct {
 	{OPT_HELP,      "-h", "--help"},
 	{OPT_FLASH,     "-f", "--flash"},
 	{OPT_MICROCODE, "-m", "--microcode"},
+	{OPT_DIMENSION, "-d", "--dimension"},
+	{OPT_SCALE,     "-s", "--scale"},
 	{OPT_RUN,       "-r", "--run"},
 };
 static const size_t OPTION_TABLE_LEN = sizeof OPTION_TABLE / sizeof OPTION_TABLE[0];
 
 static const char *HELP_MSG =
 	"---8602 Emulator Invocation Options---\n"
-	"Syntax                 | Description\n"
-	"-h, --help             | Display this message\n"
-	"-f, --flash <path>     | Override the default location of the file with flash memory data\n"
-	"                       | Default location is res/flash.bin\n"
-	"-m, --microcode <path> | Override the default location of the file with compiled microcode\n"
-	"                       | Default location is res/microcode.bin\n"
-	"-r, --run              | Run the emulator immediately after invocation";
+	"Syntax:                          | Description:\n"
+	"-h, --help                       | Display this message.\n"
+	"-f, --flash <path>               | Override the default location of the file with flash\n"
+	"                                 | memory data. Default location is 'res/flash.bin'.\n"
+	"-m, --microcode <path>           | Override the default location of the file with compiled\n"
+	"                                 | microcode. Default location is 'res/microcode.bin'.\n"
+	"-d, --dimension <width> <height> | Override the default display dimensions.\n"
+	"                                 | Default values are 512 by 256. Values must\n"
+	"                                 | be between 128 by 64 and 512 by 256.\n"
+	"-s, --scale <value>              | Override the default display scale. Default value is 1.\n"
+	"                                 | Value must be 1, 2, or 3.\n"
+	"-r, --run                        | Run the emulator immediately after invocation.";
 
 static char *flash_path = "res/flash.bin", *microcode_path = "res/microcode.bin";
 
@@ -58,8 +70,21 @@ bool readArguments(char **arg, size_t arg_len) {
 				microcode_path = arg[++i];
 				break;
 
+			case OPT_DIMENSION:
+				if (!assertNextArgument(i, arg, arg_len)) return false;
+				uint16_t width = strtoul(arg[++i], NULL, 10);
+				if (!assertNextArgument(i, arg, arg_len)) return false;
+				setDimensions(width, strtoul(arg[++i], NULL, 10));
+				break;
+
+			case OPT_SCALE:
+				if (!assertNextArgument(i, arg, arg_len)) return false;
+				setScale(strtoul(arg[++i], NULL, 10));
+				break;
+
 			case OPT_RUN:
 				setRunning(true);
+				setFeedback("Running...");
 				break;
 		}
 	}

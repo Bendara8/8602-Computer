@@ -12,18 +12,15 @@ void commandSave(
 );
 
 void commandRun(
-	char **token,
-	size_t token_len
+	void
 );
 
 void commandHalt(
-	char **token,
-	size_t token_len
+	void
 );
 
 void commandReset(
-	char **token,
-	size_t token_len
+	void
 );
 
 void commandMem(
@@ -31,5 +28,12 @@ void commandMem(
 	size_t token_len
 );
 
+char *getFeedback(
+	void
+);
+
+void setFeedback(
+	char *feedback
+);
 
 #endif

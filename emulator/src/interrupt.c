@@ -3,7 +3,7 @@
 static bool
 	interrupt_in[INTER_LEN] = {false},
 	interrupt_out[INTER_LEN] = {false},
-	interrupt_reset[INTER_LEN] = {true};
+	interrupt_reset[INTER_LEN] = {false};
 
 bool getInterrupt(enum Interrupt i) {
 	return interrupt_out[(size_t)i];

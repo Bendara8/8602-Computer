@@ -5,10 +5,13 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 
+// debug
+#include "command.h"
+
 static const uint16_t MAX_WIDTH = 512, MAX_HEIGHT = 256;
 
-static uint16_t width, height, scale; // display dimensions
-static uint64_t interrupt_time;       // time (ns) between interrupts
+static uint16_t width = 512, height = 256, scale = 1; // display dimensions
+static uint64_t interrupt_time = 16666667;            // time (ns) between interrupts
 static ALLEGRO_DISPLAY *disp = NULL;
 static ALLEGRO_EVENT_QUEUE *queue = NULL;
 
@@ -16,16 +19,7 @@ static void drawSubPixel(uint16_t x, uint16_t y,	ALLEGRO_COLOR color);
 static ALLEGRO_COLOR toPixelColor(uint8_t pixel);
 static ALLEGRO_COLOR toTextColor(uint8_t pixel);
 
-bool initDisplay(
-	uint16_t w, uint16_t h, uint16_t s,
-	uint64_t i
-) {
-	// init globals
-	width = w;
-	height = h;
-	scale = s;
-	interrupt_time = i;
-
+bool initDisplay(void) {
 	// check globals
 	if (width > MAX_WIDTH) {
 		printf("Display width (%hu) too large (max %hu)\n", width, MAX_WIDTH);
@@ -70,6 +64,7 @@ void clockDisplay(uint64_t step_time) {
 	static uint64_t elapsed = 0;
 	elapsed += step_time;
 	if (elapsed >= interrupt_time) {
+		drawDisplay();
 		generateInterrupt(INTER_0);
 		elapsed -= interrupt_time;
 	}
@@ -86,7 +81,7 @@ void clockDisplay(uint64_t step_time) {
 	}
 }
 
-void updateDisplay(void) {
+void drawDisplay(void) {
 	static uint8_t back_pixel = 0;
 	for (uint16_t y = 0; y < height / 2; ++y) {
 		for (uint16_t x = 0; x < width / 2; ++x) {
@@ -97,10 +92,10 @@ void updateDisplay(void) {
 				// subpixel text mode
 				ALLEGRO_COLOR color = toTextColor(pixel);
 				ALLEGRO_COLOR back_color = toPixelColor(back_pixel);
-				drawSubPixel(base_x + 0, base_y + 0, (pixel & 0x08) ? color : back_color);
-				drawSubPixel(base_x + 1, base_y + 0, (pixel & 0x04) ? color : back_color);
-				drawSubPixel(base_x + 0, base_y + 1, (pixel & 0x02) ? color : back_color);
-				drawSubPixel(base_x + 1, base_y + 1, (pixel & 0x01) ? color : back_color);
+				drawSubPixel(base_x,         base_y,         (pixel & 0x08) ? color : back_color);
+				drawSubPixel(base_x + scale, base_y,         (pixel & 0x04) ? color : back_color);
+				drawSubPixel(base_x,         base_y + scale, (pixel & 0x02) ? color : back_color);
+				drawSubPixel(base_x + scale, base_y + scale, (pixel & 0x01) ? color : back_color);
 			}
 			else {
 				// full color pixel mode
@@ -115,6 +110,7 @@ void updateDisplay(void) {
 			}
 		}
 	}
+	al_flip_display();
 }
 
 void drawSubPixel(uint16_t x, uint16_t y,	ALLEGRO_COLOR color) {
@@ -147,4 +143,13 @@ ALLEGRO_COLOR toTextColor(uint8_t pixel) {
 		0x3F, // white
 	};
 	return toPixelColor(color_table[(pixel & 0x70) >> 4]);
+}
+
+void setDimensions(uint16_t w, uint16_t h) {
+	if (w >= 128 && w <= 512) width = w;
+	if (h >= 64 && h <= 256) height = h;
+}
+
+void setScale(uint16_t s) {
+	if (s >= 1 && s <= 3) scale = s;
 }

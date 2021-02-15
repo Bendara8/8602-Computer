@@ -1,5 +1,5 @@
 #include "draw.h"
-#include "interface.h"
+#include "command.h"
 #include "input.h"
 #include "interrupt.h"
 #include "cpu.h"
@@ -12,70 +12,55 @@ static const char *opcodeToStr(uint8_t opcode);
 void drawRegisters(int line) {
 	const struct CPUState *cpu = getCPU();
 	move(line + 1, 0);
-	printw("A    : $%02hhX (%03hhu) (%+04hhd)\n", cpu->accumulator, cpu->accumulator, cpu->accumulator);
-	printw("X    : $%02hhX (%03hhu) (%+04hhd)\n", cpu->index, cpu->index, cpu->index);
-	printw("K    : $%02hhX\n", cpu->bank);
-	printw("C    : $%02hhX (%s) RESET:%c INT0:%c INT1:%c\n",
-		cpu->opcode,
-		opcodeToStr(cpu->opcode),
-		cpu->reset ? '1' : '0',
-		getInterrupt(INTER_0) ? '1' : '0',
-		getInterrupt(INTER_1) ? '1' : '0'
-	);
-	printw("F    : $%02hhX (%c%c%c%c)\n",
+	printw("A : $%02hhX (%03hhu) (%+04hhd)\n", cpu->accumulator, cpu->accumulator, cpu->accumulator);
+	printw("X : $%02hhX (%03hhu) (%+04hhd)\n", cpu->index, cpu->index, cpu->index);
+	printw("K : $%02hhX\n", cpu->bank);
+	printw("F : $%02hhX (%c%c%c%c)\n",
 		(uint8_t)cpu->flags,
 		cpu->flags & FLAG_I ? 'I' : '-',
 		cpu->flags & FLAG_C ? 'C' : '-',
 		cpu->flags & FLAG_N ? 'N' : '-',
 		cpu->flags & FLAG_Z ? 'Z' : '-'
 	);
+	printw("C : $%02hhX (%s)\n",
+		cpu->opcode,
+		opcodeToStr(cpu->opcode)
+	);
 	uint8_t byte = readMemory(cpu->transfer_pointer);
 	uint16_t word = (readMemory(cpu->transfer_pointer + 1) << 8) | byte;
-	printw("T    : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
+	printw("T : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
 		cpu->transfer_pointer,
 		byte, byte, byte, word, word, word
 	);
-	//byte = readMemory(cpu->transfer_pointer + cpu->index);
-	//word = (readMemory(cpu->transfer_pointer + cpu->index + 1) << 8) | byte;
-	//printw("T+X  : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
-	//	cpu->transfer_pointer + cpu->index,
-	//	byte, byte, byte, word, word, word
-	//);
 	byte = readMemory(cpu->pointer);
 	word = (readMemory(cpu->pointer + 1) << 8) | byte;
-	printw("P    : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
+	printw("P : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
 		cpu->pointer,
 		byte, byte, byte, word, word, word
 	);
-	//byte = readMemory(cpu->pointer + cpu->index);
-	//word = (readMemory(cpu->pointer + cpu->index + 1) << 8) | byte;
-	//printw("P+X  : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
-	//	cpu->pointer + cpu->index,
-	//	byte, byte, byte, word, word, word
-	//);
 	byte = readMemory(cpu->base_pointer);
 	word = (readMemory(cpu->base_pointer + 1) << 8) | byte;
-	printw("B    : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
+	printw("B : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
 		cpu->base_pointer,
 		byte, byte, byte, word, word, word
 	);
-	//byte = readMemory(cpu->base_pointer + cpu->index);
-	//word = (readMemory(cpu->base_pointer + cpu->index + 1) << 8) | byte;
-	//printw("B+X  : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
-	//	cpu->base_pointer + cpu->index,
-	//	byte, byte, byte, word, word, word
-	//);
 	byte = readMemory(cpu->stack_pointer);
 	word = (readMemory(cpu->stack_pointer + 1) << 8) | byte;
-	printw("S    : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
+	printw("S : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
 		cpu->stack_pointer,
 		byte, byte, byte, word, word, word
 	);
 	byte = readMemory(cpu->instruction_pointer);
 	word = (readMemory(cpu->instruction_pointer + 1) << 8) | byte;
-	printw("I    : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
+	printw("I : $%04hX -> $%02hhX (%03hhu) (%+04hhd) | $%04hX (%05hu) (%+06hd)\n",
 		cpu->instruction_pointer,
 		byte, byte, byte, word, word, word
+	);
+	printw("  : RESET:%c INT0:%c INT1:%c STEP:%02hhu\n",
+		cpu->reset ? '1' : '0',
+		getInterrupt(INTER_0) ? '1' : '0',
+		getInterrupt(INTER_1) ? '1' : '0',
+		cpu->step
 	);
 	static const char *ADDR_OUT[] = {
 		"TO", "TO", "TO", "TO", "PO", "BO", "SO", "IO",
@@ -84,7 +69,7 @@ void drawRegisters(int line) {
 		"--", "--", "--", "--", "PI", "BI", "SI", "II",
 	};
 	static const char *DATA_OUT[] = {
-		"AO", "FO", "KO", "MO", "PL", "BL", "IL", "HO", "??", "??", "??", "??", "PH", "BH", "IH", "??",
+		"AO", "FO", "KO", "MO", "PL", "BL", "IL", "ZO", "??", "??", "??", "??", "PH", "BH", "IH", "HO",
 	};
 	static const char *ALU_SEL[] = {
 		"ES", "ER", "EA", "EO",
@@ -97,10 +82,9 @@ void drawRegisters(int line) {
 		getInterrupt(INTER_0), getInterrupt(INTER_1),
 		cpu->reset
 	);
-	printw("CTRL : $%06X (%s %s %s %s %s %s %s %s %s %s %s %s %s %s) STEP:%02hhu\n",
+	printw("  : $%06X (%s %s %s %s %s %s %s %s %s %s %s %s %s)\n",
 		control,
 		ADDR_OUT[(control >> 8) & 0x7],
-		control & CTRL_KZ ? "--" : "KZ",
 		control & CTRL_XZ ? "--" : "XZ",
 		control & CTRL_XN ? "XN" : "--",
 		control & CTRL_XC ? "XC" : "--",
@@ -110,10 +94,9 @@ void drawRegisters(int line) {
 		control & CTRL_EN ? "EN" : "--",
 		control & CTRL_EC ? "EC" : "--",
 		ALU_SEL[(control >> 22) & 0x3],
-		DATA_IN[(control >> 4) & 0x7],
+		DATA_IN[(control >> 5) & 0x7],
 		control & CTRL_FI ? "--" : "FI",
-		control & CTRL_FD ? "FD" : "--",
-		cpu->step
+		control & CTRL_FD ? "FD" : "--"
 	);
 }
 
@@ -134,10 +117,17 @@ void drawFlash(int line) {
 }
 
 void drawConsole(int line) {
-	move(LINES - 1, 0);
-	printw("> %s", getInput());
 	move(LINES - 2, 0);
 	addstr(getFeedback());
+	move(LINES - 1, 0);
+	printw("> %s", getInput());
+}
+
+void drawConsoleLine(void) {
+	move(LINES - 1, 0);
+	printw("> %s", getInput());
+	clrtoeol();
+	refresh();
 }
 
 const char *opcodeToStr(uint8_t opcode) {

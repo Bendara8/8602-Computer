@@ -48,6 +48,7 @@ void clockCPU(void) {
 		case CTRL_BH: data_bus = (uint8_t)(cpu.base_pointer >> 8); break;
 		case CTRL_IL: data_bus = (uint8_t)cpu.instruction_pointer; break;
 		case CTRL_IH: data_bus = (uint8_t)(cpu.instruction_pointer >> 8); break;
+		case CTRL_ZO: data_bus = 0x00; break;
 		case CTRL_HO: data_bus = 0xFF; break;
 	}
 

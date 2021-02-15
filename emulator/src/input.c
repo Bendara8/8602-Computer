@@ -1,5 +1,7 @@
 #include "input.h"
 #include "interface.h"
+#include "terminal.h"
+#include "display.h"
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
@@ -33,10 +35,10 @@ void inputRegisters(int ch) {
 
 void inputCode(int ch) {
 	switch (ch) {
-		case KEY_UP:    clockSystem();      break;
-		case KEY_RIGHT: stepInstruction();  break;
-		case KEY_DOWN:  nextInstruction();  break;
-		case KEY_LEFT:  finishSubroutine(); break;
+		case KEY_UP:    clockSystem();      drawDisplay(); break;
+		case KEY_RIGHT: stepInstruction();  drawDisplay(); break;
+		case KEY_DOWN:  nextInstruction();  drawDisplay(); break;
+		case KEY_LEFT:  finishSubroutine(); drawDisplay(); break;
 		default: break;
 	}
 }
@@ -86,6 +88,7 @@ void inputConsole(int ch) {
 			runCommand(input);
 			input[0] = '\0';
 			input_pos = 0;
+			drawTerminal();
 			break;
 
 		default:

@@ -23,7 +23,7 @@ enum Command {
 	CMD_MEM,
 };
 
-static bool isRunning = false;
+static bool running = false;
 
 static size_t tokenizeStr(char *str, char **token, size_t token_cap);
 static enum Command strToCommand(char *str);
@@ -32,9 +32,11 @@ void enterInterface(void) {
 	if (!initTerminal()) return;
 	atexit(&deinitTerminal);
 
+	drawDisplay();
+	drawTerminal();
 	while (1) {
 		updateTerminal();
-		if (isRunning) {
+		if (running) {
 			clockSystem();
 		}
 		else {
@@ -68,13 +70,13 @@ void runCommand(char *str) {
 	token_len = tokenizeStr(str, token, token_cap);
 	switch (strToCommand(token[0])) {
 		case CMD_NONE: break;
-		case CMD_SIZE:  commandSize(token, token_len);  break;
-		case CMD_SAVE:  commandSave(token, token_len);  break;
-		case CMD_QUIT:  free(token); exit(0);           break;
-		case CMD_RUN:   commandRun(token, token_len);   break;
-		case CMD_HALT:  commandHalt(token, token_len);  break;
-		case CMD_RESET: commandReset(token, token_len); break;
-		case CMD_MEM:   commandMem(token, token_len);   break;
+		case CMD_SIZE:  commandSize(token, token_len); break;
+		case CMD_SAVE:  commandSave(token, token_len); break;
+		case CMD_QUIT:  free(token); exit(0); break;
+		case CMD_RUN:   commandRun(); break;
+		case CMD_HALT:  commandHalt(); break;
+		case CMD_RESET: commandReset(); break;
+		case CMD_MEM:   commandMem(token, token_len); break;
 	}
 	free(token);
 }
@@ -119,10 +121,10 @@ enum Command strToCommand(char *str) {
 	return CMD_NONE;
 }
 
-char *getFeedback(void) {
-	return "FEEDBACK";
+bool getRunning(void) {
+	return running;
 }
 
 void setRunning(bool val) {
-	isRunning = val;
+	running = val;
 }

@@ -95,8 +95,8 @@
 | [`bnz`](#bnz) | Branch if the zero flag is clear
 | [`brn`](#brn) | Branch if the negative flag is set
 | [`bnn`](#bnn) | Branch if the negative flag is clear
-| [`brp`](#brp) | Branch if both the zero flag and the negative flag are clear
-| [`bnp`](#bnp) | Branch if either the zero flag or the negative flag are set
+| [`brg`](#brg) | Branch if both the zero flag and the negative flag are clear
+| [`bng`](#bng) | Branch if either the zero flag or the negative flag are set
 | [`brc`](#brc) | Branch if the carry flag is set 
 | [`bnc`](#bnc) | Branch if the carry flag is clear 
 | [`jmp`](#jmp) | Jump to address
@@ -277,11 +277,11 @@ Stores the left operand into the right operand.
 <a name="bnn"></a>
 ### `bnn`
 
-<a name="brp"></a>
-### `brp`
+<a name="brg"></a>
+### `brg`
 
-<a name="bnp"></a>
-### `bnp`
+<a name="bng"></a>
+### `bng`
 
 <a name="brc"></a>
 ### `brc`

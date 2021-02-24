@@ -22,7 +22,7 @@ char *getInput(
 	size_t idx
 );
 
-char *getOuput(
+char *getOutput(
 	void
 );
 

@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-struct Object *parsePatternsIntoObject(
+void parsePatternsIntoObject(
 	void
 );
 

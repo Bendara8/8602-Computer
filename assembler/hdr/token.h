@@ -91,4 +91,12 @@ struct Token *newToken(
 	void
 );
 
+enum TokenType searchTokenCharTable(
+	char chr
+);
+
+enum TokenType searchTokenStringTable(
+	char *str
+);
+
 #endif

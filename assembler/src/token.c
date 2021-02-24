@@ -1,9 +1,10 @@
 #include "token.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 static struct {
-	enum TokenType;
+	enum TokenType type;
 	char chr;
 } TOK_CHR_TBL[] = {
 	{TOK_NEWLINE, '\n'},
@@ -27,7 +28,7 @@ static struct {
 static size_t TOK_CHR_LEN = sizeof TOK_CHR_TBL / sizeof TOK_CHR_TBL[0];
 
 static struct {
-	enum TokenType;
+	enum TokenType type;
 	char *str;
 } TOK_STR_TBL[] = {
 	{TOK_ORIGIN, "ORIGIN"},
@@ -75,7 +76,7 @@ static size_t token_len = 0, token_cap = 256;
 void initTokenQueue(void) {
 	token = malloc(token_cap * sizeof token[0]);
 	if (token == NULL) {
-		puts("Unable to allocate token queue");
+		puts("Unable to allocate token queue.");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -97,9 +98,23 @@ struct Token *newToken(void) {
 		token_cap *= 2;
 		token = realloc(token, token_cap * sizeof token[0]);
 		if (token == NULL) {
-			puts("Unable to allocate token queue");
+			puts("Unable to reallocate token queue.");
 			exit(EXIT_FAILURE);
 		}
 	}
 	return &token[token_len++];
+}
+
+enum TokenType searchTokenCharTable(char chr) {
+	for (size_t i = 0; i < TOK_CHR_LEN; ++i) {
+		if (chr == TOK_CHR_TBL[i].chr) return TOK_CHR_TBL[i].type;
+	}
+	return TOK_NONE;
+}
+
+enum TokenType searchTokenStringTable(char *str) {
+	for (size_t i = 0; i < TOK_STR_LEN; ++i) {
+		if (strcmp(str, TOK_STR_TBL[i].str) == 0) return TOK_STR_TBL[i].type;
+	}
+	return TOK_NONE;
 }

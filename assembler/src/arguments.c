@@ -9,6 +9,9 @@ enum Option {
 	OPT_OUTPUT,
 };
 
+static enum Option searchOptionTable(char *arg);
+static void assertNextArgument(size_t i, char **arg, size_t arg_len);
+
 static struct {
 	enum Option option;
 	char *single, *word;
@@ -27,9 +30,6 @@ static char *HELP_MSG =
 static size_t input_len = 0, input_cap = 16;
 static char **input = NULL;
 static char *output = "out.bin";
-
-static enum Option searchOptionTable(char *arg);
-static void assertNextArgument(size_t i, char **arg, size_t arg_len);
 
 void initArguments(void) {
 	input = malloc(input_cap * sizeof input[0]);
@@ -56,6 +56,10 @@ void readArguments(char **arg, size_t arg_len) {
 					assertNextArgument(i, arg, arg_len);
 					output = arg[++i];
 					break;
+
+				case OPT_NONE:
+					printf("'%s' is not an option\n", arg[i]);
+					exit(EXIT_FAILURE);
 			}
 		}
 		else {
@@ -84,7 +88,7 @@ enum Option searchOptionTable(char *arg) {
 
 void assertNextArgument(size_t i, char **arg, size_t arg_len) {
 	if (i + 1 >= arg_len) {
-		printf("Expected argument after '%s'\n", arg[i]);
+		printf("Expected argument after '%s'.\n", arg[i]);
 		exit(EXIT_FAILURE);
 	}
 }

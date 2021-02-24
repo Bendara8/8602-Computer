@@ -10,7 +10,7 @@ MODE := $(DBUG_FLG)
 
 # user files and libraries
 NAME := assembler
-SRC :=
+SRC := arguments lexer matcher parser linker token pattern symbol object
 LIB :=
 
 HDR  := $(addprefix hdr/,$(addsuffix .h,$(SRC)))

@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "linker.h"
 #include "token.h"
+#include "pattern.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -16,10 +17,13 @@ int main(int arg_len, char **arg) {
 	initTokenQueue();
 	atexit(&deinitTokenQueue);
 
+	initPatternQueue();
+	atexit(&deinitPatternQueue);
+
 	size_t input_len = getInputLen();
 	for (size_t i = 0; i < input_len; ++i) {
 		lexFileIntoTokens(getInput(i));
-		matchTokensIntoPatterns();
+		matchTokensIntoPatterns(getInput(i));
 		parsePatternsIntoObject();
 	}
 	linkObjectsIntoBinary(getOutput());

@@ -2,18 +2,22 @@
 #define HDR_TOKEN
 
 enum TokenType {
-	TOK_NONE,
+	TOK_NONE = 0x000,
 	// seperators
+	TOK_SEP = 0x100,
 	TOK_NEWLINE,
 	TOK_COMMA,
 	TOK_DOT,
 	TOK_LBRACE,
 	TOK_RBRACE,
 	// operators
+	TOK_OP = 0x200,
 	TOK_HASH,
+	TOK_ARITH = 0x300,
 	TOK_PLUS,
 	TOK_MINUS,
 	// registers
+	TOK_REG = 0x400,
 	TOK_A,
 	TOK_F,
 	TOK_K,
@@ -22,6 +26,7 @@ enum TokenType {
 	TOK_S,
 	TOK_I,
 	// directives
+	TOK_DIR = 0x500,
 	TOK_ORIGIN,
 	TOK_EXPORT,
 	TOK_BYTE,
@@ -31,6 +36,7 @@ enum TokenType {
 	TOK_STRZ,
 	TOK_EQUALS,
 	// instructions
+	TOK_INS = 0x600,
 	TOK_LOD, TOK_LDW, TOK_LEA,
 	TOK_STO, TOK_STW,
 	TOK_MOV,
@@ -60,13 +66,16 @@ enum TokenType {
 	TOK_RTS, TOK_RTL, TOK_RTI,
 	TOK_BRK,
 	// literals
+	TOK_NUMBER = 0x700,
 	TOK_DECIMAL,
 	TOK_HEX,
 	TOK_BINARY,
+	TOK_LETTER = 0x800,
 	TOK_STRING,
-	TOK_CHAR,
 	// name
-	TOK_NAME,
+	TOK_NAME = 0x900,
+	// group mask
+	TOK_GROUP = 0xF00,
 };
 
 struct Token {
@@ -91,12 +100,32 @@ struct Token *newToken(
 	void
 );
 
-enum TokenType searchTokenCharTable(
+struct Token *nextToken(
+	void
+);
+
+struct Token *peekToken(
+	void
+);
+
+void seekToken(
+	struct Token *target
+);
+
+enum TokenType charToToken(
 	char chr
 );
 
-enum TokenType searchTokenStringTable(
+char tokenToChar(
+	enum TokenType type
+);
+
+enum TokenType stringToToken(
 	char *str
+);
+
+char *tokenToString(
+	enum TokenType type
 );
 
 #endif

@@ -2,7 +2,7 @@
 #define HDR_MATCHER
 
 void matchTokensIntoPatterns(
-	void
+	char *path
 );
 
 #endif

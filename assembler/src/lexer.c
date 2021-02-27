@@ -9,7 +9,6 @@ static void lexDecimal(void);
 static void lexHex(void);
 static void lexBinary(void);
 static void lexString(void);
-static void lexChar(void);
 static char *getLexeme(void);
 static void discardLine(void);
 static void printError(void);
@@ -36,7 +35,6 @@ void lexFileIntoTokens(char *path_) {
 			case '$':  lexHex(); break;
 			case '%':  lexBinary(); break;
 			case '"':  lexString(); break;
-			case '\'': lexChar(); break;
 			default:
 				if (isdigit(chr)) {
 					ungetc(chr, file);
@@ -49,13 +47,13 @@ void lexFileIntoTokens(char *path_) {
 	}
 	fclose(file);
 	if (err_ct > 0) {
-		printf("%s: Had %u errors.\n", path, err_ct);
+		printf("(%s) Had %u errors.\n", path, err_ct);
 		exit(EXIT_FAILURE);
 	}
 }
 
 void lexDefault(int chr) {
-	enum TokenType type = searchTokenCharTable((char)chr);
+	enum TokenType type = charToToken((char)chr);
 	if (type != TOK_NONE) {
 		struct Token *token = newToken();
 		token->type = type;
@@ -66,7 +64,7 @@ void lexDefault(int chr) {
 	else if (isalpha(chr) || chr == '_') {
 		ungetc(chr, file);
 		char *str = getLexeme();
-		type = searchTokenStringTable(str);
+		type = stringToToken(str);
 		if (type == TOK_NONE) type = TOK_NAME;
 		struct Token *token = newToken();
 		token->type = type;
@@ -156,41 +154,6 @@ void lexString(void) {
 	str[str_len] = '\0';
 	struct Token *token = newToken();
 	token->type = TOK_STRING;
-	token->line = line;
-	token->str = str;
-}
-
-void lexChar(void) {
-	char *str = malloc(3 * sizeof str[0]);
-	int chr = getc(file);
-	if (chr == '\n' || chr == EOF) {
-		printError();
-		puts("Unexpected end of line.");
-		return;
-	}
-	if (chr == '\'') {
-		printError();
-		puts("Expected character before closing quote.");
-		return;
-	}
-	str[0] = (char)chr;
-	if (chr == '\\') {
-		chr = getc(file);
-		if (chr == '\n' || chr == EOF) {
-			printError();
-			puts("Unexpected end of line.");
-			return;
-		}
-		str[1] = (char)chr;
-	}
-	chr = getc(file);
-	if (chr != '\'') {
-		printError();
-		puts("Expected closing quote.");
-		return;
-	}
-	struct Token *token = newToken();
-	token->type = TOK_CHAR;
 	token->line = line;
 	token->str = str;
 }

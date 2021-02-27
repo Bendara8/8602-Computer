@@ -1,7 +1,9 @@
 #include "token.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <ctype.h>
+
+static bool strEqualNoCase(char *candidate, char *test);
 
 static struct {
 	enum TokenType type;
@@ -72,6 +74,7 @@ static size_t TOK_STR_LEN = sizeof TOK_STR_TBL / sizeof TOK_STR_TBL[0];
 
 static struct Token *token = NULL;
 static size_t token_len = 0, token_cap = 256;
+static size_t token_pos = 0;
 
 void initTokenQueue(void) {
 	token = malloc(token_cap * sizeof token[0]);
@@ -91,6 +94,7 @@ void resetTokenQueue(void) {
 		free(token[i].str);
 	}
 	token_len = 0;
+	token_pos = 0;
 }
 
 struct Token *newToken(void) {
@@ -105,16 +109,53 @@ struct Token *newToken(void) {
 	return &token[token_len++];
 }
 
-enum TokenType searchTokenCharTable(char chr) {
+struct Token *nextToken(void) {
+	if (token_pos == token_len) return NULL;
+	return &token[token_pos++];
+}
+
+struct Token *peekToken(void) {
+	if (token_pos == token_len) return NULL;
+	return &token[token_pos];
+}
+
+void seekToken(struct Token *target) {
+	token_pos = (target >= token) ? target - token : 0;
+}
+
+enum TokenType charToToken(char chr) {
 	for (size_t i = 0; i < TOK_CHR_LEN; ++i) {
 		if (chr == TOK_CHR_TBL[i].chr) return TOK_CHR_TBL[i].type;
 	}
 	return TOK_NONE;
 }
 
-enum TokenType searchTokenStringTable(char *str) {
+char tokenToChar(enum TokenType type) {
+	for (size_t i = 0; i < TOK_CHR_LEN; ++i) {
+		if (type == TOK_CHR_TBL[i].type) return TOK_CHR_TBL[i].chr;
+	}
+	return '\0';
+}
+
+enum TokenType stringToToken(char *str) {
 	for (size_t i = 0; i < TOK_STR_LEN; ++i) {
-		if (strcmp(str, TOK_STR_TBL[i].str) == 0) return TOK_STR_TBL[i].type;
+		if (strEqualNoCase(str, TOK_STR_TBL[i].str)) return TOK_STR_TBL[i].type;
 	}
 	return TOK_NONE;
+}
+
+char *tokenToString(enum TokenType type) {
+	for (size_t i = 0; i < TOK_STR_LEN; ++i) {
+		if (type == TOK_STR_TBL[i].type) return TOK_STR_TBL[i].str;
+	}
+	return NULL;
+}
+
+bool strEqualNoCase(char *candidate, char *test) {
+	size_t i;
+	for (i = 0; candidate[i] != '\0' && test[i] != '\0'; ++i) {
+		if (toupper(candidate[i]) != test[i]) return false;
+	}
+	if (candidate[i] == '\0' && test[i] == '\0') return true;
+	return false;
 }

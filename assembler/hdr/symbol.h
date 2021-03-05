@@ -17,6 +17,14 @@ struct Symbol {
 	struct Symbol *scope;
 };
 
+void initSymbolList(
+	void
+);
+
+void deinitSymbolList(
+	void
+);
+
 void resetSymbolList(
 	void
 );

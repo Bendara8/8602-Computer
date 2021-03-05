@@ -260,7 +260,7 @@ void addArgData(struct Pattern *pattern) {
 	if (token[0].type >= TOK_BRZ && token[0].type <= TOK_BRA && pattern->type == PAT_INS_NAME) {
 		symbol = lookupSymbol(token[1].str, scope);
 		if (symbol == NULL) {
-			addReference(segment, curr_address, token[1].str, 0, 1);
+			addReference(segment, curr_address, dupStr(token[1].str), 0, 1);
 			++curr_address;
 		}
 		else switch (symbol->type) {
@@ -282,7 +282,7 @@ void addArgData(struct Pattern *pattern) {
 		case PAT_INS_IMMNAME:
 			symbol = lookupSymbol(token[2].str, scope);
 			if (symbol == NULL) {
-				addReference(segment, curr_address, token[2].str, 0, 1);
+				addReference(segment, curr_address, dupStr(token[2].str), 0, 1);
 				++curr_address;
 			}
 			else if (symbol->type == SYM_NUMBER) {
@@ -296,7 +296,7 @@ void addArgData(struct Pattern *pattern) {
 			offset = parseNumber(&token[5]);
 			symbol = lookupSymbol(token[2].str, scope);
 			if (symbol == NULL) {
-				addReference(segment, curr_address, token[2].str, offset, 1);
+				addReference(segment, curr_address, dupStr(token[2].str), offset, 1);
 				++curr_address;
 			}
 			else if (symbol->type == SYM_NUMBER) {
@@ -309,7 +309,7 @@ void addArgData(struct Pattern *pattern) {
 		case PAT_INS_NAME:
 			symbol = lookupSymbol(token[1].str, scope);
 			if (symbol == NULL) {
-				addReference(segment, curr_address, token[1].str, 0, is_long ? 3 : 2);
+				addReference(segment, curr_address, dupStr(token[1].str), 0, is_long ? 3 : 2);
 				curr_address += is_long ? 3 : 2;
 			}
 			else switch (symbol->type) {
@@ -342,7 +342,7 @@ void addArgData(struct Pattern *pattern) {
 			offset = parseNumber(&token[4]);
 			symbol = lookupSymbol(token[1].str, scope);
 			if (symbol == NULL) {
-				addReference(segment, curr_address, token[1].str, offset, is_long ? 3 : 2);
+				addReference(segment, curr_address, dupStr(token[1].str), offset, is_long ? 3 : 2);
 				curr_address += is_long ? 3 : 2;
 			}
 			else switch (symbol->type) {
@@ -374,7 +374,7 @@ void addArgData(struct Pattern *pattern) {
 		case PAT_INS_P_NAME:
 			symbol = lookupSymbol(token[3].str, scope);
 			if (symbol == NULL) {
-				addReference(segment, curr_address, token[3].str, 0, 2);
+				addReference(segment, curr_address, dupStr(token[3].str), 0, 2);
 				curr_address += 2;
 			}
 			else switch (symbol->type) {
@@ -407,7 +407,7 @@ void addArgData(struct Pattern *pattern) {
 			offset = parseNumber(&token[6]);
 			symbol = lookupSymbol(token[3].str, scope);
 			if (symbol == NULL) {
-				addReference(segment, curr_address, token[3].str, offset, 2);
+				addReference(segment, curr_address, dupStr(token[3].str), offset, 2);
 				curr_address += 2;
 			}
 			else switch (symbol->type) {

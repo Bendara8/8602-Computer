@@ -63,7 +63,7 @@ void parseExportScope(void) {
 	if (no_origin) error("Cannot declare scope without an origin.");
 	else if (scope != NULL) error("Cannot nest scopes.");
 	else {
-		addExportSymbol(object, SYM_SCOPE, NULL, curr_pattern->token[1].str, curr_address);
+		addExportSymbol(object, SYM_SCOPE, dupStr(curr_pattern->token[1].str), curr_address);
 		scope = addSymbol(SYM_SCOPE, NULL, curr_pattern->token[1].str, curr_address);
 	}
 }
@@ -85,7 +85,7 @@ void parseExportLabel(void) {
 	if (no_origin) error("Cannot declare label without an origin.");
 	else if (scope != NULL) error("Cannot export label from within a scope.");
 	else {
-		addExportSymbol(object, SYM_LABEL, scope, curr_pattern->token[1].str, curr_address);
+		addExportSymbol(object, SYM_LABEL, dupStr(curr_pattern->token[1].str), curr_address);
 		addSymbol(SYM_LABEL, scope, curr_pattern->token[1].str, curr_address);
 	}
 }
@@ -226,7 +226,7 @@ uint32_t parseBinary(char *str) {
 uint32_t parseName(char *str, size_t size) {
 	struct Symbol *symbol = lookupSymbol(str, scope);
 	if (symbol == NULL) {
-		addReference(segment, curr_address, str, 0, size);
+		addReference(segment, curr_address, dupStr(str), 0, size);
 		curr_address += size;
 		return 0;
 	}
@@ -238,6 +238,16 @@ uint32_t parseName(char *str, size_t size) {
 
 		default: error("'%s' is not a scope, label, or number.", str); return 0;
 	}
+}
+
+char *dupStr(char *str) {
+	char *ret = malloc(strlen(str) + 1);
+	if (ret == NULL) {
+		puts("Unable to allocate string.");
+		exit(EXIT_FAILURE);
+	}
+	strcpy(ret, str);
+	return ret;
 }
 
 void error(char *format, ...) {

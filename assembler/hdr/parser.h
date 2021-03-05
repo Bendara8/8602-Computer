@@ -15,4 +15,8 @@ void error(
 	...
 );
 
+char *dupStr(
+	char *str
+);
+
 #endif

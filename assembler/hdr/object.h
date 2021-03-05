@@ -14,6 +14,14 @@ struct Object {
 	size_t segment_len, segment_cap;
 };
 
+void initObjectList(
+	void
+);
+
+void deinitObjectList(
+	void
+);
+
 struct Object *newObject(
 	char *path
 );
@@ -21,7 +29,6 @@ struct Object *newObject(
 void addExportSymbol(
 	struct Object *object,
 	enum SymbolType type,
-	struct Symbol *scope,
 	char *name,
 	uint32_t value
 );

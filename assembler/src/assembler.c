@@ -5,6 +5,8 @@
 #include "linker.h"
 #include "token.h"
 #include "pattern.h"
+#include "symbol.h"
+#include "object.h"
 #include <stdlib.h>
 
 int main(int arg_len, char **arg) {
@@ -15,9 +17,12 @@ int main(int arg_len, char **arg) {
 
 	initTokenQueue();
 	atexit(&deinitTokenQueue);
-
 	initPatternQueue();
 	atexit(&deinitPatternQueue);
+	initSymbolList();
+	atexit(&deinitSymbolList);
+	initObjectList();
+	atexit(&deinitObjectList);
 
 	size_t input_len = getInputLen();
 	for (size_t i = 0; i < input_len; ++i) {

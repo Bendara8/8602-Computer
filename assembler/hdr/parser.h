@@ -1,10 +1,18 @@
 #ifndef HDR_PARSER
 #define HDR_PARSER
-
-#include "object.h"
+#include "token.h"
 
 void parsePatternsIntoObject(
-	void
+	char *path
+);
+
+uint32_t parseNumber(
+	struct Token *token
+);
+
+void error(
+	char *format,
+	...
 );
 
 #endif

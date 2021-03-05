@@ -35,3 +35,13 @@ struct Pattern *newPattern(void) {
 	}
 	return &pattern[pattern_len++];
 }
+
+struct Pattern *nextPattern(void) {
+	if (pattern_pos == pattern_len) return NULL;
+	return &pattern[pattern_pos++];
+}
+
+struct Pattern *peekPattern(void) {
+	if (pattern_pos == pattern_len) return NULL;
+	return &pattern[pattern_pos];
+}

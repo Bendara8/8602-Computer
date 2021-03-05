@@ -10,22 +10,12 @@ static struct {
 	char chr;
 } TOK_CHR_TBL[] = {
 	{TOK_NEWLINE, '\n'},
-	{TOK_COMMA,   ','},
 	{TOK_HASH,    '#'},
 	{TOK_PLUS,    '+'},
 	{TOK_MINUS,   '-'},
 	{TOK_EQUALS,  '='},
 	{TOK_LBRACE,  '{'},
 	{TOK_RBRACE,  '}'},
-	{TOK_DOT,     '.'},
-	// registers
-	{TOK_A, 'A'},
-	{TOK_F, 'F'},
-	{TOK_K, 'K'},
-	{TOK_P, 'P'},
-	{TOK_B, 'B'},
-	{TOK_S, 'S'},
-	{TOK_I, 'I'},
 };
 static size_t TOK_CHR_LEN = sizeof TOK_CHR_TBL / sizeof TOK_CHR_TBL[0];
 
@@ -33,6 +23,15 @@ static struct {
 	enum TokenType type;
 	char *str;
 } TOK_STR_TBL[] = {
+	// registers
+	{TOK_A, "A"},
+	{TOK_F, "F"},
+	{TOK_K, "K"},
+	{TOK_P, "P"},
+	{TOK_B, "B"},
+	{TOK_S, "S"},
+	{TOK_I, "I"},
+	// directives
 	{TOK_ORIGIN, "ORIGIN"},
 	{TOK_EXPORT, "EXPORT"},
 	{TOK_BYTE,   "BYTE"},

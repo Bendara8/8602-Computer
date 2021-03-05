@@ -60,6 +60,7 @@ void readArguments(char **arg, size_t arg_len) {
 				case OPT_NONE:
 					printf("'%s' is not an option\n", arg[i]);
 					exit(EXIT_FAILURE);
+					break;
 			}
 		}
 		else {

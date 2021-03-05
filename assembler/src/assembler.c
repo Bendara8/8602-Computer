@@ -6,7 +6,6 @@
 #include "token.h"
 #include "pattern.h"
 #include <stdlib.h>
-#include <string.h>
 
 int main(int arg_len, char **arg) {
 	initArguments();
@@ -22,9 +21,10 @@ int main(int arg_len, char **arg) {
 
 	size_t input_len = getInputLen();
 	for (size_t i = 0; i < input_len; ++i) {
-		lexFileIntoTokens(getInput(i));
-		matchTokensIntoPatterns(getInput(i));
-		parsePatternsIntoObject();
+		char *input = getInput(i);
+		lexFileIntoTokens(input);
+		matchTokensIntoPatterns(input);
+		parsePatternsIntoObject(input);
 	}
 	linkObjectsIntoBinary(getOutput());
 

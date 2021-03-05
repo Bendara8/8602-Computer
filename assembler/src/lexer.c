@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 static void lexDefault(int chr);
 static void lexDecimal(void);
@@ -15,7 +16,7 @@ static void printError(void);
 
 static char *path = NULL;
 static FILE *file = NULL;
-static uint32_t line = 0;
+static uint32_t line = 1;
 static uint32_t err_ct = 0;
 
 void lexFileIntoTokens(char *path_) {
@@ -41,7 +42,6 @@ void lexFileIntoTokens(char *path_) {
 					lexDecimal();
 				}
 				else lexDefault(chr);
-				break;
 		}
 		chr = getc(file);
 	}

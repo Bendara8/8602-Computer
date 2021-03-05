@@ -6,8 +6,6 @@ enum TokenType {
 	// seperators
 	TOK_SEP = 0x100,
 	TOK_NEWLINE,
-	TOK_COMMA,
-	TOK_DOT,
 	TOK_LBRACE,
 	TOK_RBRACE,
 	// operators

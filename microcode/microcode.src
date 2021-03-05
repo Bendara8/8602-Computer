@@ -1,34 +1,34 @@
-$00 "lod A #imm"
+$00 "lod #imm"
 	IO XZ -- XC II MO EZ -- -- EO AI FI --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$02 "lod A B+#imm"
+$02 "lod B+#imm"
 	IO XZ -- XC II MO -- -- -- EO XI -- --
 	BO -- -- -- -- MO EZ -- -- EO AI FI --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$1C "sto A P+#imm"
+$1C "sto P+#imm"
 	IO XZ -- XC II MO -- -- -- EO XI -- --
 	PO -- -- -- -- AO -- -- -- EO MI -- --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$12 "lea P B+#imm"
+$12 "lea B+#imm"
 	IO XZ -- XC II MO -- -- -- EO XI -- --
 	BO -- -- -- PI ZO -- -- -- EO -- -- --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$14 "lea P P+#imm"
+$14 "lea P+#imm"
 	IO XZ -- XC II MO -- -- -- EO XI -- --
 	PO -- -- -- PI ZO -- -- -- EO -- -- --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$11 "lea P adr"
+$11 "lea adr"
 	IO XZ -- XC II MO -- -- -- EO TL -- --
 	IO XZ -- XC II MO -- -- -- EO TH -- --
 	TO XZ -- -- PI ZO -- -- -- EO -- -- --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$19 "sto A adr"
+$19 "sto adr"
 	IO XZ -- XC II MO -- -- -- EO TL -- --
 	IO XZ -- XC II MO -- -- -- EO TH -- --
 	TO XZ -- -- -- AO -- -- -- EO MI -- --
@@ -42,10 +42,10 @@ $23 "mov P S"
 	PO XZ -- -- SI ZO -- -- -- EO -- -- --
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$48 "nop"
+$50 "nop"
 	IO XZ -- XC II MO -- -- -- EO CI -- --
 
-$58 "adc #imm"
+$78 "adc #imm"
 	IO XZ -- XC II MO -- -- -- ES AI FI --   !C0
 	IO XZ -- XC II MO -- -- EC ES AI FI -- ~ !C1
 	IO XZ -- XC II MO -- -- -- EO CI -- --

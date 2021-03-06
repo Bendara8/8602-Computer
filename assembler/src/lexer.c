@@ -45,6 +45,10 @@ void lexFileIntoTokens(char *path_) {
 		}
 		chr = getc(file);
 	}
+	struct Token *token = newToken();
+	token->type = TOK_NEWLINE;
+	token->line = line;
+	token->str = NULL;
 	fclose(file);
 	if (err_ct > 0) {
 		printf("(%s) Had %u errors.\n", path, err_ct);

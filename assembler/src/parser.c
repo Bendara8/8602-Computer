@@ -5,8 +5,10 @@
 #include "symbol.h"
 #include "object.h"
 #include <stdarg.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 struct Object *object = NULL;
 struct Segment *segment = NULL;
@@ -56,6 +58,11 @@ void parsePatternsIntoObject(char *path_) {
 				if ((curr_pattern->token[0].type & TOK_GROUP) == TOK_INS) parseIns(); 
 				else error("Invalid pattern.");
 		}
+	}
+	resolveReferences(object, getSymbolList(), getSymbolLen(), &err_ct);
+	if (err_ct > 0) {
+		printf("(%s) Had %u errors.\n", path, err_ct);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -226,7 +233,8 @@ uint32_t parseBinary(char *str) {
 uint32_t parseName(char *str, size_t size) {
 	struct Symbol *symbol = lookupSymbol(str, scope);
 	if (symbol == NULL) {
-		addReference(segment, curr_address, dupStr(str), 0, size);
+		addReference(object, REF_DATA, curr_address, dupStr(str), 0, size);
+		addData(segment, 0, size);
 		curr_address += size;
 		return 0;
 	}

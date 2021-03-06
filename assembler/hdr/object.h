@@ -12,6 +12,10 @@ struct Object {
 	char *path;
 	struct Segment *segment;
 	size_t segment_len, segment_cap;
+	struct Symbol *symbol;
+	size_t symbol_len, symbol_cap;
+	struct Reference *reference;
+	size_t reference_len, reference_cap;
 };
 
 void initObjectList(
@@ -33,6 +37,15 @@ void addExportSymbol(
 	uint32_t value
 );
 
+void addReference(
+	struct Object *object,
+	enum ReferenceType type,
+	uint32_t address,
+	char *name,
+	uint32_t offset,
+	size_t size
+);
+
 struct Segment *newSegment(
 	struct Object *object,
 	uint32_t address
@@ -44,16 +57,11 @@ void addData(
 	size_t size
 );
 
-void setBranchBackwards(
-	struct Segment *segment
-);
-
-void addReference(
-	struct Segment *segment,
-	uint32_t address,
-	char *name,
-	uint32_t offset,
-	size_t size
+void resolveReferences(
+	struct Object *object,
+	struct Symbol *symbol,
+	size_t symbol_len,
+	uint32_t *err_ct
 );
 
 #endif

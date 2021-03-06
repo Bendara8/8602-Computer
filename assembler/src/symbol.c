@@ -23,6 +23,14 @@ void resetSymbolList(void) {
 	symbol_len = 0;
 }
 
+struct Symbol *getSymbolList(void) {
+	return symbol;
+}
+
+size_t getSymbolLen(void) {
+	return symbol_len;
+}
+
 struct Symbol *addSymbol(enum SymbolType type, struct Symbol *scope, char *name, uint32_t value) {
 	if (symbol_len == symbol_cap) {
 		symbol_cap *= 2;
@@ -32,7 +40,7 @@ struct Symbol *addSymbol(enum SymbolType type, struct Symbol *scope, char *name,
 			exit(EXIT_FAILURE);
 		}
 	}
-	struct Symbol *ret = symbol[symbol_len++];
+	struct Symbol *ret = &symbol[symbol_len++];
 	ret->type = type;
 	ret->value = value;
 	ret->name = name;
@@ -50,4 +58,12 @@ struct Symbol *lookupSymbol(char *name, struct Symbol *scope) {
 		}
 	}
 	return NULL;
+}
+
+uint32_t normalizeWord(uint32_t address) {
+	return (address & 0x00003FFF) | 0x0000C000;
+}
+
+uint32_t normalizeLong(uint32_t address) {
+	return (address & 0x00003FFF) | 0x0000C000 | (address & 0x0003C000) << 2;
 }

@@ -80,6 +80,14 @@ struct Object *newObject(char *path) {
 	return ret;
 }
 
+struct Object *getObjectList(void) {
+	return object;
+}
+
+size_t getObjectLen(void) {
+	return object_len;
+}
+
 void addExportSymbol(
 	struct Object *object,
 	enum SymbolType type,
@@ -104,6 +112,7 @@ void addExportSymbol(
 void addReference(
 	struct Object *object,
 	enum ReferenceType type,
+	uint32_t line,
 	uint32_t address,
 	char *name,
 	uint32_t offset,
@@ -119,13 +128,14 @@ void addReference(
 	}
 	struct Reference *reference = &object->reference[object->reference_len++];
 	reference->type = type;
+	reference->line = line;
 	reference->name = name;
 	reference->address = address;
 	reference->offset = offset;
 	reference->size = size;
 }
 
-struct Segment *newSegment(struct Object *object, uint32_t address) {
+struct Segment *newSegment(struct Object *object, uint32_t line, uint32_t address) {
 	if (object->segment_len == object->segment_cap) {
 		object->segment_cap *= 2;
 		object->segment = realloc(object->segment, object->segment_cap * sizeof object->segment[0]);
@@ -135,6 +145,7 @@ struct Segment *newSegment(struct Object *object, uint32_t address) {
 		}
 	}
 	struct Segment *segment = &object->segment[object->segment_len];
+	segment->line = line;
 	segment->address = address;
 	segment->data_cap = 256;
 	segment->data = malloc(segment->data_cap * sizeof segment->data[0]);
@@ -212,7 +223,7 @@ void fillReference(
 			if (data > 255) {
 				printf(
 					"(%s:%u) Branch to '%s' is too far.\n",
-					reference->path,
+					object->path,
 					reference->line,
 					reference->name
 				);

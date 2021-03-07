@@ -26,7 +26,6 @@ struct Symbol {
 
 struct Reference {
 	enum ReferenceType type;
-	char *path;
 	uint32_t line;
 	char *name;
 	uint32_t address;

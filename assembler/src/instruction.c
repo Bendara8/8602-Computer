@@ -9,6 +9,7 @@ extern struct Object *object;
 extern struct Segment *segment;
 extern struct Symbol *scope;
 extern uint32_t curr_address;
+extern char *path;
 
 uint32_t getOpcode(struct Pattern *pattern) {
 	struct Symbol *symbol;
@@ -258,7 +259,7 @@ void addArgData(struct Pattern *pattern) {
 	if (token[0].type >= TOK_BRZ && token[0].type <= TOK_BRA && pattern->type == PAT_INS_NAME) {
 		symbol = lookupSymbol(token[1].str, scope);
 		if (symbol == NULL) {
-			addReference(object, REF_RELATIVE, curr_address, dupStr(token[1].str), 0, 1);
+			addReference(object, REF_RELATIVE, token[0].line, curr_address, dupStr(token[1].str), 0, 1);
 			addData(segment, 0, 1);
 			++curr_address;
 		}
@@ -280,7 +281,7 @@ void addArgData(struct Pattern *pattern) {
 		case PAT_INS_IMMNAME:
 			symbol = lookupSymbol(token[2].str, scope);
 			if (symbol == NULL) {
-				addReference(object, REF_DATA, curr_address, dupStr(token[2].str), 0, 1);
+				addReference(object, REF_DATA, token[0].line, curr_address, dupStr(token[2].str), 0, 1);
 				addData(segment, 0, 1);
 				++curr_address;
 			}
@@ -295,7 +296,7 @@ void addArgData(struct Pattern *pattern) {
 			offset = parseNumber(&token[5]);
 			symbol = lookupSymbol(token[2].str, scope);
 			if (symbol == NULL) {
-				addReference(object, REF_DATA, curr_address, dupStr(token[2].str), offset, 1);
+				addReference(object, REF_DATA, token[0].line, curr_address, dupStr(token[2].str), offset, 1);
 				addData(segment, 0, 1);
 				++curr_address;
 			}
@@ -309,7 +310,7 @@ void addArgData(struct Pattern *pattern) {
 		case PAT_INS_NAME:
 			symbol = lookupSymbol(token[1].str, scope);
 			if (symbol == NULL) {
-				addReference(object, REF_ABSOLUTE, curr_address, dupStr(token[1].str), 0, is_long ? 3 : 2);
+				addReference(object, REF_ABSOLUTE, token[0].line, curr_address, dupStr(token[1].str), 0, is_long ? 3 : 2);
 				addData(segment, 0, is_long ? 3 : 2);
 				curr_address += is_long ? 3 : 2;
 			}
@@ -343,7 +344,7 @@ void addArgData(struct Pattern *pattern) {
 			offset = parseNumber(&token[4]);
 			symbol = lookupSymbol(token[1].str, scope);
 			if (symbol == NULL) {
-				addReference(object, REF_ABSOLUTE, curr_address, dupStr(token[1].str), offset, is_long ? 3 : 2);
+				addReference(object, REF_ABSOLUTE, token[0].line, curr_address, dupStr(token[1].str), offset, is_long ? 3 : 2);
 				addData(segment, 0, is_long ? 3 : 2);
 				curr_address += is_long ? 3 : 2;
 			}
@@ -376,7 +377,7 @@ void addArgData(struct Pattern *pattern) {
 		case PAT_INS_P_NAME:
 			symbol = lookupSymbol(token[3].str, scope);
 			if (symbol == NULL) {
-				addReference(object, REF_ABSOLUTE, curr_address, dupStr(token[3].str), 0, 2);
+				addReference(object, REF_ABSOLUTE, token[0].line, curr_address, dupStr(token[3].str), 0, 2);
 				addData(segment, 0, 2);
 				curr_address += 2;
 			}
@@ -410,7 +411,7 @@ void addArgData(struct Pattern *pattern) {
 			offset = parseNumber(&token[6]);
 			symbol = lookupSymbol(token[3].str, scope);
 			if (symbol == NULL) {
-				addReference(object, REF_ABSOLUTE, curr_address, dupStr(token[3].str), offset, 2);
+				addReference(object, REF_ABSOLUTE, token[0].line, curr_address, dupStr(token[3].str), offset, 2);
 				addData(segment, 0, 2);
 				curr_address += 2;
 			}

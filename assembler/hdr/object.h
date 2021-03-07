@@ -3,6 +3,7 @@
 #include "symbol.h"
 
 struct Segment {
+	uint32_t line;
 	uint32_t address;
 	uint8_t *data;
 	size_t data_len, data_cap;
@@ -30,6 +31,14 @@ struct Object *newObject(
 	char *path
 );
 
+struct Object *getObjectList(
+	void
+);
+
+size_t getObjectLen(
+	void
+);
+
 void addExportSymbol(
 	struct Object *object,
 	enum SymbolType type,
@@ -40,6 +49,7 @@ void addExportSymbol(
 void addReference(
 	struct Object *object,
 	enum ReferenceType type,
+	uint32_t line,
 	uint32_t address,
 	char *name,
 	uint32_t offset,
@@ -48,6 +58,7 @@ void addReference(
 
 struct Segment *newSegment(
 	struct Object *object,
+	uint32_t line,
 	uint32_t address
 );
 

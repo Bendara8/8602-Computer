@@ -14,6 +14,7 @@ struct Object *object = NULL;
 struct Segment *segment = NULL;
 struct Symbol *scope = NULL;
 uint32_t curr_address = 0;
+char *path = NULL;
 
 static void parseExportScope(void);
 static void parseScope(void);
@@ -30,7 +31,6 @@ static uint32_t parseHex(char *str);
 static uint32_t parseBinary(char *str);
 static uint32_t parseName(char *str, size_t size);
 
-static char *path = NULL;
 static uint32_t err_ct = 0;
 static struct Pattern *curr_pattern = NULL;
 static bool no_origin = true;
@@ -137,7 +137,7 @@ void parseDefine(void) {
 
 void parseOrigin(void) {
 	curr_address = parseHex(curr_pattern->token[1].str);
-	segment = newSegment(object, curr_address);
+	segment = newSegment(object, curr_pattern->token[0].line, curr_address);
 	no_origin = false;
 }
 
@@ -208,7 +208,6 @@ void parseIns(void) {
 	else error("Invalid argument for instruction '%s'.", curr_pattern->token[0].str);
 }
 
-// change input to a token pointer
 uint32_t parseNumber(struct Token *token) {
 	switch (token->type) {
 		case TOK_DECIMAL: return parseDecimal(token->str);
@@ -219,21 +218,36 @@ uint32_t parseNumber(struct Token *token) {
 }
 
 uint32_t parseDecimal(char *str) {
-	return 0;
+	uint32_t ret = 0;
+	for (size_t i = 0; str[i] != '\0'; ++i) {
+		ret = ret * 10 + (str[i] & 0x0F);
+	}
+	return ret;
 }
 
 uint32_t parseHex(char *str) {
-	return 0;
+	uint32_t ret = 0;
+	for (size_t i = 0; str[i] != '\0'; ++i) {
+		ret = ret * 16 + (str[i] < 'A' ? str[i] & 0x0F : toupper(str[i]) - 'A' + 0x0A);
+	}
+	return ret;
 }
 
 uint32_t parseBinary(char *str) {
-	return 0;
+	uint32_t ret = 0;
+	for (size_t i = 0; str[i] != '\0'; ++i) {
+		ret = ret * 2 + (str[i] & 0x01);
+	}
+	return ret;
 }
 
 uint32_t parseName(char *str, size_t size) {
 	struct Symbol *symbol = lookupSymbol(str, scope);
 	if (symbol == NULL) {
-		addReference(object, REF_DATA, curr_address, dupStr(str), 0, size);
+		addReference(
+			object, REF_DATA, curr_pattern->token[0].line,
+			curr_address, dupStr(str), 0, size
+		);
 		addData(segment, 0, size);
 		curr_address += size;
 		return 0;
